@@ -1,5 +1,7 @@
 import React from 'react';
-import { FlatList, Image, StyleSheet, Text, View } from 'react-native';
+import { FlatList, Image, ImageSourcePropType, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import EventIcon from '@/assets/images/event-icon.png';
+import { useRouter } from 'expo-router';
 
 // Define the type for an event
 type Event = {
@@ -95,7 +97,7 @@ type EventItemProps = {
 // Event item component
 const EventItem: React.FC<EventItemProps> = ({ title, date, location, image }) => (
   <View style={styles.eventItem}>
-    <Image source={{ uri: image }} style={styles.eventImage} />
+    <Image source={ EventIcon as ImageSourcePropType} style={styles.eventImage} />
     <View style={styles.eventDetails}>
       <Text style={styles.eventTitle}>{title}</Text>
       <Text style={styles.eventText}>Date: {date}</Text>
@@ -106,8 +108,26 @@ const EventItem: React.FC<EventItemProps> = ({ title, date, location, image }) =
 
 // Main App component
 const App: React.FC = () => {
+  const router = useRouter();
   return (
     <View style={styles.container}>
+      <TouchableOpacity 
+      style={styles.button}
+      onPress={() => router.push({
+        pathname: '/second-page',
+        params: {
+          title: 'Music Festival',
+          date: '2023-10-15',
+          time: '18:00',
+          organizer: 'City Events',
+          location: 'Central Park, New York',
+          image: 'https://via.placeholder.com/150',
+          description: 'Join us for an unforgettable night of music and entertainment.'
+        }
+      })}
+      >
+        <Text style={styles.buttonText}>Go to second page</Text>
+      </TouchableOpacity>
       <FlatList
         data={events}
         keyExtractor={(item) => item.id}
@@ -132,7 +152,7 @@ const styles = StyleSheet.create({
   },
   eventItem: {
     flexDirection: 'row',
-    backgroundColor: '#1e1e1e',
+    backgroundColor: '#505050',
     borderRadius: 8,
     margin: 8,
     padding: 12,
@@ -162,6 +182,24 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#a0a0a0',
   },
+  image: {
+    width: 100,
+    height: 100,
+
+  },
+  button: {
+    backgroundColor: '#ffffff',
+    paddingVertical: 12,
+    paddingHorizontal: 15,
+    borderRadius: 8,
+    alignItems: 'center',
+    margin: 10
+  },
+  buttonText: {
+    color: '#000000',
+    fontSize: 18,
+    fontWeight: 'bold'
+  }
 });
 
 export default App;

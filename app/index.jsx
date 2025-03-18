@@ -1,19 +1,10 @@
 import React from 'react';
-import { FlatList, Image, ImageSourcePropType, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { FlatList, Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import EventIcon from '@/assets/images/event-icon.png';
 import { useRouter } from 'expo-router';
 
-// Define the type for an event
-type Event = {
-  id: string;
-  title: string;
-  date: string;
-  location: string;
-  image: string;
-};
-
 // Sample event data
-const events: Event[] = [
+const events = [
   {
     id: '1',
     title: 'Music Festival',
@@ -86,18 +77,10 @@ const events: Event[] = [
   },
 ];
 
-// Define the props for the EventItem component
-type EventItemProps = {
-  title: string;
-  date: string;
-  location: string;
-  image: string;
-};
-
 // Event item component
-const EventItem: React.FC<EventItemProps> = ({ title, date, location, image }) => (
+const EventItem = ({ title, date, location }) => (
   <View style={styles.eventItem}>
-    <Image source={ EventIcon as ImageSourcePropType} style={styles.eventImage} />
+    <Image source={EventIcon} style={styles.eventImage} />
     <View style={styles.eventDetails}>
       <Text style={styles.eventTitle}>{title}</Text>
       <Text style={styles.eventText}>Date: {date}</Text>
@@ -107,24 +90,26 @@ const EventItem: React.FC<EventItemProps> = ({ title, date, location, image }) =
 );
 
 // Main App component
-const App: React.FC = () => {
+const App = () => {
   const router = useRouter();
   return (
     <View style={styles.container}>
-      <TouchableOpacity 
-      style={styles.button}
-      onPress={() => router.push({
-        pathname: '/second-page',
-        params: {
-          title: 'Music Festival',
-          date: '2023-10-15',
-          time: '18:00',
-          organizer: 'City Events',
-          location: 'Central Park, New York',
-          image: 'https://via.placeholder.com/150',
-          description: 'Join us for an unforgettable night of music and entertainment.'
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() =>
+          router.push({
+            pathname: '/second-page',
+            params: {
+              title: 'Music Festival',
+              date: '2023-10-15',
+              time: '18:00',
+              organizer: 'City Events',
+              location: 'Central Park, New York',
+              image: 'https://via.placeholder.com/150',
+              description: 'Join us for an unforgettable night of music and entertainment.',
+            },
+          })
         }
-      })}
       >
         <Text style={styles.buttonText}>Go to second page</Text>
       </TouchableOpacity>
@@ -136,7 +121,6 @@ const App: React.FC = () => {
             title={item.title}
             date={item.date}
             location={item.location}
-            image={item.image}
           />
         )}
       />
@@ -185,7 +169,6 @@ const styles = StyleSheet.create({
   image: {
     width: 100,
     height: 100,
-
   },
   button: {
     backgroundColor: '#ffffff',
@@ -193,13 +176,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     borderRadius: 8,
     alignItems: 'center',
-    margin: 10
+    margin: 10,
   },
   buttonText: {
     color: '#000000',
     fontSize: 18,
-    fontWeight: 'bold'
-  }
+    fontWeight: 'bold',
+  },
 });
 
 export default App;

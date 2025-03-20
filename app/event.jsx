@@ -1,7 +1,10 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { useRouter } from 'expo-router'; // Import useRouter
 
 const EventPage = () => {
+  const router = useRouter(); // Initialize the router
+
   // Example event data
   const event = {
     title: 'Tech Conference 2023',
@@ -41,6 +44,14 @@ const EventPage = () => {
 
       {/* Event description */}
       <Text style={styles.description}>{event.description}</Text>
+
+      {/* Button to navigate to the Guests page */}
+      <TouchableOpacity
+        style={styles.guestsButton}
+        onPress={() => router.push('/guests')} // Navigate to the "/guests" page
+      >
+        <Text style={styles.guestsButtonText}>View Guests</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -48,7 +59,6 @@ const EventPage = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
     backgroundColor: '#121212',
   },
   photoPlaceholder: {
@@ -63,12 +73,14 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     marginBottom: 20,
     textAlign: 'center',
+    paddingHorizontal: 20, // Add horizontal padding to the title
   },
   gridContainer: {
     flexDirection: 'row', // Arrange children in a row
     flexWrap: 'wrap', // Allow wrapping to the next line
     justifyContent: 'space-between', // Space out the items evenly
     marginBottom: 20,
+    paddingHorizontal: 20, // Add horizontal padding to the grid
   },
   pillContainer: {
     backgroundColor: '#FFFFFF',
@@ -89,6 +101,22 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#FFFFFF',
     lineHeight: 24,
+    paddingHorizontal: 20, // Add horizontal padding to the description
+    marginBottom: 20, // Add space below the description
+  },
+  guestsButton: {
+    backgroundColor: '#A0522D', // Blue color for the button
+    borderRadius: 10,
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    alignItems: 'center',
+    marginHorizontal: 20, // Add horizontal margin
+    marginBottom: 20, // Add space at the bottom
+  },
+  guestsButtonText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#FFFFFF', // White text for contrast
   },
 });
 

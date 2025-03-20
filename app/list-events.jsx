@@ -1,6 +1,6 @@
 import React from 'react';
 import { FlatList, Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-// import EventIcon from '@/assets/images/event-icon.png';
+import EventIcon from '../assets/images/event-icon.png';
 import { useRouter } from 'expo-router';
 
 // Sample event data
@@ -78,20 +78,28 @@ const events = [
 ];
 
 // Event item component
-const EventItem = ({ title, date, location }) => (
-  <View style={styles.eventItem}>
-    {/* <Image source={EventIcon} style={styles.eventImage} /> */}
-    <View style={styles.eventDetails}>
-      <Text style={styles.eventTitle}>{title}</Text>
-      <Text style={styles.eventText}>Date: {date}</Text>
-      <Text style={styles.eventText}>Location: {location}</Text>
+const EventItem = ({ title, date, location, onPress }) => (
+  <TouchableOpacity onPress={onPress}>
+    <View style={styles.eventItem}>
+      <Image source={EventIcon} style={styles.eventImage} />
+      <View style={styles.eventDetails}>
+        <Text style={styles.eventTitle}>{title}</Text>
+        <Text style={styles.eventText}>Date: {date}</Text>
+        <Text style={styles.eventText}>Location: {location}</Text>
+      </View>
     </View>
-  </View>
+  </TouchableOpacity>
 );
 
 // Main App component
 const ListEventsPage = () => {
   const router = useRouter();
+
+  const handleEventPress = (eventId) => {
+    // Navigate to the event page with the event ID as a parameter
+    router.push(`/event?id=${eventId}`);
+  };
+
   return (
     <View style={styles.container}>
       <FlatList
@@ -102,6 +110,7 @@ const ListEventsPage = () => {
             title={item.title}
             date={item.date}
             location={item.location}
+            onPress={() => handleEventPress(item.id)} // Pass the event ID to the handler
           />
         )}
       />

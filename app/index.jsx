@@ -1,13 +1,31 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-// import EventIcon from '@/assets/images/event-icon.png';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { useRouter } from 'expo-router';
 
-
-// Main App component
 const App = () => {
+  const router = useRouter();
+
+  const handleGuestPress = () => {
+    // Navigate to the Guest screen
+    router.push('/categories');
+  };
+
+  const handleOrganizerPress = () => {
+    // Navigate to the Organizer screen
+    router.push('/company-home');
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.welcomeText}>Welcome to KONEKT</Text>
+
+      <TouchableOpacity style={styles.button} onPress={handleGuestPress}>
+        <Text style={styles.buttonText}>Guest</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.button} onPress={handleOrganizerPress}>
+        <Text style={styles.buttonText}>Organizer</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -15,14 +33,28 @@ const App = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center', // Center vertically
-    alignItems: 'center', // Center horizontally
-    backgroundColor: '#121212', // Dark background
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#121212',
   },
   welcomeText: {
-    fontSize: 32, // Large font size
-    fontWeight: 'bold', // Bold text
-    color: '#FFFFFF', // White text color
+    fontSize: 32,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+    marginBottom: 40, // Add some space below the title
+  },
+  button: {
+    width: 200,
+    padding: 15,
+    marginVertical: 10, // Space between buttons
+    backgroundColor: '#A0522D',
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#FFFFFF',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });
 

@@ -1,11 +1,18 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { useRouter } from 'expo-router'; // Import useRouter
 
 const CompanyHomePage = () => {
+  const router = useRouter(); // Initialize the router
+
   // Handle button press
   const handleButtonPress = (action) => {
     console.log(`${action} button pressed`);
-    alert(`You selected: ${action}`);
+    if (action === 'My Events') {
+      router.push('/list-events'); // Navigate to the "/events" page
+    } else if (action === 'Create New Event') {
+      router.push('/create-event'); // Navigate to the "/create-event" page
+    }
   };
 
   return (
@@ -46,10 +53,10 @@ const styles = StyleSheet.create({
     marginVertical: 10, // Space between buttons
   },
   myEventsButton: {
-    backgroundColor: '#FF6F61', // Coral color for My Events
+    backgroundColor: '#A0522D', // Coral color for My Events
   },
   createEventButton: {
-    backgroundColor: '#4CAF50', // Green color for Create New Event
+    backgroundColor: '#A0522D', // Green color for Create New Event
   },
   buttonText: {
     fontSize: 28, // Slightly larger font size

@@ -21,24 +21,20 @@ export default function RootLayout() {
           },
           headerRight: () => (
             <View style={{ flexDirection: 'row', marginRight: 10 }}>
-              <TouchableOpacity
-                style={{ marginRight: 15 }}
-                onPress={() => router.push('/event')}
-              >
+              <TouchableOpacity style={{ marginRight: 15 }} onPress={() => router.push('/event')}>
                 <Text style={{ color: '#FFFFFF', fontSize: 16 }}>Event</Text>
               </TouchableOpacity>
 
-              <TouchableOpacity
-                style={{ marginRight: 15 }}
-                onPress={() => router.push('/create-event')}
-              >
+              <TouchableOpacity style={{ marginRight: 15 }} onPress={() => router.push('/create-event')}>
                 <Text style={{ color: '#FFFFFF', fontSize: 16 }}>Create Event</Text>
               </TouchableOpacity>
 
-              <TouchableOpacity
-                onPress={() => router.push('/categories')}
-              >
-                <Text style={{ color: '#FFFFFF', fontSize: 16 }}>Categories Page</Text>
+              <TouchableOpacity style={{ marginRight: 15 }} onPress={() => router.push('/categories')}>
+                <Text style={{ color: '#FFFFFF', fontSize: 16 }}>Categories</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => router.push('/list-events')}>
+                <Text style={{ color: '#FFFFFF', fontSize: 16 }}>Events</Text>
               </TouchableOpacity>
             </View>
           ),

@@ -26,15 +26,23 @@ export default function RootLayout() {
               </TouchableOpacity>
 
               <TouchableOpacity style={{ marginRight: 15 }} onPress={() => router.push('/create-event')}>
-                <Text style={{ color: '#FFFFFF', fontSize: 16 }}>Create Event</Text>
+                <Text style={{ color: '#FFFFFF', fontSize: 16 }}>Create-Event</Text>
               </TouchableOpacity>
 
               <TouchableOpacity style={{ marginRight: 15 }} onPress={() => router.push('/categories')}>
                 <Text style={{ color: '#FFFFFF', fontSize: 16 }}>Categories</Text>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => router.push('/list-events')}>
+              <TouchableOpacity style={{ marginRight: 15 }} onPress={() => router.push('/list-events')}>
                 <Text style={{ color: '#FFFFFF', fontSize: 16 }}>Events</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={{ marginRight: 15 }} onPress={() => router.push('/guests')}>
+                <Text style={{ color: '#FFFFFF', fontSize: 16 }}>Guests</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => router.push('/company-home')}>
+                <Text style={{ color: '#FFFFFF', fontSize: 16 }}>Company</Text>
               </TouchableOpacity>
             </View>
           ),

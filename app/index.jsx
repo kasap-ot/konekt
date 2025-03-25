@@ -6,12 +6,10 @@ const App = () => {
   const router = useRouter();
 
   const handleGuestPress = () => {
-    // Navigate to the Guest screen
     router.push('/categories');
   };
 
   const handleOrganizerPress = () => {
-    // Navigate to the Organizer screen
     router.push('/company-home');
   };
 

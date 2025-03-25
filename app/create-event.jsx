@@ -1,8 +1,14 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import { Text, TextInput, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import { useEvents } from './events-context';
+import { useRouter } from 'expo-router';
+
 
 const CreateEventPage = () => {
   // State to store form data
+  const { addEvent } = useEvents();
+  const router = useRouter();
+
   const [event, setEvent] = useState({
     title: '',
     date: '',
@@ -12,9 +18,32 @@ const CreateEventPage = () => {
     description: '',
   });
 
-  // Handle form submission
   const handleSubmit = () => {
-    console.log('Event Data:', event);
+    // Validate form fields
+    if (!event.title || !event.date || !event.location) {
+      alert('Please fill in all required fields');
+      return;
+    }
+    else {
+      console.log('Saving the new event...');
+    }
+
+    // Add event to the context
+    addEvent(event);
+
+    // Reset form
+    setEvent({
+      title: '',
+      date: '',
+      time: '',
+      location: '',
+      organizer: '',
+      description: '',
+    });
+
+    // Navigate back or to events list
+    router.push('/list-events');
+
     alert('Event created successfully!');
   };
 

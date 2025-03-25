@@ -2,82 +2,9 @@ import React from 'react';
 import { FlatList, Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import EventIcon from '../assets/images/event-icon.png';
 import { useRouter } from 'expo-router';
+import { useEvents } from './events-context';
 
-// Sample event data
-const events = [
-  {
-    id: '1',
-    title: 'Music Festival',
-    date: '2023-10-15',
-    location: 'Central Park, New York',
-    image: 'https://via.placeholder.com/150',
-  },
-  {
-    id: '2',
-    title: 'Tech Conference',
-    date: '2023-11-20',
-    location: 'San Francisco, CA',
-    image: 'https://via.placeholder.com/150',
-  },
-  {
-    id: '3',
-    title: 'Art Exhibition',
-    date: '2023-12-05',
-    location: 'London, UK',
-    image: 'https://via.placeholder.com/150',
-  },
-  {
-    id: '4',
-    title: 'Food Fair',
-    date: '2024-01-10',
-    location: 'Tokyo, Japan',
-    image: 'https://via.placeholder.com/150',
-  },
-  {
-    id: '5',
-    title: 'Film Premiere',
-    date: '2024-02-14',
-    location: 'Los Angeles, CA',
-    image: 'https://via.placeholder.com/150',
-  },
-  {
-    id: '6',
-    title: 'Comedy Show',
-    date: '2024-03-22',
-    location: 'Chicago, IL',
-    image: 'https://via.placeholder.com/150',
-  },
-  {
-    id: '7',
-    title: 'Fashion Week',
-    date: '2024-04-05',
-    location: 'Paris, France',
-    image: 'https://via.placeholder.com/150',
-  },
-  {
-    id: '8',
-    title: 'Gaming Expo',
-    date: '2024-05-18',
-    location: 'Berlin, Germany',
-    image: 'https://via.placeholder.com/150',
-  },
-  {
-    id: '9',
-    title: 'Wine Tasting',
-    date: '2024-06-30',
-    location: 'Napa Valley, CA',
-    image: 'https://via.placeholder.com/150',
-  },
-  {
-    id: '10',
-    title: 'Marathon',
-    date: '2024-07-15',
-    location: 'Boston, MA',
-    image: 'https://via.placeholder.com/150',
-  },
-];
 
-// Event item component
 const EventItem = ({ title, date, location, onPress }) => (
   <TouchableOpacity onPress={onPress}>
     <View style={styles.eventItem}>
@@ -91,28 +18,38 @@ const EventItem = ({ title, date, location, onPress }) => (
   </TouchableOpacity>
 );
 
-// Main App component
 const ListEventsPage = () => {
+  const { events } = useEvents();
   const router = useRouter();
 
   const handleEventPress = (eventId) => {
-    // Navigate to the event page with the event ID as a parameter
     router.push(`/event?id=${eventId}`);
   };
+
+  const renderEventItem = ({ item }) => (
+    <TouchableOpacity onPress={() => handleEventPress(item.id)}>
+      <View style={styles.eventItem}>
+        <Image source={EventIcon} style={styles.eventImage} />
+        <View style={styles.eventDetails}>
+          <Text style={styles.eventTitle}>{item.title}</Text>
+          <Text style={styles.eventText}>Date: {item.date}</Text>
+          <Text style={styles.eventText}>Location: {item.location}</Text>
+        </View>
+      </View>
+    </TouchableOpacity>
+  );
 
   return (
     <View style={styles.container}>
       <FlatList
         data={events}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <EventItem
-            title={item.title}
-            date={item.date}
-            location={item.location}
-            onPress={() => handleEventPress(item.id)} // Pass the event ID to the handler
-          />
-        )}
+        renderItem={renderEventItem}
+        ListEmptyComponent={
+          <View style={styles.emptyContainer}>
+            <Text style={styles.emptyText}>No events found</Text>
+          </View>
+        }
       />
     </View>
   );
@@ -172,6 +109,16 @@ const styles = StyleSheet.create({
     color: '#000000',
     fontSize: 18,
     fontWeight: 'bold',
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 50,
+  },
+  emptyText: {
+    color: '#FFFFFF',
+    fontSize: 18,
   },
 });
 

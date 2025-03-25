@@ -1,16 +1,19 @@
 import React from 'react';
 import { Stack } from 'expo-router';
+import { EventsProvider } from './events-context';
 
 export default function RootLayout() {
   return (
-    <Stack>
-      <Stack.Screen
-        name="index"
-        options={{
-          headerShown: false, // Hide the header for the index page
-        }}
-      />
-      {/* Add other screens here if needed */}
-    </Stack>
+    <EventsProvider>
+      <Stack>
+        <Stack.Screen
+          name="index"
+          options={{
+            headerShown: false,
+          }}
+        />
+        {/* Other screen configurations */}
+      </Stack>
+    </EventsProvider>
   );
 }

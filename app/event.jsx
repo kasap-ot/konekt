@@ -1,22 +1,22 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { useRouter } from 'expo-router'; // Import useRouter
+import { useRouter, useLocalSearchParams } from 'expo-router';
+import { useEvents } from './events-context';
 
 const EventPage = () => {
   const router = useRouter(); // Initialize the router
+  const { id } = useLocalSearchParams();
+  const { events } = useEvents();
+  console.log(events);
+  const event = events.find(e => e.id == id);
 
-  // Example event data
-  const event = {
-    title: 'Tech Conference 2023',
-    location: 'San Francisco, CA',
-    date: 'November 15, 2023',
-    time: '9:00 AM - 5:00 PM',
-    description:
-      'Join us for the largest tech conference of the year! Learn about the latest trends in AI, blockchain, and cloud computing. ' +
-      'This event will feature keynote speakers from leading tech companies, hands-on workshops, and networking opportunities. ' +
-      'Whether you\'re a developer, entrepreneur, or tech enthusiast, this conference has something for everyone. Don\'t miss out!',
-    organizer: 'Tech Innovators Inc.',
-  };
+  if (!event) {
+    return (
+      <View style={styles.container}>  
+        <Text style={styles.errorText}>Event not found...</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -62,10 +62,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#121212',
   },
   photoPlaceholder: {
-    height: 200, // Fixed height for the placeholder
-    backgroundColor: '#FFA500', // Orange color
-    width: '100%', // Full width of the screen
-    marginBottom: 20, // Space below the placeholder
+    height: 200, 
+    backgroundColor: '#FFA500', 
+    width: '100%', 
+    marginBottom: 20, 
   },
   eventTitle: {
     fontSize: 28,
@@ -73,50 +73,56 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     marginBottom: 20,
     textAlign: 'center',
-    paddingHorizontal: 20, // Add horizontal padding to the title
+    paddingHorizontal: 20, 
   },
   gridContainer: {
-    flexDirection: 'row', // Arrange children in a row
-    flexWrap: 'wrap', // Allow wrapping to the next line
-    justifyContent: 'space-between', // Space out the items evenly
+    flexDirection: 'row', 
+    flexWrap: 'wrap', 
+    justifyContent: 'space-between', 
     marginBottom: 20,
-    paddingHorizontal: 20, // Add horizontal padding to the grid
+    paddingHorizontal: 20, 
   },
   pillContainer: {
     backgroundColor: '#FFFFFF',
-    borderRadius: 25, // Larger pill shape
-    paddingVertical: 15, // Larger padding for bigger containers
+    borderRadius: 25, 
+    paddingVertical: 15, 
     paddingHorizontal: 20,
-    width: '48%', // Each container takes up 48% of the width (2 per row)
-    marginBottom: 10, // Space between rows
-    alignItems: 'center', // Center text horizontally
-    justifyContent: 'center', // Center text vertically
+    width: '48%', 
+    marginBottom: 10, 
+    alignItems: 'center', 
+    justifyContent: 'center', 
   },
   pillText: {
-    fontSize: 16, // Larger font size
+    fontSize: 16, 
     fontWeight: '500',
-    color: '#121212', // Dark text for contrast
+    color: '#121212', 
   },
   description: {
     fontSize: 16,
     color: '#FFFFFF',
     lineHeight: 24,
-    paddingHorizontal: 20, // Add horizontal padding to the description
-    marginBottom: 20, // Add space below the description
+    paddingHorizontal: 20, 
+    marginBottom: 20, 
   },
   guestsButton: {
-    backgroundColor: '#A0522D', // Blue color for the button
+    backgroundColor: '#A0522D', 
     borderRadius: 10,
     paddingVertical: 15,
     paddingHorizontal: 20,
     alignItems: 'center',
-    marginHorizontal: 20, // Add horizontal margin
-    marginBottom: 20, // Add space at the bottom
+    marginHorizontal: 20, 
+    marginBottom: 20, 
   },
   guestsButtonText: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#FFFFFF', // White text for contrast
+    color: '#FFFFFF', 
+  },
+  errorText: {
+    color: '#FFFFFF',
+    fontSize: 18,
+    textAlign: 'center',
+    marginTop: 50,
   },
 });
 

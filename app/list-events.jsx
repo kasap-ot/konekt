@@ -5,24 +5,12 @@ import { useRouter } from 'expo-router';
 import { useEvents } from './events-context';
 
 
-const EventItem = ({ title, date, location, onPress }) => (
-  <TouchableOpacity onPress={onPress}>
-    <View style={styles.eventItem}>
-      <Image source={EventIcon} style={styles.eventImage} />
-      <View style={styles.eventDetails}>
-        <Text style={styles.eventTitle}>{title}</Text>
-        <Text style={styles.eventText}>Date: {date}</Text>
-        <Text style={styles.eventText}>Location: {location}</Text>
-      </View>
-    </View>
-  </TouchableOpacity>
-);
-
 const ListEventsPage = () => {
   const { events } = useEvents();
   const router = useRouter();
 
   const handleEventPress = (eventId) => {
+    console.log('Opening the event...');
     router.push(`/event?id=${eventId}`);
   };
 
@@ -55,7 +43,6 @@ const ListEventsPage = () => {
   );
 };
 
-// Styles
 const styles = StyleSheet.create({
   container: {
     flex: 1,

@@ -17,8 +17,10 @@ export const EventsProvider = ({ children }) => {
       id: '1',
       title: 'Music Festival',
       date: '2023-10-15',
+      time: '12:00',
       location: 'Central Park, New York',
-      image: 'https://via.placeholder.com/150',
+      organizer: 'Party Inc',
+      description: 'The craziest party ever!',
     },
   ]);
 

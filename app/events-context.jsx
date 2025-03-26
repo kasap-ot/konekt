@@ -1,7 +1,4 @@
 import React, { useState } from 'react';
-import { FlatList, Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import EventIcon from '../assets/images/event-icon.png';
-import { useRouter } from 'expo-router';
 import { createContext, useContext } from 'react';
 
 

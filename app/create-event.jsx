@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Text, TextInput, ScrollView, StyleSheet, TouchableOpacity, View, Picker } from 'react-native';
+import { Text, TextInput, ScrollView, StyleSheet, TouchableOpacity, View} from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 import { useEvents } from './events-context';
 import { useRouter } from 'expo-router';
 

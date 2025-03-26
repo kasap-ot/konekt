@@ -1,13 +1,17 @@
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { useEvents } from './events-context';
 
 const CategoriesPage = () => {
   const router = useRouter();
+  const events = useEvents();
   
-  // Handle button press
   const handleButtonPress = (category) => {
-    router.push('/list-events');
+    router.push({
+      pathname: '/list-events',
+      params: { category: category},
+    });
   };
 
   return (
@@ -48,21 +52,21 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   button: {
-    width: '100%', // Full width
-    height: '30%', // 30% of the screen height
+    width: '100%', 
+    height: '30%', 
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 15,
-    marginVertical: 10, // Space between buttons
+    marginVertical: 10, 
   },
   partyButton: {
-    backgroundColor: '#A0522D', // Coral color for Parties
+    backgroundColor: '#A0522D', 
   },
   sportButton: {
-    backgroundColor: '#A0522D', // Green color for Sport Events
+    backgroundColor: '#A0522D', 
   },
   educationalButton: {
-    backgroundColor: '#A0522D', // Blue color for Educational Events
+    backgroundColor: '#A0522D', 
   },
   buttonText: {
     fontSize: 24,

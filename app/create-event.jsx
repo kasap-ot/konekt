@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, TextInput, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import { Text, TextInput, ScrollView, StyleSheet, TouchableOpacity, View, Picker } from 'react-native';
 import { useEvents } from './events-context';
 import { useRouter } from 'expo-router';
 
@@ -16,16 +16,13 @@ const CreateEventPage = () => {
     location: '',
     organizer: '',
     description: '',
+    category: 'Parties',
   });
 
   const handleSubmit = () => {
     // Validate form fields
     if (!event.title || !event.date || !event.location) {
-      alert('Please fill in all required fields');
       return;
-    }
-    else {
-      console.log('Saving the new event...');
     }
 
     // Add event to the context
@@ -39,6 +36,7 @@ const CreateEventPage = () => {
       location: '',
       organizer: '',
       description: '',
+      category: 'Parties',
     });
 
     // Navigate back or to events list
@@ -101,6 +99,20 @@ const CreateEventPage = () => {
         onChangeText={(text) => setEvent({ ...event, organizer: text })}
       />
 
+      {/* Category Picker */}
+      <Text style={styles.label}>Category</Text>
+      <View style={styles.pickerContainer}>
+        <Picker
+          selectedValue={event.category}
+          style={styles.picker}
+          onValueChange={(itemValue) => setEvent({ ...event, category: itemValue })}
+        >
+          <Picker.Item label="Parties" value="Parties" />
+          <Picker.Item label="Sport Events" value="Sport Events" />
+          <Picker.Item label="Educational Events" value="Educational Events" />
+        </Picker>
+      </View>
+
       {/* Description Input */}
       <Text style={styles.label}>Description</Text>
       <TextInput
@@ -149,7 +161,7 @@ const styles = StyleSheet.create({
   },
   multilineInput: {
     height: 120,
-    textAlignVertical: 'top', // Align text to the top for multiline input
+    textAlignVertical: 'top',
   },
   button: {
     backgroundColor: '#FFA500',
@@ -161,6 +173,14 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     color: '#121212',
+  },
+  pickerContainer: {
+    backgroundColor: '#1E1E1E',
+    borderRadius: 10,
+    marginBottom: 20,
+  },
+  picker: {
+    color: '#FFFFFF',
   },
 });
 

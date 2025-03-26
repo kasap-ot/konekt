@@ -1,18 +1,20 @@
 import React from 'react';
 import { FlatList, Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import EventIcon from '../assets/images/event-icon.png';
-import { useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEvents } from './events-context';
 
 
 const ListEventsPage = () => {
   const { events } = useEvents();
   const router = useRouter();
+  const { category } = useLocalSearchParams();
 
   const handleEventPress = (eventId) => {
-    console.log('Opening the event...');
     router.push(`/event?id=${eventId}`);
   };
+
+  const filteredEvents = category ? events.filter(event => event.category === category) : events;
 
   const renderEventItem = ({ item }) => (
     <TouchableOpacity onPress={() => handleEventPress(item.id)}>
@@ -22,6 +24,7 @@ const ListEventsPage = () => {
           <Text style={styles.eventTitle}>{item.title}</Text>
           <Text style={styles.eventText}>Date: {item.date}</Text>
           <Text style={styles.eventText}>Location: {item.location}</Text>
+          <Text style={styles.eventText}>Category: {item.category}</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -29,13 +32,18 @@ const ListEventsPage = () => {
 
   return (
     <View style={styles.container}>
+      {category && (
+        <View style={styles.categoryHeader}>
+          <Text style={styles.categoryHeaderText}>{category}</Text>
+        </View>
+      )}
       <FlatList
-        data={events}
+        data={filteredEvents}
         keyExtractor={(item) => item.id}
         renderItem={renderEventItem}
         ListEmptyComponent={
           <View style={styles.emptyContainer}>
-            <Text style={styles.emptyText}>No events found</Text>
+            <Text style={styles.emptyText}>No events found in this category.</Text>
           </View>
         }
       />
@@ -106,6 +114,16 @@ const styles = StyleSheet.create({
   emptyText: {
     color: '#FFFFFF',
     fontSize: 18,
+  },
+  categoryHeader: {
+    backgroundColor: '#1F1F1F',
+    padding: 15,
+    alignItems: 'center',
+  },
+  categoryHeaderText: {
+    color: '#FFFFFF',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });
 

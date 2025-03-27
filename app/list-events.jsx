@@ -16,13 +16,14 @@ const ListEventsPage = () => {
   };
 
   const filteredEvents = category ? events.filter(event => event.category === category) : events;
+  const headerText = category || 'Events';
 
   const renderEventItem = ({ item }) => (
     <TouchableOpacity onPress={() => handleEventPress(item.id)}>
       <View style={styles.eventItem}>
-        <Image 
-          source={item.image ? { uri: item.image } : EventIcon} 
-          style={styles.eventImage} 
+        <Image
+          source={item.image ? { uri: item.image } : EventIcon}
+          style={styles.eventImage}
         />
         <View style={styles.eventDetails}>
           <Text style={styles.eventTitle}>{item.title}</Text>
@@ -36,11 +37,11 @@ const ListEventsPage = () => {
 
   return (
     <View style={styles.container}>
-      {category && (
-        <View style={styles.categoryHeader}>
-          <Text style={styles.categoryHeaderText}>{category}</Text>
-        </View>
-      )}
+
+      <View style={styles.categoryHeader}>
+        <Text style={styles.categoryHeaderText}>{headerText}</Text>
+      </View>
+
       <FlatList
         data={filteredEvents}
         keyExtractor={(item) => item.id}

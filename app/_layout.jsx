@@ -5,7 +5,9 @@ import { EventsProvider } from './events-context';
 export default function RootLayout() {
   return (
     <EventsProvider>
-      <Stack>
+      <Stack screenOptions={{ 
+        headerShown: false,
+      }}>
         <Stack.Screen
           name="index"
           options={{

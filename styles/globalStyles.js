@@ -19,6 +19,7 @@ export const Colors = {
     accent: {
         primary: '#A0522D',      // Coral/Brown accent color (used for buttons)
         highlight: '#FFA500',    // Orange highlight color
+        error: '#800000'         // Marron color
     },
 
     // Border and Separator Colors

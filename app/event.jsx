@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { useEvents } from './events-context';
 import { Colors } from '../styles/globalStyles';
@@ -9,8 +9,30 @@ import EventImage from '../components/EventImage';
 const EventPage = () => {
   const router = useRouter();
   const { id } = useLocalSearchParams();
-  const { events } = useEvents();
+  const { events, deleteEvent } = useEvents();
   const event = events.find(e => e.id == id);
+
+  const handleDelete = () => {
+    Alert.alert(
+      'Delete Event',
+      'Are you sure you want to delete this event?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: () => {
+            deleteEvent(id);
+            router.back();
+          },
+        },
+      ],
+      { cancelable: true }
+    );
+  };
 
   if (!event) {
     return (
@@ -23,7 +45,6 @@ const EventPage = () => {
   return (
     <View style={styles.container}>
       <EventImage imageUri={event.image} />
-
       <Text style={styles.eventTitle}>{event.title}</Text>
 
       <View style={styles.gridContainer}>
@@ -35,17 +56,25 @@ const EventPage = () => {
 
       <Text style={styles.description}>{event.description}</Text>
 
-      <TouchableOpacity
-        style={styles.guestsButton}
-        onPress={() => router.push('/guests')}
-      >
-        <Text style={styles.guestsButtonText}>View Guests</Text>
-      </TouchableOpacity>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity
+          style={[styles.button, styles.guestsButton]}
+          onPress={() => router.push('/guests')}
+        >
+          <Text style={styles.buttonText}>View Guests</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.button, styles.deleteButton]}
+          onPress={handleDelete}
+        >
+          <Text style={styles.buttonText}>Delete Event</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
 
-// Remove image-related styles from here
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -73,14 +102,30 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     marginBottom: 20,
   },
-  guestsButton: {
-    backgroundColor: Colors.accent.primary,
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginHorizontal: 20,
+    marginBottom: 20,
+  },
+  button: {
     borderRadius: 10,
     paddingVertical: 15,
     paddingHorizontal: 20,
     alignItems: 'center',
-    marginHorizontal: 20,
-    marginBottom: 20,
+    flex: 1,
+    marginHorizontal: 5,
+  },
+  guestsButton: {
+    backgroundColor: Colors.accent.primary,
+  },
+  deleteButton: {
+    backgroundColor: Colors.accent.error,
+  },
+  buttonText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: Colors.text.primary,
   },
   guestsButtonText: {
     fontSize: 18,

@@ -6,6 +6,7 @@ const EventsContext = createContext({
   events: [],
   addEvent: () => {},
   pickImage: () => {},
+  deleteEvent: () => {},
 });
 
 export const EventsProvider = ({ children }) => {
@@ -19,9 +20,13 @@ export const EventsProvider = ({ children }) => {
       organizer: 'Party Inc',
       description: 'The craziest party ever!',
       category: 'Parties',
-      image: null, // Add image field
+      image: null,
     },
   ]);
+
+  const deleteEvent = (eventId) => {
+    setEvents(prevEvents => prevEvents.filter(event => event.id !== eventId));
+  };
 
   const addEvent = (newEvent) => {
     const eventWithId = {
@@ -33,16 +38,13 @@ export const EventsProvider = ({ children }) => {
     setEvents(prevEvents => [...prevEvents, eventWithId]);
   };
 
-  // Add image picking functionality
   const pickImage = async (setEvent) => {
-    // Request permission to access media library
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== 'granted') {
       alert('Sorry, we need camera roll permissions to make this work!');
       return;
     }
 
-    // Launch image picker
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ['images'],
       allowsEditing: true,
@@ -51,7 +53,6 @@ export const EventsProvider = ({ children }) => {
     });
 
     if (!result.canceled) {
-      // Update event state with selected image URI
       setEvent(prevEvent => ({
         ...prevEvent,
         image: result.assets[0].uri
@@ -60,7 +61,7 @@ export const EventsProvider = ({ children }) => {
   };
 
   return (
-    <EventsContext.Provider value={{ events, addEvent, pickImage }}>
+    <EventsContext.Provider value={{ events, addEvent, pickImage, deleteEvent }}>
       {children}
     </EventsContext.Provider>
   );

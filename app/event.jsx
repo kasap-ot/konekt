@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { useEvents } from './events-context';
 
@@ -12,7 +12,7 @@ const EventPage = () => {
 
   if (!event) {
     return (
-      <View style={styles.container}>  
+      <View style={styles.container}>
         <Text style={styles.errorText}>Event not found...</Text>
       </View>
     );
@@ -20,8 +20,18 @@ const EventPage = () => {
 
   return (
     <View style={styles.container}>
-      {/* Orange container as a placeholder for event photo */}
-      <View style={styles.photoPlaceholder} />
+      {/* Custom placeholder or actual image */}
+      {event.image ? (
+        <Image
+          source={{ uri: event.image }}
+          style={styles.photo}
+          resizeMode="cover"
+        />
+      ) : (
+        <View style={styles.imagePlaceholder}>
+          <Text style={styles.placeholderText}>...</Text>
+        </View>
+      )}
 
       {/* Event title */}
       <Text style={styles.eventTitle}>{event.title}</Text>
@@ -48,7 +58,7 @@ const EventPage = () => {
       {/* Button to navigate to the Guests page */}
       <TouchableOpacity
         style={styles.guestsButton}
-        onPress={() => router.push('/guests')} // Navigate to the "/guests" page
+        onPress={() => router.push('/guests')}
       >
         <Text style={styles.guestsButtonText}>View Guests</Text>
       </TouchableOpacity>
@@ -61,11 +71,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#121212',
   },
-  photoPlaceholder: {
-    height: 200, 
-    backgroundColor: '#FFA500', 
-    width: '100%', 
-    marginBottom: 20, 
+  photo: {
+    height: 200,
+    width: '100%',
+    marginBottom: 20,
   },
   eventTitle: {
     fontSize: 28,
@@ -73,56 +82,69 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     marginBottom: 20,
     textAlign: 'center',
-    paddingHorizontal: 20, 
+    paddingHorizontal: 20,
   },
   gridContainer: {
-    flexDirection: 'row', 
-    flexWrap: 'wrap', 
-    justifyContent: 'space-between', 
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
     marginBottom: 20,
-    paddingHorizontal: 20, 
+    paddingHorizontal: 20,
   },
   pillContainer: {
     backgroundColor: '#FFFFFF',
-    borderRadius: 25, 
-    paddingVertical: 15, 
+    borderRadius: 25,
+    paddingVertical: 15,
     paddingHorizontal: 20,
-    width: '48%', 
-    marginBottom: 10, 
-    alignItems: 'center', 
-    justifyContent: 'center', 
+    width: '48%',
+    marginBottom: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   pillText: {
-    fontSize: 16, 
+    fontSize: 16,
     fontWeight: '500',
-    color: '#121212', 
+    color: '#121212',
   },
   description: {
     fontSize: 16,
     color: '#FFFFFF',
     lineHeight: 24,
-    paddingHorizontal: 20, 
-    marginBottom: 20, 
+    paddingHorizontal: 20,
+    marginBottom: 20,
   },
   guestsButton: {
-    backgroundColor: '#A0522D', 
+    backgroundColor: '#A0522D',
     borderRadius: 10,
     paddingVertical: 15,
     paddingHorizontal: 20,
     alignItems: 'center',
-    marginHorizontal: 20, 
-    marginBottom: 20, 
+    marginHorizontal: 20,
+    marginBottom: 20,
   },
   guestsButtonText: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#FFFFFF', 
+    color: '#FFFFFF',
   },
   errorText: {
     color: '#FFFFFF',
     fontSize: 18,
     textAlign: 'center',
     marginTop: 50,
+  },
+  imagePlaceholder: {
+    height: 200, 
+    width: '100%', 
+    marginBottom: 20, 
+    backgroundColor: '#A0522D',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  placeholderText: {
+    color: '#FFFFFF',
+    fontSize: 48,
+    fontWeight: 'bold',
   },
 });
 

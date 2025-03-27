@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { createContext, useContext } from 'react';
-
+import * as ImagePicker from 'expo-image-picker';
 
 const EventsContext = createContext({
   events: [],
   addEvent: () => {},
+  pickImage: () => {},
 });
-
 
 export const EventsProvider = ({ children }) => {
   const [events, setEvents] = useState([
@@ -19,6 +19,7 @@ export const EventsProvider = ({ children }) => {
       organizer: 'Party Inc',
       description: 'The craziest party ever!',
       category: 'Parties',
+      image: null, // Add image field
     },
   ]);
 
@@ -26,13 +27,40 @@ export const EventsProvider = ({ children }) => {
     const eventWithId = {
       ...newEvent,
       id: String(Date.now()), // Generate unique ID
-      category: newEvent.category || 'Parties' // Default value
+      category: newEvent.category || 'Parties', // Default value
+      image: newEvent.image || null, // Add image
     };
     setEvents(prevEvents => [...prevEvents, eventWithId]);
   };
 
+  // Add image picking functionality
+  const pickImage = async (setEvent) => {
+    // Request permission to access media library
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== 'granted') {
+      alert('Sorry, we need camera roll permissions to make this work!');
+      return;
+    }
+
+    // Launch image picker
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ['images'],
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      // Update event state with selected image URI
+      setEvent(prevEvent => ({
+        ...prevEvent,
+        image: result.assets[0].uri
+      }));
+    }
+  };
+
   return (
-    <EventsContext.Provider value={{ events, addEvent }}>
+    <EventsContext.Provider value={{ events, addEvent, pickImage }}>
       {children}
     </EventsContext.Provider>
   );

@@ -19,7 +19,10 @@ const ListEventsPage = () => {
   const renderEventItem = ({ item }) => (
     <TouchableOpacity onPress={() => handleEventPress(item.id)}>
       <View style={styles.eventItem}>
-        <Image source={EventIcon} style={styles.eventImage} />
+        <Image 
+          source={item.image ? { uri: item.image } : EventIcon} 
+          style={styles.eventImage} 
+        />
         <View style={styles.eventDetails}>
           <Text style={styles.eventTitle}>{item.title}</Text>
           <Text style={styles.eventText}>Date: {item.date}</Text>

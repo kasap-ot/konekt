@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, TextInput, ScrollView, StyleSheet, TouchableOpacity, View} from 'react-native';
+import { Text, TextInput, ScrollView, StyleSheet, TouchableOpacity, View, Image } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { useEvents } from './events-context';
 import { useRouter } from 'expo-router';
@@ -7,7 +7,7 @@ import { useRouter } from 'expo-router';
 
 const CreateEventPage = () => {
   // State to store form data
-  const { addEvent } = useEvents();
+  const { addEvent, pickImage } = useEvents();
   const router = useRouter();
 
   const [event, setEvent] = useState({
@@ -18,6 +18,7 @@ const CreateEventPage = () => {
     organizer: '',
     description: '',
     category: 'Parties',
+    image: null,
   });
 
   const handleSubmit = () => {
@@ -38,6 +39,7 @@ const CreateEventPage = () => {
       organizer: '',
       description: '',
       category: 'Parties',
+      image: null,
     });
 
     // Navigate back or to events list
@@ -49,6 +51,21 @@ const CreateEventPage = () => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Create Event</Text>
+
+      {/* Image Upload Section */}
+      <TouchableOpacity
+        style={styles.imageUploadContainer}
+        onPress={() => pickImage(setEvent)}
+      >
+        {event.image ? (
+          <Image
+            source={{ uri: event.image }}
+            style={styles.uploadedImage}
+          />
+        ) : (
+          <Text style={styles.imageUploadText}>Upload Event Image</Text>
+        )}
+      </TouchableOpacity>
 
       {/* Title Input */}
       <Text style={styles.label}>Title</Text>
@@ -182,6 +199,23 @@ const styles = StyleSheet.create({
   },
   picker: {
     color: '#FFFFFF',
+  },
+  imageUploadContainer: {
+    backgroundColor: '#1E1E1E',
+    borderRadius: 10,
+    height: 200,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  uploadedImage: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 10,
+  },
+  imageUploadText: {
+    color: '#FFFFFF',
+    fontSize: 16,
   },
 });
 

@@ -5,10 +5,10 @@ import { useRouter } from 'expo-router';
 import { Colors } from '../styles/globalStyles';
 
 // Import the new input components
-import EventTextInput from '../components/event-text-input';
-import PictureInput from '../components/picture-input';
-import CategoryInput from '../components/event-category-input';
-import DescriptionInput from '../components/event-description-input';
+import EventTextInput from '../components/EventTextInput';
+import PictureInput from '../components/PictureInput';
+import CategoryInput from '../components/EventCategoryInput';
+import DescriptionInput from '../components/EventDescriptionInput';
 
 const CreateEventPage = () => {
   const { addEvent, pickImage } = useEvents();

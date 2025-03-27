@@ -1,14 +1,9 @@
 import { useRouter } from 'expo-router';
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { Colors } from '../styles/globalStyles';
+import CategoryButton from '../components/CategoryButton';
 
-
-const CategoryButton = ({ category, onPress, style }) => (
-  <TouchableOpacity style={[styles.button, style]} onPress={() => onPress(category)}>
-    <Text style={styles.buttonText}>{category}</Text>
-  </TouchableOpacity>
-);
 
 const CategoriesPage = () => {
   const router = useRouter();

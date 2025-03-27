@@ -1,5 +1,5 @@
 import React from 'react';
-import EventTextInput from '../components/event-text-input';
+import EventTextInput from './EventTextInput';
 
 const DescriptionInput = ({ value, onChangeText }) => {
   return (

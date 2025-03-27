@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Colors } from '../styles/globalStyles';
-import CompanyHomeButton from '../components/company-home-button';
+import CompanyHomeButton from '../components/CompanyHomeButton';
 
 const CompanyHomePage = () => {
   const router = useRouter();

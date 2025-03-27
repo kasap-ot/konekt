@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
-import { Text, TextInput, ScrollView, StyleSheet, TouchableOpacity, View, Image } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
+import { ScrollView, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import { useEvents } from './events-context';
 import { useRouter } from 'expo-router';
 import { Colors } from '../styles/globalStyles';
 
+// Import the new input components
+import EventTextInput from '../components/event-text-input';
+import PictureInput from '../components/picture-input';
+import CategoryInput from '../components/event-category-input';
+import DescriptionInput from '../components/event-description-input';
 
 const CreateEventPage = () => {
-  // State to store form data
   const { addEvent, pickImage } = useEvents();
   const router = useRouter();
 
@@ -53,94 +56,58 @@ const CreateEventPage = () => {
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Create Event</Text>
 
-      {/* Image Upload Section */}
-      <TouchableOpacity
-        style={styles.imageUploadContainer}
-        onPress={() => pickImage(setEvent)}
-      >
-        {event.image ? (
-          <Image
-            source={{ uri: event.image }}
-            style={styles.uploadedImage}
-          />
-        ) : (
-          <Text style={styles.imageUploadText}>Upload Event Image</Text>
-        )}
-      </TouchableOpacity>
+      {/* Picture Input */}
+      <PictureInput 
+        image={event.image} 
+        onPickImage={() => pickImage(setEvent)} 
+      />
 
-      {/* Title Input */}
-      <Text style={styles.label}>Title</Text>
-      <TextInput
-        style={styles.input}
+      {/* Text Inputs using EventTextInput */}
+      <EventTextInput 
+        label="Title"
         placeholder="Enter event title"
-        placeholderTextColor="#999"
         value={event.title}
         onChangeText={(text) => setEvent({ ...event, title: text })}
       />
 
-      {/* Date Input */}
-      <Text style={styles.label}>Date</Text>
-      <TextInput
-        style={styles.input}
+      <EventTextInput 
+        label="Date"
         placeholder="Enter event date (e.g., November 15, 2023)"
-        placeholderTextColor="#999"
         value={event.date}
         onChangeText={(text) => setEvent({ ...event, date: text })}
       />
 
-      {/* Time Input */}
-      <Text style={styles.label}>Time</Text>
-      <TextInput
-        style={styles.input}
+      <EventTextInput 
+        label="Time"
         placeholder="Enter event time (e.g., 9:00 AM - 5:00 PM)"
-        placeholderTextColor="#999"
         value={event.time}
         onChangeText={(text) => setEvent({ ...event, time: text })}
       />
 
-      {/* Location Input */}
-      <Text style={styles.label}>Location</Text>
-      <TextInput
-        style={styles.input}
+      <EventTextInput 
+        label="Location"
         placeholder="Enter event location"
-        placeholderTextColor="#999"
         value={event.location}
         onChangeText={(text) => setEvent({ ...event, location: text })}
       />
 
-      {/* Organizer Input */}
-      <Text style={styles.label}>Organizer</Text>
-      <TextInput
-        style={styles.input}
+      <EventTextInput 
+        label="Organizer"
         placeholder="Enter organizer name"
-        placeholderTextColor="#999"
         value={event.organizer}
         onChangeText={(text) => setEvent({ ...event, organizer: text })}
       />
 
-      {/* Category Picker */}
-      <Text style={styles.label}>Category</Text>
-      <View style={styles.pickerContainer}>
-        <Picker
-          selectedValue={event.category}
-          style={styles.picker}
-          onValueChange={(itemValue) => setEvent({ ...event, category: itemValue })}
-        >
-          <Picker.Item label="Parties" value="Parties" />
-          <Picker.Item label="Sport Events" value="Sport Events" />
-          <Picker.Item label="Educational Events" value="Educational Events" />
-        </Picker>
-      </View>
+      {/* Category Input */}
+      <CategoryInput 
+        selectedValue={event.category} 
+        onValueChange={(itemValue) => setEvent({ ...event, category: itemValue })} 
+      />
 
       {/* Description Input */}
-      <Text style={styles.label}>Description</Text>
-      <TextInput
-        style={[styles.input, styles.multilineInput]}
-        placeholder="Enter event description"
-        placeholderTextColor="#999"
-        value={event.description}
-        onChangeText={(text) => setEvent({ ...event, description: text })}
-        multiline
+      <DescriptionInput 
+        value={event.description} 
+        onChangeText={(text) => setEvent({ ...event, description: text })} 
       />
 
       {/* Submit Button */}
@@ -164,24 +131,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     textAlign: 'center',
   },
-  label: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: Colors.text.primary,
-    marginBottom: 8,
-  },
-  input: {
-    backgroundColor: Colors.background.secondary,
-    borderRadius: 10,
-    padding: 15,
-    fontSize: 16,
-    color: Colors.text.primary,
-    marginBottom: 20,
-  },
-  multilineInput: {
-    height: 120,
-    textAlignVertical: 'top',
-  },
   button: {
     backgroundColor: Colors.accent.primary,
     borderRadius: 10,
@@ -192,31 +141,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     color: Colors.background.primary,
-  },
-  pickerContainer: {
-    backgroundColor: Colors.background.secondary,
-    borderRadius: 10,
-    marginBottom: 20,
-  },
-  picker: {
-    color: '#FFFFFF',
-  },
-  imageUploadContainer: {
-    backgroundColor: Colors.background.secondary,
-    borderRadius: 10,
-    height: 200,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  uploadedImage: {
-    width: '100%',
-    height: '100%',
-    borderRadius: 10,
-  },
-  imageUploadText: {
-    color: Colors.text.primary,
-    fontSize: 16,
   },
 });
 

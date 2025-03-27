@@ -1,39 +1,34 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { useRouter } from 'expo-router'; // Import useRouter
+import { View, StyleSheet } from 'react-native';
+import { useRouter } from 'expo-router';
 import { Colors } from '../styles/globalStyles';
-
+import CompanyHomeButton from '../components/company-home-button';
 
 const CompanyHomePage = () => {
-  const router = useRouter(); // Initialize the router
+  const router = useRouter();
 
-  // Handle button press
   const handleButtonPress = (action) => {
     console.log(`${action} button pressed`);
     if (action === 'My Events') {
-      router.push('/list-events'); // Navigate to the "/events" page
+      router.push('/list-events');
     } else if (action === 'Create New Event') {
-      router.push('/create-event'); // Navigate to the "/create-event" page
+      router.push('/create-event');
     }
   };
 
   return (
     <View style={styles.container}>
-      {/* My Events Button */}
-      <TouchableOpacity
-        style={[styles.button, styles.myEventsButton]}
+      <CompanyHomeButton
+        title="My Events"
         onPress={() => handleButtonPress('My Events')}
-      >
-        <Text style={styles.buttonText}>My Events</Text>
-      </TouchableOpacity>
+        style={styles.button}
+      />
 
-      {/* Create New Event Button */}
-      <TouchableOpacity
-        style={[styles.button, styles.createEventButton]}
+      <CompanyHomeButton
+        title="Create New Event"
         onPress={() => handleButtonPress('Create New Event')}
-      >
-        <Text style={styles.buttonText}>Create New Event</Text>
-      </TouchableOpacity>
+        style={styles.button}
+      />
     </View>
   );
 };
@@ -49,21 +44,7 @@ const styles = StyleSheet.create({
   button: {
     width: '100%', 
     height: '40%', 
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 15,
-    marginVertical: 10, 
-  },
-  myEventsButton: {
-    backgroundColor: Colors.accent.primary, 
-  },
-  createEventButton: {
-    backgroundColor: Colors.accent.primary, 
-  },
-  buttonText: {
-    fontSize: 28, 
-    fontWeight: 'bold',
-    color: Colors.text.primary,
+    marginVertical: 10,
   },
 });
 

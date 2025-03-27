@@ -1,44 +1,36 @@
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { useEvents } from './events-context';
+import { Colors } from '../styles/globalStyles';
+
+
+const CategoryButton = ({ category, onPress, style }) => (
+  <TouchableOpacity style={[styles.button, style]} onPress={() => onPress(category)}>
+    <Text style={styles.buttonText}>{category}</Text>
+  </TouchableOpacity>
+);
 
 const CategoriesPage = () => {
   const router = useRouter();
-  const events = useEvents();
-  
+  const categories = ['Parties', 'Sport Events', 'Educational Events'];
+
   const handleButtonPress = (category) => {
     router.push({
       pathname: '/list-events',
-      params: { category: category},
+      params: { category: category },
     });
   };
 
   return (
     <View style={styles.container}>
-      {/* Party Button */}
-      <TouchableOpacity
-        style={[styles.button, styles.partyButton]}
-        onPress={() => handleButtonPress('Parties')}
-      >
-        <Text style={styles.buttonText}>Parties</Text>
-      </TouchableOpacity>
-
-      {/* Sport Events Button */}
-      <TouchableOpacity
-        style={[styles.button, styles.sportButton]}
-        onPress={() => handleButtonPress('Sport Events')}
-      >
-        <Text style={styles.buttonText}>Sport Events</Text>
-      </TouchableOpacity>
-
-      {/* Educational Events Button */}
-      <TouchableOpacity
-        style={[styles.button, styles.educationalButton]}
-        onPress={() => handleButtonPress('Educational Events')}
-      >
-        <Text style={styles.buttonText}>Educational Events</Text>
-      </TouchableOpacity>
+      {categories.map((category) => (
+        <CategoryButton
+          key={category}
+          category={category}
+          onPress={handleButtonPress}
+          style={styles.categoryButton}
+        />
+      ))}
     </View>
   );
 };
@@ -48,30 +40,24 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#121212',
+    backgroundColor: Colors.background.primary,
     padding: 10,
   },
   button: {
-    width: '100%', 
-    height: '30%', 
+    width: '90%',
+    height: '25%',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 15,
-    marginVertical: 10, 
+    marginVertical: 10,
   },
-  partyButton: {
-    backgroundColor: '#A0522D', 
-  },
-  sportButton: {
-    backgroundColor: '#A0522D', 
-  },
-  educationalButton: {
-    backgroundColor: '#A0522D', 
+  categoryButton: {
+    backgroundColor: Colors.accent.primary,
   },
   buttonText: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: Colors.text.primary,
   },
 });
 

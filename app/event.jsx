@@ -2,6 +2,8 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { useEvents } from './events-context';
+import { Colors } from '../styles/globalStyles';
+
 
 const EventPage = () => {
   const router = useRouter(); // Initialize the router
@@ -69,7 +71,7 @@ const EventPage = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#121212',
+    backgroundColor: Colors.background.primary,
   },
   photo: {
     height: 200,
@@ -79,7 +81,7 @@ const styles = StyleSheet.create({
   eventTitle: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: Colors.text.primary,
     marginBottom: 20,
     textAlign: 'center',
     paddingHorizontal: 20,
@@ -92,7 +94,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   pillContainer: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: Colors.text.primary,
     borderRadius: 25,
     paddingVertical: 15,
     paddingHorizontal: 20,
@@ -104,17 +106,17 @@ const styles = StyleSheet.create({
   pillText: {
     fontSize: 16,
     fontWeight: '500',
-    color: '#121212',
+    color: Colors.background.primary,
   },
   description: {
     fontSize: 16,
-    color: '#FFFFFF',
+    color: Colors.text.primary,
     lineHeight: 24,
     paddingHorizontal: 20,
     marginBottom: 20,
   },
   guestsButton: {
-    backgroundColor: '#A0522D',
+    backgroundColor: Colors.accent.primary,
     borderRadius: 10,
     paddingVertical: 15,
     paddingHorizontal: 20,
@@ -125,10 +127,10 @@ const styles = StyleSheet.create({
   guestsButtonText: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: Colors.text.primary,
   },
   errorText: {
-    color: '#FFFFFF',
+    color: Colors.text.primary,
     fontSize: 18,
     textAlign: 'center',
     marginTop: 50,
@@ -137,12 +139,12 @@ const styles = StyleSheet.create({
     height: 200, 
     width: '100%', 
     marginBottom: 20, 
-    backgroundColor: '#A0522D',
+    backgroundColor: Colors.accent.primary,
     justifyContent: 'center',
     alignItems: 'center',
   },
   placeholderText: {
-    color: '#FFFFFF',
+    color: Colors.text.primary,
     fontSize: 48,
     fontWeight: 'bold',
   },

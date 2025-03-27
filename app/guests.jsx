@@ -1,5 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, FlatList } from 'react-native';
+import { Colors } from '../styles/globalStyles';
+
 
 const InterestedUsersPage = () => {
   // Sample data for users interested in the event
@@ -44,20 +46,20 @@ const InterestedUsersPage = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#121212', // Dark background
+    backgroundColor: Colors.background.primary, 
   },
   topContainer: {
-    height: 80, // Fixed height for the top component
-    justifyContent: 'center', // Center vertically
-    alignItems: 'center', // Center horizontally
-    backgroundColor: '#1F1F1F', // Slightly lighter dark background for the top component
+    height: 80, 
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    backgroundColor: Colors.background.tertiary, 
     borderBottomWidth: 1,
-    borderBottomColor: '#333333', // Darker border for contrast
+    borderBottomColor: Colors.border.light, 
   },
   interestedText: {
-    fontSize: 28, // Larger text size
+    fontSize: 28, 
     fontWeight: 'bold',
-    color: '#FFFFFF', // White text
+    color: Colors.text.primary, 
   },
   listContent: {
     padding: 16,
@@ -67,18 +69,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#333333', // Darker border for contrast
+    borderBottomColor: Colors.border.light, 
   },
   circle: {
     width: 24,
     height: 24,
-    borderRadius: 12, // Half of width/height to make it a circle
-    backgroundColor: 'orange', // Orange color
+    borderRadius: 12, 
+    backgroundColor: Colors.accent.primary, 
     marginRight: 12,
   },
   username: {
     fontSize: 18,
-    color: '#FFFFFF' // White text
+    color: Colors.text.primary 
   }
 });
 

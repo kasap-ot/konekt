@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useRouter } from 'expo-router'; // Import useRouter
+import { Colors } from '../styles/globalStyles';
+
 
 const CompanyHomePage = () => {
   const router = useRouter(); // Initialize the router
@@ -41,27 +43,27 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#121212',
+    backgroundColor: Colors.background.primary,
     padding: 10,
   },
   button: {
-    width: '100%', // Full width
-    height: '40%', // 40% of the screen height
+    width: '100%', 
+    height: '40%', 
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 15,
-    marginVertical: 10, // Space between buttons
+    marginVertical: 10, 
   },
   myEventsButton: {
-    backgroundColor: '#A0522D', // Coral color for My Events
+    backgroundColor: Colors.accent.primary, 
   },
   createEventButton: {
-    backgroundColor: '#A0522D', // Green color for Create New Event
+    backgroundColor: Colors.accent.primary, 
   },
   buttonText: {
-    fontSize: 28, // Slightly larger font size
+    fontSize: 28, 
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: Colors.text.primary,
   },
 });
 

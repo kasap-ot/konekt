@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
+import { Colors } from '../styles/globalStyles';
+
 
 const App = () => {
   const router = useRouter();
@@ -33,24 +35,24 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#121212',
+    backgroundColor: Colors.background.primary,
   },
   welcomeText: {
     fontSize: 32,
     fontWeight: 'bold',
-    color: '#FFFFFF',
-    marginBottom: 40, // Add some space below the title
+    color: Colors.text.primary,
+    marginBottom: 40,
   },
   button: {
     width: 200,
     padding: 15,
-    marginVertical: 10, // Space between buttons
-    backgroundColor: '#A0522D',
+    marginVertical: 10,
+    backgroundColor: Colors.accent.primary,
     borderRadius: 10,
     alignItems: 'center',
   },
   buttonText: {
-    color: '#FFFFFF',
+    color: Colors.text.primary,
     fontSize: 18,
     fontWeight: 'bold',
   },

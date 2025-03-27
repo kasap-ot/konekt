@@ -3,6 +3,7 @@ import { Text, TextInput, ScrollView, StyleSheet, TouchableOpacity, View, Image 
 import { Picker } from '@react-native-picker/picker';
 import { useEvents } from './events-context';
 import { useRouter } from 'expo-router';
+import { Colors } from '../styles/globalStyles';
 
 
 const CreateEventPage = () => {
@@ -154,27 +155,27 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     padding: 20,
-    backgroundColor: '#121212',
+    backgroundColor: Colors.background.primary,
   },
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: Colors.text.primary,
     marginBottom: 20,
     textAlign: 'center',
   },
   label: {
     fontSize: 16,
     fontWeight: '500',
-    color: '#FFFFFF',
+    color: Colors.text.primary,
     marginBottom: 8,
   },
   input: {
-    backgroundColor: '#1E1E1E',
+    backgroundColor: Colors.background.secondary,
     borderRadius: 10,
     padding: 15,
     fontSize: 16,
-    color: '#FFFFFF',
+    color: Colors.text.primary,
     marginBottom: 20,
   },
   multilineInput: {
@@ -182,7 +183,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'top',
   },
   button: {
-    backgroundColor: '#FFA500',
+    backgroundColor: Colors.accent.primary,
     borderRadius: 10,
     padding: 15,
     alignItems: 'center',
@@ -190,10 +191,10 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#121212',
+    color: Colors.background.primary,
   },
   pickerContainer: {
-    backgroundColor: '#1E1E1E',
+    backgroundColor: Colors.background.secondary,
     borderRadius: 10,
     marginBottom: 20,
   },
@@ -201,7 +202,7 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
   },
   imageUploadContainer: {
-    backgroundColor: '#1E1E1E',
+    backgroundColor: Colors.background.secondary,
     borderRadius: 10,
     height: 200,
     justifyContent: 'center',
@@ -214,7 +215,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   imageUploadText: {
-    color: '#FFFFFF',
+    color: Colors.text.primary,
     fontSize: 16,
   },
 });

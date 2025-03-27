@@ -3,6 +3,7 @@ import { FlatList, Image, StyleSheet, Text, View, TouchableOpacity } from 'react
 import EventIcon from '../assets/images/event-icon.png';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEvents } from './events-context';
+import { Colors } from '../styles/globalStyles';
 
 
 const ListEventsPage = () => {
@@ -57,11 +58,11 @@ const ListEventsPage = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#121212',
+    backgroundColor: Colors.background.primary,
   },
   eventItem: {
     flexDirection: 'row',
-    backgroundColor: '#505050',
+    backgroundColor: Colors.background.listItem,
     borderRadius: 8,
     margin: 8,
     padding: 12,
@@ -85,28 +86,23 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 8,
-    color: '#ffffff',
+    color: Colors.text.primary,
   },
   eventText: {
     fontSize: 14,
-    color: '#a0a0a0',
+    color: Colors.text.secondary,
   },
   image: {
     width: 100,
     height: 100,
   },
   button: {
-    backgroundColor: '#ffffff',
+    backgroundColor: Colors.text.primary,
     paddingVertical: 12,
     paddingHorizontal: 15,
     borderRadius: 8,
     alignItems: 'center',
     margin: 10,
-  },
-  buttonText: {
-    color: '#000000',
-    fontSize: 18,
-    fontWeight: 'bold',
   },
   emptyContainer: {
     flex: 1,
@@ -115,16 +111,16 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   emptyText: {
-    color: '#FFFFFF',
+    color: Colors.text.primary,
     fontSize: 18,
   },
   categoryHeader: {
-    backgroundColor: '#1F1F1F',
+    backgroundColor: Colors.background.tertiary,
     padding: 15,
     alignItems: 'center',
   },
   categoryHeaderText: {
-    color: '#FFFFFF',
+    color: Colors.text.primary,
     fontSize: 18,
     fontWeight: 'bold',
   },

@@ -11,14 +11,26 @@ const App = () => {
     <View style={styles.container}>
       <Text style={styles.welcomeText}>Welcome to KONEKT</Text>
 
-      <HomeButton 
-        title="Guest" 
-        onPress={() => router.push('/categories')} 
+      <HomeButton
+        title="Guest"
+        onPress={() => router.push('/categories')}
       />
-      
-      <HomeButton 
-        title="Organizer" 
-        onPress={() => router.push('/company-home')} 
+
+      <HomeButton
+        title="Organizer"
+        onPress={() => router.push('/company-home')}
+      />
+
+      <HomeButton
+        title="Login"
+        onPress={() => router.push('/login')}
+        style={styles.accountButton}
+      />
+
+      <HomeButton
+        title="Register"
+        onPress={() => router.push('/registration')}
+        style={styles.accountButton}
       />
     </View>
   );
@@ -36,6 +48,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: Colors.text.primary,
     marginBottom: 40,
+  },
+  accountButton: {
+    width: '40%',
+    marginHorizontal: 10,
   },
 });
 

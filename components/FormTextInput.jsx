@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, TextInput, StyleSheet } from 'react-native';
 import { Colors } from '../styles/globalStyles';
 
-const EventTextInput = ({ 
+const FormTextInput = ({ 
   label, 
   placeholder, 
   value, 
@@ -48,4 +48,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EventTextInput;
+export default FormTextInput;

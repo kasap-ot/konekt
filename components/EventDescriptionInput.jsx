@@ -1,9 +1,9 @@
 import React from 'react';
-import EventTextInput from './EventTextInput';
+import FormTextInput from './FormTextInput';
 
 const DescriptionInput = ({ value, onChangeText }) => {
   return (
-    <EventTextInput 
+    <FormTextInput 
       label="Description"
       placeholder="Enter event description"
       value={value}

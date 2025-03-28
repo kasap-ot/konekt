@@ -5,7 +5,7 @@ import { useRouter } from 'expo-router';
 import { Colors } from '../styles/globalStyles';
 
 // Import the new input components
-import EventTextInput from '../components/EventTextInput';
+import FormTextInput from '../components/FormTextInput';
 import PictureInput from '../components/PictureInput';
 import CategoryInput from '../components/EventCategoryInput';
 import DescriptionInput from '../components/EventDescriptionInput';
@@ -62,36 +62,36 @@ const CreateEventPage = () => {
         onPickImage={() => pickImage(setEvent)} 
       />
 
-      {/* Text Inputs using EventTextInput */}
-      <EventTextInput 
+      {/* Text Inputs using FormTextInput */}
+      <FormTextInput 
         label="Title"
         placeholder="Enter event title"
         value={event.title}
         onChangeText={(text) => setEvent({ ...event, title: text })}
       />
 
-      <EventTextInput 
+      <FormTextInput 
         label="Date"
         placeholder="Enter event date (e.g., November 15, 2023)"
         value={event.date}
         onChangeText={(text) => setEvent({ ...event, date: text })}
       />
 
-      <EventTextInput 
+      <FormTextInput 
         label="Time"
         placeholder="Enter event time (e.g., 9:00 AM - 5:00 PM)"
         value={event.time}
         onChangeText={(text) => setEvent({ ...event, time: text })}
       />
 
-      <EventTextInput 
+      <FormTextInput 
         label="Location"
         placeholder="Enter event location"
         value={event.location}
         onChangeText={(text) => setEvent({ ...event, location: text })}
       />
 
-      <EventTextInput 
+      <FormTextInput 
         label="Organizer"
         placeholder="Enter organizer name"
         value={event.organizer}

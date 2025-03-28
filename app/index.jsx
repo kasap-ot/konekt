@@ -29,7 +29,7 @@ const App = () => {
 
       <HomeButton
         title="Register"
-        onPress={() => router.push('/registration')}
+        onPress={() => router.push('/register')}
         style={styles.accountButton}
       />
     </View>

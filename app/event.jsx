@@ -113,8 +113,9 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     paddingHorizontal: 20,
     alignItems: 'center',
-    flex: 1,
-    marginHorizontal: 5,
+    flex: 0,
+    width: '47%',
+    // marginHorizontal: 5,
   },
   guestsButton: {
     backgroundColor: Colors.accent.primary,

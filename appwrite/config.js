@@ -1,11 +1,12 @@
-import { Client, Databases, ID, Query } from 'appwrite';
+import { Client, Databases, ID, Query } from 'react-native-appwrite';
+import { APPWRITE_ENDPOINT, APPWRITE_PROJECT_ID, APPWRITE_DATABASE_ID, APPWRITE_EVENTS_COLLECTION_ID } from '@env';
 
 const config = {
-  endpoint: 'https://cloud.appwrite.io/v1',
-  projectId: 'konekt',
-  databaseId: 'konekt-db',
-  eventsCollectionId: 'events'
-};
+  endpoint: APPWRITE_ENDPOINT,
+  projectId: APPWRITE_PROJECT_ID,
+  databaseId: APPWRITE_DATABASE_ID,
+  eventsCollectionId: APPWRITE_EVENTS_COLLECTION_ID,
+}
 
 const client = new Client()
   .setEndpoint(config.endpoint)
@@ -29,7 +30,7 @@ export const AppwriteService = {
           organizer: eventData.organizer,
           description: eventData.description,
           category: eventData.category,
-          image: eventData.image
+          imagePath: eventData.imagePath
         }
       );
       return response;
@@ -41,14 +42,14 @@ export const AppwriteService = {
 
   async fetchEvents(category = null) {
     try {
-      const queries = [Query.equal('category', category)] 
-      
+      const queries = category ? [Query.equal('category', category)] : [];
+
       const response = await databases.listDocuments(
         config.databaseId,
         config.eventsCollectionId,
-        queries
+        queries,
       );
-      
+
       return response.documents.map(doc => ({
         id: doc.$id,
         title: doc.title,
@@ -58,9 +59,10 @@ export const AppwriteService = {
         organizer: doc.organizer,
         description: doc.description,
         category: doc.category,
-        image: doc.image
+        imagePath: doc.imagePath
       }));
-    } catch (error) {
+    }
+    catch (error) {
       console.error('Error fetching events:', error);
       throw error;
     }
@@ -78,23 +80,6 @@ export const AppwriteService = {
       throw error;
     }
   },
-
-  async updateEventImage(eventId, imageUri) {
-    try {
-      const response = await databases.updateDocument(
-        config.databaseId,
-        config.eventsCollectionId,
-        eventId,
-        {
-          image: imageUri
-        }
-      );
-      return response;
-    } catch (error) {
-      console.error('Error updating event image:', error);
-      throw error;
-    }
-  }
 };
 
 export default AppwriteService;

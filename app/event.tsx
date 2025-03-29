@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Alert, ViewStyle, TextStyle } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { useEvents } from './events-context';
@@ -7,14 +7,20 @@ import Pill from '../components/EventPill';
 import EventImage from '../components/EventImage';
 
 type EventParams = {
-  id: string;
+  id: string | string[];
 };
 
 const EventPage = (): React.ReactElement => {
   const router = useRouter();
-  const { id } = useLocalSearchParams<EventParams>();
+  const params = useLocalSearchParams<EventParams>();
   const { events, deleteEvent } = useEvents();
-  const event = events.find(e => e.id === id);
+  const eventId = typeof params.id === 'string' ? params.id : params.id?.[0];
+  const event = events.find(e => e.$id === eventId);
+
+  useEffect(() => {
+    console.log('Received params:', params);
+    console.log('Extracted eventId:', eventId);
+  }, [params]);
 
   const handleDelete = (): void => {
     Alert.alert(
@@ -29,7 +35,7 @@ const EventPage = (): React.ReactElement => {
           text: 'Delete',
           style: 'destructive',
           onPress: () => {
-            deleteEvent(id);
+            deleteEvent(eventId);
             router.back();
           },
         },

@@ -57,7 +57,7 @@ export const EventsProvider: React.FC<EventsProviderProps> = ({ children }) => {
     try {
       setLoading(true);
       await AppwriteService.deleteEvent(eventId);
-      setEvents(prevEvents => prevEvents.filter(event => event.id !== eventId));
+      setEvents(prevEvents => prevEvents.filter(event => event.$id !== eventId));
     } 
     catch (err) {
       console.error('Failed to delete event:', err);
@@ -79,7 +79,7 @@ export const EventsProvider: React.FC<EventsProviderProps> = ({ children }) => {
       });
       
       setEvents(prevEvents => [...prevEvents, {
-        id: createdEvent.$id,
+        $id: createdEvent.$id,
         title: createdEvent.title,
         date: createdEvent.date,
         time: createdEvent.time,

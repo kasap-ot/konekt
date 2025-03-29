@@ -1,11 +1,10 @@
 import { Client, Databases, ID, Query } from 'react-native-appwrite';
-import { APPWRITE_ENDPOINT, APPWRITE_PROJECT_ID, APPWRITE_DATABASE_ID, APPWRITE_EVENTS_COLLECTION_ID } from '@env';
 
 const config = {
-  endpoint: APPWRITE_ENDPOINT,
-  projectId: APPWRITE_PROJECT_ID,
-  databaseId: APPWRITE_DATABASE_ID,
-  eventsCollectionId: APPWRITE_EVENTS_COLLECTION_ID,
+  endpoint: 'https://cloud.appwrite.io/v1',
+  projectId: 'konekt',
+  databaseId: '67e6d40e001b9e49230d',
+  eventsCollectionId: '67e6d4230010e2efaff3',
 }
 
 const client = new Client()

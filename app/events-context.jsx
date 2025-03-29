@@ -1,41 +1,88 @@
-import React, { useState } from 'react';
-import { createContext, useContext } from 'react';
+import React, { useState, useEffect, createContext, useContext } from 'react';
 import * as ImagePicker from 'expo-image-picker';
+import AppwriteService from '../appwrite/config';
+
 
 const EventsContext = createContext({
   events: [],
   addEvent: () => {},
   pickImage: () => {},
   deleteEvent: () => {},
+  loading: false,
+  error: null,
+  fetchEvents: () => {},
 });
 
-export const EventsProvider = ({ children }) => {
-  const [events, setEvents] = useState([
-    {
-      id: '1',
-      title: 'Music Festival',
-      date: '2023-10-15',
-      time: '12:00',
-      location: 'Central Park, New York',
-      organizer: 'Party Inc',
-      description: 'The craziest party ever!',
-      category: 'Parties',
-      image: null,
-    },
-  ]);
 
-  const deleteEvent = (eventId) => {
-    setEvents(prevEvents => prevEvents.filter(event => event.id !== eventId));
+export const EventsProvider = ({ children }) => {
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetchEvents();
+  }, []);
+
+  const fetchEvents = async (category = null) => {
+    try {
+      setLoading(true);
+      setError(null);
+      const fetchedEvents = await AppwriteService.fetchEvents(category);
+      setEvents(fetchedEvents);
+    } 
+    catch (err) {
+      console.error('Failed to fetch events:', err);
+      setError('Failed to load events. Please try again later.');
+    } 
+    finally {
+      setLoading(false);
+    }
   };
 
-  const addEvent = (newEvent) => {
-    const eventWithId = {
-      ...newEvent,
-      id: String(Date.now()), // Generate unique ID
-      category: newEvent.category || 'Parties', // Default value
-      image: newEvent.image || null, // Add image
-    };
-    setEvents(prevEvents => [...prevEvents, eventWithId]);
+  const deleteEvent = async (eventId) => {
+    try {
+      setLoading(true);
+      await AppwriteService.deleteEvent(eventId);
+      setEvents(prevEvents => prevEvents.filter(event => event.id !== eventId));
+    } 
+    catch (err) {
+      console.error('Failed to delete event:', err);
+      setError('Failed to delete event. Please try again later.');
+    } 
+    finally {
+      setLoading(false);
+    }
+  };
+
+  const addEvent = async (newEvent) => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      const createdEvent = await AppwriteService.createEvent({
+        ...newEvent,
+        imagePath: newEvent.image || null,
+      });
+      
+      setEvents(prevEvents => [...prevEvents, {
+        id: createdEvent.$id,
+        title: createdEvent.title,
+        date: createdEvent.date,
+        time: createdEvent.time,
+        location: createdEvent.location,
+        organizer: createdEvent.organizer,
+        description: createdEvent.description,
+        category: createdEvent.category || 'Parties', // Default value
+        image: createdEvent.imagePath,
+      }]);
+    } 
+    catch (err) {
+      console.error('Failed to add event:', err);
+      setError('Failed to add event. Please try again later.');
+    } 
+    finally {
+      setLoading(false);
+    }
   };
 
   const pickImage = async (setEvent) => {
@@ -61,7 +108,15 @@ export const EventsProvider = ({ children }) => {
   };
 
   return (
-    <EventsContext.Provider value={{ events, addEvent, pickImage, deleteEvent }}>
+    <EventsContext.Provider value={{ 
+      events, 
+      addEvent, 
+      pickImage, 
+      deleteEvent, 
+      loading,
+      error,
+      fetchEvents 
+    }}>
       {children}
     </EventsContext.Provider>
   );

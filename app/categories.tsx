@@ -1,15 +1,15 @@
 import { useRouter } from 'expo-router';
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, ViewStyle } from 'react-native';
 import { Colors } from '../styles/globalStyles';
 import CategoryButton from '../components/CategoryButton';
+import { EventCategory } from '../types/event';
 
-
-const CategoriesPage = () => {
+const CategoriesPage = (): React.ReactElement => {
   const router = useRouter();
-  const categories = ['Parties', 'Sport Events', 'Educational Events'];
+  const categories: EventCategory[] = ['Parties', 'Sport Events', 'Educational Events'];
 
-  const handleButtonPress = (category) => {
+  const handleButtonPress = (category: EventCategory): void => {
     router.push({
       pathname: '/list-events',
       params: { category: category },
@@ -30,7 +30,14 @@ const CategoriesPage = () => {
   );
 };
 
-const styles = StyleSheet.create({
+interface Styles {
+  container: ViewStyle;
+  button: ViewStyle;
+  categoryButton: ViewStyle;
+  buttonText: ViewStyle;
+}
+
+const styles = StyleSheet.create<Styles>({
   container: {
     flex: 1,
     justifyContent: 'center',

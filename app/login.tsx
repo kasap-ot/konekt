@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import { Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { Text, TouchableOpacity, StyleSheet, ScrollView, StyleProp, ViewStyle, TextStyle } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Colors } from '../styles/globalStyles';
 import FormTextInput from '../components/FormTextInput';
 
-const LoginPage = () => {
+const LoginPage: React.FC = () => {
   const router = useRouter();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
 
-  const handleLogin = () => {
+  const handleLogin = (): void => {
     // Basic client-side validation
     if (!email || !password) {
       alert('Please enter both email and password');
@@ -67,7 +67,19 @@ const LoginPage = () => {
   );
 };
 
-const styles = StyleSheet.create({
+// Define types for styles
+interface Styles {
+  container: StyleProp<ViewStyle>;
+  title: StyleProp<TextStyle>;
+  button: StyleProp<ViewStyle>;
+  buttonText: StyleProp<TextStyle>;
+  registerLink: StyleProp<ViewStyle>;
+  registerLinkText: StyleProp<TextStyle>;
+  forgotPasswordLink: StyleProp<ViewStyle>;
+  forgotPasswordLinkText: StyleProp<TextStyle>;
+}
+
+const styles = StyleSheet.create<Styles>({
   container: {
     flexGrow: 1,
     justifyContent: 'center',

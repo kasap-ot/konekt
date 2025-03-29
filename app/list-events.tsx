@@ -1,24 +1,36 @@
 import React from 'react';
-import { FlatList, Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { FlatList, Image, StyleSheet, Text, View, TouchableOpacity, ImageSourcePropType } from 'react-native';
 import EventIcon from '../assets/images/event-icon.png';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEvents } from './events-context';
 import { Colors } from '../styles/globalStyles';
 
+// Define interface for Event type
+interface Event {
+  id: string;
+  title: string;
+  date: string;
+  location: string;
+  category: string;
+  image?: string;
+}
 
-const ListEventsPage = () => {
+const ListEventsPage: React.FC = () => {
   const { events } = useEvents();
   const router = useRouter();
-  const { category } = useLocalSearchParams();
+  const { category } = useLocalSearchParams<{ category?: string }>();
 
-  const handleEventPress = (eventId) => {
+  const handleEventPress = (eventId: string) => {
     router.push(`/event?id=${eventId}`);
   };
 
-  const filteredEvents = category ? events.filter(event => event.category === category) : events;
+  const filteredEvents = category 
+    ? events.filter((event: Event) => event.category === category) 
+    : events;
+  
   const headerText = category || 'Events';
 
-  const renderEventItem = ({ item }) => (
+  const renderEventItem = ({ item }: { item: Event }) => (
     <TouchableOpacity onPress={() => handleEventPress(item.id)}>
       <View style={styles.eventItem}>
         <Image
@@ -37,14 +49,13 @@ const ListEventsPage = () => {
 
   return (
     <View style={styles.container}>
-
       <View style={styles.categoryHeader}>
         <Text style={styles.categoryHeaderText}>{headerText}</Text>
       </View>
 
       <FlatList
         data={filteredEvents}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item: Event) => item.id}
         renderItem={renderEventItem}
         ListEmptyComponent={
           <View style={styles.emptyContainer}>

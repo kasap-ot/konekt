@@ -2,7 +2,12 @@ import React from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { Colors } from '../styles/globalStyles';
 
-const HomeButton = ({ title, onPress }) => {
+interface HomeButtonProps {
+  title: string;
+  onPress: () => void;
+}
+
+const HomeButton: React.FC<HomeButtonProps> = ({ title, onPress }) => {
   return (
     <TouchableOpacity style={styles.button} onPress={onPress}>
       <Text style={styles.buttonText}>{title}</Text>

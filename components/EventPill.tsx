@@ -1,8 +1,13 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ViewStyle } from 'react-native';
 import { Colors } from '../styles/globalStyles';
 
-const Pill = ({ text, style }) => {
+interface PillProps {
+  text: string;
+  style?: ViewStyle;
+}
+
+const Pill: React.FC<PillProps> = ({ text, style }) => {
   return (
     <View style={[styles.pillContainer, style]}>
       <Text style={styles.pillText}>{text}</Text>

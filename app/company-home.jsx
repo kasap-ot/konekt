@@ -39,12 +39,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: Colors.background.primary,
-    padding: 10,
+    padding: 50,
   },
   button: {
     width: '100%', 
-    height: '40%', 
-    marginVertical: 10,
+    height: '30%', 
+    marginVertical: 40,
   },
 });
 

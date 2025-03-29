@@ -2,7 +2,11 @@ import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import { Colors } from '../styles/globalStyles';
 
-const EventImage = ({ imageUri }) => {
+interface EventImageProps {
+  imageUri?: string | null;
+}
+
+const EventImage: React.FC<EventImageProps> = ({ imageUri }) => {
   return imageUri ? (
     <Image
       source={{ uri: imageUri }}

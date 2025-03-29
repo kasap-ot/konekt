@@ -2,7 +2,7 @@ import React from 'react';
 import { Stack } from 'expo-router';
 import { EventsProvider } from './events-context';
 
-export default function RootLayout() {
+export default function RootLayout(): React.ReactElement {
   return (
     <EventsProvider>
       <Stack screenOptions={{ 

@@ -2,19 +2,27 @@ import React from 'react';
 import { Text, TextInput, StyleSheet } from 'react-native';
 import { Colors } from '../styles/globalStyles';
 
-const FormTextInput = ({ 
-  label, 
-  placeholder, 
-  value, 
-  onChangeText, 
-  multiline = false 
+interface FormTextInputProps {
+  label: string;
+  placeholder: string;
+  value: string;
+  onChangeText: (text: string) => void;
+  multiline?: boolean;
+}
+
+const FormTextInput: React.FC<FormTextInputProps> = ({
+  label,
+  placeholder,
+  value,
+  onChangeText,
+  multiline = false
 }) => {
   return (
     <>
       <Text style={styles.label}>{label}</Text>
       <TextInput
         style={[
-          styles.input, 
+          styles.input,
           multiline && styles.multilineInput
         ]}
         placeholder={placeholder}

@@ -1,16 +1,24 @@
 import React, { useState } from 'react';
-import { Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { 
+  Text, 
+  TouchableOpacity, 
+  StyleSheet, 
+  ScrollView, 
+  StyleProp, 
+  ViewStyle, 
+  TextStyle 
+} from 'react-native';
 import { useRouter } from 'expo-router';
 import { Colors } from '../styles/globalStyles';
 import FormTextInput from '../components/FormTextInput';
 
-const RegisterPage = () => {
+const RegisterPage: React.FC = () => {
   const router = useRouter();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [repeatPassword, setRepeatPassword] = useState('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [repeatPassword, setRepeatPassword] = useState<string>('');
 
-  const handleRegister = () => {
+  const handleRegister = (): void => {
     // Basic client-side validation
     if (!email || !password || !repeatPassword) {
       alert('Please fill in all fields');
@@ -37,7 +45,7 @@ const RegisterPage = () => {
         label="Email"
         placeholder="Enter your email"
         value={email}
-        onChangeText={setEmail}
+        onChangeText={(text: string) => setEmail(text)}
         keyboardType="email-address"
         autoCapitalize="none"
       />
@@ -46,7 +54,7 @@ const RegisterPage = () => {
         label="Password"
         placeholder="Enter your password"
         value={password}
-        onChangeText={setPassword}
+        onChangeText={(text: string) => setPassword(text)}
         secureTextEntry={true}
       />
 
@@ -54,7 +62,7 @@ const RegisterPage = () => {
         label="Repeat Password"
         placeholder="Confirm your password"
         value={repeatPassword}
-        onChangeText={setRepeatPassword}
+        onChangeText={(text: string) => setRepeatPassword(text)}
         secureTextEntry={true}
       />
 
@@ -75,7 +83,17 @@ const RegisterPage = () => {
   );
 };
 
-const styles = StyleSheet.create({
+// Type definitions for styles
+interface RegisterStyles {
+  container: StyleProp<ViewStyle>;
+  title: StyleProp<TextStyle>;
+  button: StyleProp<ViewStyle>;
+  buttonText: StyleProp<TextStyle>;
+  loginLink: StyleProp<ViewStyle>;
+  loginLinkText: StyleProp<TextStyle>;
+}
+
+const styles = StyleSheet.create<RegisterStyles>({
   container: {
     flexGrow: 1,
     justifyContent: 'center',

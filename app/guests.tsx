@@ -1,11 +1,16 @@
 import React from 'react';
-import { View, Text, StyleSheet, FlatList } from 'react-native';
+import { View, Text, StyleSheet, FlatList, ListRenderItem } from 'react-native';
 import { Colors } from '../styles/globalStyles';
 
+// Define interface for user data
+interface User {
+  id: string;
+  username: string;
+}
 
-const InterestedUsersPage = () => {
-  // Sample data for users interested in the event
-  const interestedUsers = [
+const InterestedUsersPage: React.FC = () => {
+  // Sample data for users interested in the event with explicit type
+  const interestedUsers: User[] = [
     { id: '1', username: 'User1' },
     { id: '2', username: 'User2' },
     { id: '3', username: 'User3' },
@@ -14,10 +19,10 @@ const InterestedUsersPage = () => {
   ];
 
   // Number of interested users
-  const numberOfInterestedUsers = interestedUsers.length;
+  const numberOfInterestedUsers: number = interestedUsers.length;
 
-  // Render each user item
-  const renderUserItem = ({ item }) => (
+  // Render each user item with proper typing
+  const renderUserItem: ListRenderItem<User> = ({ item }) => (
     <View style={styles.userItem}>
       {/* Orange Circle Component */}
       <View style={styles.circle} />
@@ -43,6 +48,7 @@ const InterestedUsersPage = () => {
   );
 };
 
+// Type the StyleSheet
 const styles = StyleSheet.create({
   container: {
     flex: 1,

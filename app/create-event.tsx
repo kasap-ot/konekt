@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { ScrollView, StyleSheet, TouchableOpacity, Text, ViewStyle, TextStyle } from 'react-native';
 import { useEvents } from './events-context';
 import { useRouter } from 'expo-router';
 import { Colors } from '../styles/globalStyles';
+import { EventCategory, NewEvent } from '../types/event';
 
 // Import the new input components
 import FormTextInput from '../components/FormTextInput';
@@ -10,11 +11,11 @@ import PictureInput from '../components/PictureInput';
 import CategoryInput from '../components/EventCategoryInput';
 import DescriptionInput from '../components/EventDescriptionInput';
 
-const CreateEventPage = () => {
+const CreateEventPage = (): React.ReactElement => {
   const { addEvent, pickImage } = useEvents();
   const router = useRouter();
 
-  const [event, setEvent] = useState({
+  const [event, setEvent] = useState<NewEvent>({
     title: '',
     date: '',
     time: '',
@@ -25,7 +26,7 @@ const CreateEventPage = () => {
     image: null,
   });
 
-  const handleSubmit = () => {
+  const handleSubmit = (): void => {
     // Validate form fields
     if (!event.title || !event.date || !event.location) {
       return;
@@ -101,7 +102,7 @@ const CreateEventPage = () => {
       {/* Category Input */}
       <CategoryInput 
         selectedValue={event.category} 
-        onValueChange={(itemValue) => setEvent({ ...event, category: itemValue })} 
+        onValueChange={(itemValue: EventCategory) => setEvent({ ...event, category: itemValue })} 
       />
 
       {/* Description Input */}
@@ -118,7 +119,14 @@ const CreateEventPage = () => {
   );
 };
 
-const styles = StyleSheet.create({
+interface Styles {
+  container: ViewStyle;
+  title: TextStyle;
+  button: ViewStyle;
+  buttonText: TextStyle;
+}
+
+const styles = StyleSheet.create<Styles>({
   container: {
     flexGrow: 1,
     padding: 20,

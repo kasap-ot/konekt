@@ -4,7 +4,7 @@ import { useRouter } from 'expo-router';
 import { Colors } from '../styles/globalStyles';
 import HomeButton from '../components/HomeButton';
 
-const App = () => {
+const App = (): React.ReactElement => {
   const router = useRouter();
 
   return (

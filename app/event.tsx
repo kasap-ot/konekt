@@ -1,18 +1,22 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Alert, ViewStyle, TextStyle } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { useEvents } from './events-context';
 import { Colors } from '../styles/globalStyles';
 import Pill from '../components/EventPill';
 import EventImage from '../components/EventImage';
 
-const EventPage = () => {
-  const router = useRouter();
-  const { id } = useLocalSearchParams();
-  const { events, deleteEvent } = useEvents();
-  const event = events.find(e => e.id == id);
+type EventParams = {
+  id: string;
+};
 
-  const handleDelete = () => {
+const EventPage = (): React.ReactElement => {
+  const router = useRouter();
+  const { id } = useLocalSearchParams<EventParams>();
+  const { events, deleteEvent } = useEvents();
+  const event = events.find(e => e.id === id);
+
+  const handleDelete = (): void => {
     Alert.alert(
       'Delete Event',
       'Are you sure you want to delete this event?',
@@ -75,7 +79,21 @@ const EventPage = () => {
   );
 };
 
-const styles = StyleSheet.create({
+interface Styles {
+  container: ViewStyle;
+  eventTitle: TextStyle;
+  gridContainer: ViewStyle;
+  description: TextStyle;
+  buttonContainer: ViewStyle;
+  button: ViewStyle;
+  guestsButton: ViewStyle;
+  deleteButton: ViewStyle;
+  buttonText: TextStyle;
+  guestsButtonText: TextStyle;
+  errorText: TextStyle;
+}
+
+const styles = StyleSheet.create<Styles>({
   container: {
     flex: 1,
     backgroundColor: Colors.background.primary,
@@ -115,7 +133,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 0,
     width: '47%',
-    // marginHorizontal: 5,
   },
   guestsButton: {
     backgroundColor: Colors.accent.primary,

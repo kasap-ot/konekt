@@ -1,7 +1,12 @@
 import React from 'react';
 import FormTextInput from './FormTextInput';
 
-const DescriptionInput = ({ value, onChangeText }) => {
+interface DescriptionInputProps {
+  value: string;
+  onChangeText: (text: string) => void;
+}
+
+const DescriptionInput: React.FC<DescriptionInputProps> = ({ value, onChangeText }) => {
   return (
     <FormTextInput 
       label="Description"

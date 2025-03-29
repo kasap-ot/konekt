@@ -1,11 +1,34 @@
-import { Client, Databases, ID, Query } from 'react-native-appwrite';
+import { Client, Databases, ID, Query, Models } from 'react-native-appwrite';
 
-const config = {
+// Configuration interface
+interface AppwriteConfig {
+  endpoint: string;
+  projectId: string;
+  databaseId: string;
+  eventsCollectionId: string;
+}
+
+// Event data interface
+interface EventData {
+  title: string;
+  date: string;
+  time: string;
+  location: string;
+  organizer: string;
+  description: string;
+  category: string;
+  imagePath?: string | null;
+}
+
+// Extended document interface with Appwrite's document properties
+interface EventDocument extends EventData, Models.Document {}
+
+const config: AppwriteConfig = {
   endpoint: 'https://cloud.appwrite.io/v1',
   projectId: 'konekt',
   databaseId: '67e6d40e001b9e49230d',
   eventsCollectionId: '67e6d4230010e2efaff3',
-}
+};
 
 const client = new Client()
   .setEndpoint(config.endpoint)
@@ -13,11 +36,10 @@ const client = new Client()
 
 const databases = new Databases(client);
 
-
 export const AppwriteService = {
-  async createEvent(eventData) {
+  async createEvent(eventData: EventData): Promise<EventDocument> {
     try {
-      const response = await databases.createDocument(
+      const response = await databases.createDocument<EventDocument>(
         config.databaseId,
         config.eventsCollectionId,
         ID.unique(),
@@ -29,7 +51,7 @@ export const AppwriteService = {
           organizer: eventData.organizer,
           description: eventData.description,
           category: eventData.category,
-          imagePath: eventData.imagePath
+          imagePath: eventData.imagePath || null
         }
       );
       return response;
@@ -39,35 +61,24 @@ export const AppwriteService = {
     }
   },
 
-  async fetchEvents(category = null) {
+  async fetchEvents(category: string | null = null): Promise<EventDocument[]> {
     try {
       const queries = category ? [Query.equal('category', category)] : [];
 
-      const response = await databases.listDocuments(
+      const response = await databases.listDocuments<EventDocument>(
         config.databaseId,
         config.eventsCollectionId,
-        queries,
+        queries
       );
 
-      return response.documents.map(doc => ({
-        id: doc.$id,
-        title: doc.title,
-        date: doc.date,
-        time: doc.time,
-        location: doc.location,
-        organizer: doc.organizer,
-        description: doc.description,
-        category: doc.category,
-        imagePath: doc.imagePath
-      }));
-    }
-    catch (error) {
+      return response.documents;
+    } catch (error) {
       console.error('Error fetching events:', error);
       throw error;
     }
   },
 
-  async deleteEvent(eventId) {
+  async deleteEvent(eventId: string): Promise<void> {
     try {
       await databases.deleteDocument(
         config.databaseId,

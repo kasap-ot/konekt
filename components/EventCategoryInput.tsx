@@ -3,7 +3,12 @@ import { Text, View, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { Colors } from '../styles/globalStyles';
 
-const CategoryInput = ({ selectedValue, onValueChange }) => {
+interface CategoryInputProps {
+  selectedValue: string;
+  onValueChange: (itemValue: string) => void;
+}
+
+const CategoryInput: React.FC<CategoryInputProps> = ({ selectedValue, onValueChange }) => {
   return (
     <>
       <Text style={styles.label}>Category</Text>

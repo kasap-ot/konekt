@@ -2,7 +2,12 @@ import React from 'react';
 import { TouchableOpacity, Text, Image, StyleSheet } from 'react-native';
 import { Colors } from '../styles/globalStyles';
 
-const PictureInput = ({ image, onPickImage }) => {
+interface PictureInputProps {
+  image?: string | null;
+  onPickImage: () => void;
+}
+
+const PictureInput: React.FC<PictureInputProps> = ({ image, onPickImage }) => {
   return (
     <TouchableOpacity
       style={styles.imageUploadContainer}

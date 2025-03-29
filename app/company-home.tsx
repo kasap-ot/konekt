@@ -1,13 +1,15 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, StyleProp, ViewStyle } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Colors } from '../styles/globalStyles';
 import CompanyHomeButton from '../components/CompanyHomeButton';
 
-const CompanyHomePage = () => {
+type ButtonAction = 'My Events' | 'Create New Event';
+
+const CompanyHomePage: React.FC = () => {
   const router = useRouter();
 
-  const handleButtonPress = (action) => {
+  const handleButtonPress = (action: ButtonAction) => {
     console.log(`${action} button pressed`);
     if (action === 'My Events') {
       router.push('/list-events');
@@ -45,7 +47,7 @@ const styles = StyleSheet.create({
     width: '100%', 
     height: '30%', 
     marginVertical: 40,
-  },
+  } as StyleProp<ViewStyle>,
 });
 
 export default CompanyHomePage;

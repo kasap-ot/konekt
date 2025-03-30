@@ -19,7 +19,6 @@ const RegisterPage: React.FC = () => {
   const [repeatPassword, setRepeatPassword] = useState<string>('');
 
   const handleRegister = (): void => {
-    // Basic client-side validation
     if (!email || !password || !repeatPassword) {
       alert('Please fill in all fields');
       return;
@@ -83,14 +82,13 @@ const RegisterPage: React.FC = () => {
   );
 };
 
-// Type definitions for styles
 interface RegisterStyles {
-  container: StyleProp<ViewStyle>;
-  title: StyleProp<TextStyle>;
-  button: StyleProp<ViewStyle>;
-  buttonText: StyleProp<TextStyle>;
-  loginLink: StyleProp<ViewStyle>;
-  loginLinkText: StyleProp<TextStyle>;
+  container: ViewStyle;
+  title: TextStyle;
+  button: ViewStyle;
+  buttonText: TextStyle;
+  loginLink: ViewStyle;
+  loginLinkText: TextStyle;
 }
 
 const styles = StyleSheet.create<RegisterStyles>({

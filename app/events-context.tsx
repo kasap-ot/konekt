@@ -1,12 +1,12 @@
 import React, { useState, useEffect, createContext, useContext, ReactNode } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import AppwriteService from '../appwrite/config';
-import { Event, EventCategory, NewEvent } from '../types/event';
+import { Event, EventCategory, CreateEvent } from '../types/event';
 
 interface EventsContextType {
   events: Event[];
-  addEvent: (newEvent: NewEvent) => Promise<void>;
-  pickImage: (setEvent: React.Dispatch<React.SetStateAction<NewEvent>>) => Promise<void>;
+  addEvent: (newEvent: CreateEvent) => Promise<void>;
+  pickImage: (setEvent: React.Dispatch<React.SetStateAction<CreateEvent>>) => Promise<void>;
   deleteEvent: (eventId: string) => Promise<void>;
   loading: boolean;
   error: string | null;
@@ -68,14 +68,14 @@ export const EventsProvider: React.FC<EventsProviderProps> = ({ children }) => {
     }
   };
 
-  const addEvent = async (newEvent: NewEvent) => {
+  const addEvent = async (newEvent: CreateEvent) => {
     try {
       setLoading(true);
       setError(null);
       
       const createdEvent = await AppwriteService.createEvent({
         ...newEvent,
-        imagePath: newEvent.image || null,
+        imagePath: newEvent.imagePath || null,
       });
       
       setEvents(prevEvents => [...prevEvents, {
@@ -86,8 +86,8 @@ export const EventsProvider: React.FC<EventsProviderProps> = ({ children }) => {
         location: createdEvent.location,
         organizer: createdEvent.organizer,
         description: createdEvent.description,
-        category: createdEvent.category || 'Parties', // Default value
-        image: createdEvent.imagePath,
+        category: createdEvent.category as EventCategory,
+        imagePath: createdEvent.imagePath ?? null,
       }]);
     } 
     catch (err) {
@@ -99,7 +99,7 @@ export const EventsProvider: React.FC<EventsProviderProps> = ({ children }) => {
     }
   };
 
-  const pickImage = async (setEvent: React.Dispatch<React.SetStateAction<NewEvent>>) => {
+  const pickImage = async (setEvent: React.Dispatch<React.SetStateAction<CreateEvent>>) => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== 'granted') {
       alert('Sorry, we need camera roll permissions to make this work!');
@@ -116,7 +116,7 @@ export const EventsProvider: React.FC<EventsProviderProps> = ({ children }) => {
     if (!result.canceled) {
       setEvent(prevEvent => ({
         ...prevEvent,
-        image: result.assets[0].uri
+        imagePath: result.assets[0].uri
       }));
     }
   };
@@ -136,5 +136,4 @@ export const EventsProvider: React.FC<EventsProviderProps> = ({ children }) => {
   );
 };
 
-// Custom hook to use events context
 export const useEvents = (): EventsContextType => useContext(EventsContext);

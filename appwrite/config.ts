@@ -1,27 +1,5 @@
-import { Client, Databases, ID, Query, Models } from 'react-native-appwrite';
-
-// Configuration interface
-interface AppwriteConfig {
-  endpoint: string;
-  projectId: string;
-  databaseId: string;
-  eventsCollectionId: string;
-}
-
-// Event data interface
-interface EventData {
-  title: string;
-  date: string;
-  time: string;
-  location: string;
-  organizer: string;
-  description: string;
-  category: string;
-  imagePath?: string | null;
-}
-
-// Extended document interface with Appwrite's document properties
-interface EventDocument extends EventData, Models.Document {}
+import { Client, Databases, ID, Query } from 'react-native-appwrite';
+import {AppwriteConfig, CreateEvent, EventDocument} from '../types/event'
 
 const config: AppwriteConfig = {
   endpoint: 'https://cloud.appwrite.io/v1',
@@ -37,7 +15,7 @@ const client = new Client()
 const databases = new Databases(client);
 
 export const AppwriteService = {
-  async createEvent(eventData: EventData): Promise<EventDocument> {
+  async createEvent(eventData: CreateEvent): Promise<EventDocument> {
     try {
       const response = await databases.createDocument<EventDocument>(
         config.databaseId,

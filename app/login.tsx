@@ -10,7 +10,6 @@ const LoginPage: React.FC = () => {
   const [password, setPassword] = useState<string>('');
 
   const handleLogin = (): void => {
-    // Basic client-side validation
     if (!email || !password) {
       alert('Please enter both email and password');
       return;
@@ -69,14 +68,14 @@ const LoginPage: React.FC = () => {
 
 // Define types for styles
 interface Styles {
-  container: StyleProp<ViewStyle>;
-  title: StyleProp<TextStyle>;
-  button: StyleProp<ViewStyle>;
-  buttonText: StyleProp<TextStyle>;
-  registerLink: StyleProp<ViewStyle>;
-  registerLinkText: StyleProp<TextStyle>;
-  forgotPasswordLink: StyleProp<ViewStyle>;
-  forgotPasswordLinkText: StyleProp<TextStyle>;
+  container: ViewStyle;
+  title: TextStyle;
+  button: ViewStyle;
+  buttonText: TextStyle;
+  registerLink: ViewStyle;
+  registerLinkText: TextStyle;
+  forgotPasswordLink: ViewStyle;
+  forgotPasswordLinkText: TextStyle;
 }
 
 const styles = StyleSheet.create<Styles>({

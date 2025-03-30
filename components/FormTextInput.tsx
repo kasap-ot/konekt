@@ -8,6 +8,9 @@ interface FormTextInputProps {
   value: string;
   onChangeText: (text: string) => void;
   multiline?: boolean;
+  keyboardType?: 'default' | 'email-address' | 'numeric' | 'phone-pad' | 'number-pad' | 'decimal-pad';
+  secureTextEntry?: boolean;
+  autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters';
 }
 
 const FormTextInput: React.FC<FormTextInputProps> = ({
@@ -15,7 +18,10 @@ const FormTextInput: React.FC<FormTextInputProps> = ({
   placeholder,
   value,
   onChangeText,
-  multiline = false
+  multiline = false,
+  keyboardType = 'default',
+  secureTextEntry = false,
+  autoCapitalize = 'sentences'
 }) => {
   return (
     <>
@@ -31,6 +37,9 @@ const FormTextInput: React.FC<FormTextInputProps> = ({
         onChangeText={onChangeText}
         multiline={multiline}
         textAlignVertical={multiline ? 'top' : 'center'}
+        keyboardType={keyboardType}
+        secureTextEntry={secureTextEntry}
+        autoCapitalize={autoCapitalize}
       />
     </>
   );

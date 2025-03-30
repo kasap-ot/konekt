@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router';
 import React from 'react';
-import { View, StyleSheet, ViewStyle } from 'react-native';
+import { View, StyleSheet, ViewStyle, TextStyle } from 'react-native';
 import { Colors } from '../styles/globalStyles';
 import CategoryButton from '../components/CategoryButton';
 import { EventCategory } from '../types/event';
@@ -34,7 +34,7 @@ interface Styles {
   container: ViewStyle;
   button: ViewStyle;
   categoryButton: ViewStyle;
-  buttonText: ViewStyle;
+  buttonText: TextStyle;
 }
 
 const styles = StyleSheet.create<Styles>({

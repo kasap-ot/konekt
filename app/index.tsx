@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TextStyle, View, ViewStyle } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Colors } from '../styles/globalStyles';
 import HomeButton from '../components/HomeButton';
@@ -24,19 +24,22 @@ const App = (): React.ReactElement => {
       <HomeButton
         title="Login"
         onPress={() => router.push('/login')}
-        style={styles.accountButton}
       />
 
       <HomeButton
         title="Register"
         onPress={() => router.push('/register')}
-        style={styles.accountButton}
       />
     </View>
   );
 };
 
-const styles = StyleSheet.create({
+interface Styles {
+  container: ViewStyle,
+  welcomeText: TextStyle,
+}
+
+const styles = StyleSheet.create<Styles>({
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -48,11 +51,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: Colors.text.primary,
     marginBottom: 40,
-  },
-  accountButton: {
-    width: '40%',
-    marginHorizontal: 10,
-  },
+  }
 });
 
 export default App;

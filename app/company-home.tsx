@@ -35,7 +35,12 @@ const CompanyHomePage: React.FC = () => {
   );
 };
 
-const styles = StyleSheet.create({
+interface Styles {
+  container: ViewStyle,
+  button: ViewStyle,
+}
+
+const styles = StyleSheet.create<Styles>({
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -47,7 +52,7 @@ const styles = StyleSheet.create({
     width: '100%', 
     height: '30%', 
     marginVertical: 40,
-  } as StyleProp<ViewStyle>,
+  },
 });
 
 export default CompanyHomePage;

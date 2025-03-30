@@ -1,3 +1,6 @@
+import { Models } from 'react-native-appwrite';
+
+
 export interface Event {
     $id: string;
     title: string;
@@ -7,23 +10,19 @@ export interface Event {
     organizer: string;
     description: string;
     category: EventCategory;
-    image: string | null;
+    imagePath: string | null;
 }
 
 export type EventCategory = 'Parties' | 'Sport Events' | 'Educational Events';
 
-export interface NewEvent {
-    title: string;
-    date: string;
-    time: string;
-    location: string;
-    organizer: string;
-    description: string;
-    category: EventCategory;
-    image: string | null;
+export type CreateEvent = Omit<Event, '$id'>;
+
+export interface AppwriteConfig {
+    endpoint: string;
+    projectId: string;
+    databaseId: string;
+    eventsCollectionId: string;
 }
 
-export interface User {
-    id: string;
-    username: string;
-}
+
+export interface EventDocument extends CreateEvent, Models.Document { }

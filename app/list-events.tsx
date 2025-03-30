@@ -5,7 +5,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEvents } from './events-context';
 import { Colors } from '../styles/globalStyles';
 
-// Define interface for Event type
+
 interface Event {
   $id: string;
   title: string;

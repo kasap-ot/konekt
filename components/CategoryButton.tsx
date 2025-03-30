@@ -1,10 +1,11 @@
 import React from 'react';
 import { Text, TouchableOpacity, StyleSheet, ViewStyle } from 'react-native';
 import { Colors } from '../styles/globalStyles';
+import { EventCategory } from 'types/event';
 
 interface CategoryButtonProps {
-  category: string;
-  onPress: (category: string) => void;
+  category: EventCategory;
+  onPress: (category: EventCategory) => void;
   style?: ViewStyle;
 }
 

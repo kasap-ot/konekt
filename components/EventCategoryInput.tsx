@@ -2,10 +2,11 @@ import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { Colors } from '../styles/globalStyles';
+import { EventCategory } from 'types/event';
 
 interface CategoryInputProps {
-  selectedValue: string;
-  onValueChange: (itemValue: string) => void;
+  selectedValue: EventCategory;
+  onValueChange: (itemValue: EventCategory) => void;
 }
 
 const CategoryInput: React.FC<CategoryInputProps> = ({ selectedValue, onValueChange }) => {

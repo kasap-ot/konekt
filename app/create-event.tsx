@@ -3,19 +3,19 @@ import { ScrollView, StyleSheet, TouchableOpacity, Text, ViewStyle, TextStyle } 
 import { useEvents } from './events-context';
 import { useRouter } from 'expo-router';
 import { Colors } from '../styles/globalStyles';
-import { EventCategory, NewEvent } from '../types/event';
+import { EventCategory, CreateEvent } from '../types/event';
 
-// Import the new input components
 import FormTextInput from '../components/FormTextInput';
 import PictureInput from '../components/PictureInput';
 import CategoryInput from '../components/EventCategoryInput';
 import DescriptionInput from '../components/EventDescriptionInput';
 
+
 const CreateEventPage = (): React.ReactElement => {
   const { addEvent, pickImage } = useEvents();
   const router = useRouter();
 
-  const [event, setEvent] = useState<NewEvent>({
+  const [event, setEvent] = useState<CreateEvent>({
     title: '',
     date: '',
     time: '',
@@ -23,19 +23,16 @@ const CreateEventPage = (): React.ReactElement => {
     organizer: '',
     description: '',
     category: 'Parties',
-    image: null,
+    imagePath: null,
   });
 
   const handleSubmit = (): void => {
-    // Validate form fields
     if (!event.title || !event.date || !event.location) {
       return;
     }
 
-    // Add event to the context
     addEvent(event);
 
-    // Reset form
     setEvent({
       title: '',
       date: '',
@@ -44,10 +41,9 @@ const CreateEventPage = (): React.ReactElement => {
       organizer: '',
       description: '',
       category: 'Parties',
-      image: null,
+      imagePath: null,
     });
 
-    // Navigate back or to events list
     router.push('/list-events');
 
     alert('Event created successfully!');
@@ -57,13 +53,11 @@ const CreateEventPage = (): React.ReactElement => {
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Create Event</Text>
 
-      {/* Picture Input */}
       <PictureInput 
-        image={event.image} 
+        image={event.imagePath} 
         onPickImage={() => pickImage(setEvent)} 
       />
 
-      {/* Text Inputs using FormTextInput */}
       <FormTextInput 
         label="Title"
         placeholder="Enter event title"
@@ -99,19 +93,16 @@ const CreateEventPage = (): React.ReactElement => {
         onChangeText={(text) => setEvent({ ...event, organizer: text })}
       />
 
-      {/* Category Input */}
       <CategoryInput 
         selectedValue={event.category} 
         onValueChange={(itemValue: EventCategory) => setEvent({ ...event, category: itemValue })} 
       />
 
-      {/* Description Input */}
       <DescriptionInput 
         value={event.description} 
         onChangeText={(text) => setEvent({ ...event, description: text })} 
       />
 
-      {/* Submit Button */}
       <TouchableOpacity style={styles.button} onPress={handleSubmit}>
         <Text style={styles.buttonText}>Create Event</Text>
       </TouchableOpacity>

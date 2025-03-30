@@ -17,12 +17,10 @@ interface Event {
 
 const ListEventsPage: React.FC = () => {
   const { events } = useEvents();
-  console.log(events[0]);
   const router = useRouter();
   const { category } = useLocalSearchParams<{ category?: string }>();
 
   const handleEventPress = (eventId: string) => {
-    console.log('opening event with id:', eventId);
     router.push(`/event?id=${eventId}`);
   };
 

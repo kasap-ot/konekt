@@ -10,7 +10,6 @@ const CompanyHomePage: React.FC = () => {
   const router = useRouter();
 
   const handleButtonPress = (action: ButtonAction) => {
-    console.log(`${action} button pressed`);
     if (action === 'My Events') {
       router.push('/list-events');
     } else if (action === 'Create New Event') {

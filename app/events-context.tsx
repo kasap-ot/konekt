@@ -53,7 +53,6 @@ export const EventsProvider: React.FC<EventsProviderProps> = ({ children }) => {
   };
 
   const deleteEvent = async (eventId: string) => {
-    console.log('deleting event...');
     try {
       setLoading(true);
       await AppwriteService.deleteEvent(eventId);

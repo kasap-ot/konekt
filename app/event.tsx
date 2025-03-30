@@ -17,11 +17,6 @@ const EventPage = (): React.ReactElement => {
   const eventId = typeof params.id === 'string' ? params.id : params.id?.[0];
   const event = events.find(e => e.$id === eventId);
 
-  useEffect(() => {
-    console.log('Received params:', params);
-    console.log('Extracted eventId:', eventId);
-  }, [params]);
-
   const handleDelete = (): void => {
     Alert.alert(
       'Delete Event',

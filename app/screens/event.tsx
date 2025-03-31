@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Alert, ViewStyle, TextStyle } from 'react-native';
-import { useRouter, useLocalSearchParams } from 'expo-router';
+import { useRouter, useLocalSearchParams, Redirect } from 'expo-router';
 import { useEvents } from '../contexts/EventsContext';
 import { Colors } from '../../styles/globalStyles';
 import Pill from '../../components/EventPill';
 import EventImage from '../../components/EventImage';
+import { useAuth } from 'app/contexts/AuthContext';
 
 type EventParams = {
   id: string | string[];
@@ -12,6 +13,7 @@ type EventParams = {
 
 const EventPage = (): React.ReactElement => {
   const router = useRouter();
+  const { user } = useAuth();
   const params = useLocalSearchParams<EventParams>();
   const { events, deleteEvent } = useEvents();
   const eventId = typeof params.id === 'string' ? params.id : params.id?.[0];
@@ -38,6 +40,8 @@ const EventPage = (): React.ReactElement => {
       { cancelable: true }
     );
   };
+
+  if (!user) return <Redirect href="/" />;
 
   if (!event) {
     return (
@@ -69,12 +73,16 @@ const EventPage = (): React.ReactElement => {
           <Text style={styles.buttonText}>View Guests</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={[styles.button, styles.deleteButton]}
-          onPress={handleDelete}
-        >
-          <Text style={styles.buttonText}>Delete Event</Text>
-        </TouchableOpacity>
+        {user.labels.includes('organizer') && (
+          <>
+            <TouchableOpacity
+              style={[styles.button, styles.deleteButton]}
+              onPress={handleDelete}
+            >
+              <Text style={styles.buttonText}>Delete Event</Text>
+            </TouchableOpacity>
+          </>
+        )}
       </View>
     </View>
   );

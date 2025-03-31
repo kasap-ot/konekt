@@ -16,15 +16,22 @@ const App = (): React.ReactElement => {
       {user ? (
         <>
           <Text style={styles.userNameText}>{user.name}</Text>
-          <HomeButton
-            title="Categories"
-            onPress={() => router.push('/screens/categories')}
-          />
 
-          <HomeButton
-            title="Organizer Home"
-            onPress={() => router.push('/screens/organizer-home')}
-          />
+          {user.labels.includes('guest') ? (
+            <>
+              <HomeButton
+                title="Categories"
+                onPress={() => router.push('/screens/categories')}
+              />
+            </>
+          ) : (
+            <>
+              <HomeButton
+                title="Organizer Home"
+                onPress={() => router.push('/screens/organizer-home')}
+              />
+            </>
+          )}
 
           <HomeButton
             title="Logout"

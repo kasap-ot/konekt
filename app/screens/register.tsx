@@ -1,22 +1,36 @@
 import React, { useState } from 'react';
-import { Text, TouchableOpacity, StyleSheet, ScrollView, StyleProp, ViewStyle, TextStyle } from 'react-native';
+import { 
+  Text, 
+  TouchableOpacity, 
+  StyleSheet, 
+  ScrollView, 
+  StyleProp, 
+  ViewStyle, 
+  TextStyle 
+} from 'react-native';
 import { useRouter } from 'expo-router';
-import { Colors } from '../styles/globalStyles';
-import FormTextInput from '../components/FormTextInput';
+import { Colors } from '../../styles/globalStyles';
+import FormTextInput from '../../components/FormTextInput';
 
-const LoginPage: React.FC = () => {
+const RegisterPage: React.FC = () => {
   const router = useRouter();
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [repeatPassword, setRepeatPassword] = useState<string>('');
 
-  const handleLogin = (): void => {
-    if (!email || !password) {
-      alert('Please enter both email and password');
+  const handleRegister = (): void => {
+    if (!email || !password || !repeatPassword) {
+      alert('Please fill in all fields');
       return;
     }
 
-    // TODO: Implement actual login logic
-    alert('Login form submitted');
+    if (password !== repeatPassword) {
+      alert('Passwords do not match');
+      return;
+    }
+
+    // TODO: Implement actual registration logic
+    alert('Registration form submitted');
   };
 
   return (
@@ -24,13 +38,13 @@ const LoginPage: React.FC = () => {
       contentContainerStyle={styles.container}
       keyboardShouldPersistTaps="handled"
     >
-      <Text style={styles.title}>Login to KONEKT</Text>
+      <Text style={styles.title}>Create Account</Text>
 
       <FormTextInput 
         label="Email"
         placeholder="Enter your email"
         value={email}
-        onChangeText={setEmail}
+        onChangeText={(text: string) => setEmail(text)}
         keyboardType="email-address"
         autoCapitalize="none"
       />
@@ -39,46 +53,45 @@ const LoginPage: React.FC = () => {
         label="Password"
         placeholder="Enter your password"
         value={password}
-        onChangeText={setPassword}
+        onChangeText={(text: string) => setPassword(text)}
+        secureTextEntry={true}
+      />
+
+      <FormTextInput 
+        label="Repeat Password"
+        placeholder="Confirm your password"
+        value={repeatPassword}
+        onChangeText={(text: string) => setRepeatPassword(text)}
         secureTextEntry={true}
       />
 
       <TouchableOpacity 
         style={styles.button} 
-        onPress={handleLogin}
+        onPress={handleRegister}
       >
-        <Text style={styles.buttonText}>Login</Text>
+        <Text style={styles.buttonText}>Register</Text>
       </TouchableOpacity>
 
       <TouchableOpacity 
-        style={styles.registerLink}
-        onPress={() => router.push('/register')}
+        style={styles.loginLink}
+        onPress={() => router.push('/screens/login')}
       >
-        <Text style={styles.registerLinkText}>Don't have an account? Register</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity 
-        style={styles.forgotPasswordLink}
-      >
-        <Text style={styles.forgotPasswordLinkText}>Forgot Password?</Text>
+        <Text style={styles.loginLinkText}>Already have an account? Log in</Text>
       </TouchableOpacity>
     </ScrollView>
   );
 };
 
-// Define types for styles
-interface Styles {
+interface RegisterStyles {
   container: ViewStyle;
   title: TextStyle;
   button: ViewStyle;
   buttonText: TextStyle;
-  registerLink: ViewStyle;
-  registerLinkText: TextStyle;
-  forgotPasswordLink: ViewStyle;
-  forgotPasswordLinkText: TextStyle;
+  loginLink: ViewStyle;
+  loginLinkText: TextStyle;
 }
 
-const styles = StyleSheet.create<Styles>({
+const styles = StyleSheet.create<RegisterStyles>({
   container: {
     flexGrow: 1,
     justifyContent: 'center',
@@ -104,24 +117,15 @@ const styles = StyleSheet.create<Styles>({
     fontWeight: 'bold',
     color: Colors.background.primary,
   },
-  registerLink: {
+  loginLink: {
     marginTop: 15,
     alignItems: 'center',
   },
-  registerLinkText: {
-    color: Colors.text.secondary,
-    fontSize: 16,
-    textDecorationLine: 'underline',
-  },
-  forgotPasswordLink: {
-    marginTop: 10,
-    alignItems: 'center',
-  },
-  forgotPasswordLinkText: {
+  loginLinkText: {
     color: Colors.text.secondary,
     fontSize: 16,
     textDecorationLine: 'underline',
   },
 });
 
-export default LoginPage;
+export default RegisterPage;

@@ -2,8 +2,8 @@ import React from 'react';
 import { FlatList, Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import EventIcon from '../assets/images/event-icon.png';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useEvents } from './events-context';
-import { Colors } from '../styles/globalStyles';
+import { useEvents } from '../EventsContext';
+import { Colors } from '../../styles/globalStyles';
 
 
 interface Event {
@@ -21,7 +21,7 @@ const ListEventsPage: React.FC = () => {
   const { category } = useLocalSearchParams<{ category?: string }>();
 
   const handleEventPress = (eventId: string) => {
-    router.push(`/event?id=${eventId}`);
+    router.push(`/screens/event?id=${eventId}`);
   };
 
   const filteredEvents = category 

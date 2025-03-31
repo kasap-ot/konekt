@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, TouchableOpacity, Text, ViewStyle, TextStyle } from 'react-native';
-import { useEvents } from './events-context';
+import { useEvents } from '../EventsContext';
 import { useRouter } from 'expo-router';
-import { Colors } from '../styles/globalStyles';
-import { EventCategory, CreateEvent } from '../types/event';
+import { Colors } from '../../styles/globalStyles';
+import { EventCategory, CreateEvent } from '../../types';
 
-import FormTextInput from '../components/FormTextInput';
-import PictureInput from '../components/PictureInput';
-import CategoryInput from '../components/EventCategoryInput';
-import DescriptionInput from '../components/EventDescriptionInput';
+import FormTextInput from '../../components/FormTextInput';
+import PictureInput from '../../components/PictureInput';
+import CategoryInput from '../../components/EventCategoryInput';
+import DescriptionInput from '../../components/EventDescriptionInput';
 
 
 const CreateEventPage = (): React.ReactElement => {
@@ -44,7 +44,7 @@ const CreateEventPage = (): React.ReactElement => {
       imagePath: null,
     });
 
-    router.push('/list-events');
+    router.push('/screens/list-events');
 
     alert('Event created successfully!');
   };

@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, StyleSheet, StyleProp, ViewStyle } from 'react-native';
 import { useRouter } from 'expo-router';
-import { Colors } from '../styles/globalStyles';
-import CompanyHomeButton from '../components/CompanyHomeButton';
+import { Colors } from '../../styles/globalStyles';
+import CompanyHomeButton from '../../components/CompanyHomeButton';
 
 type ButtonAction = 'My Events' | 'Create New Event';
 
@@ -11,9 +11,9 @@ const CompanyHomePage: React.FC = () => {
 
   const handleButtonPress = (action: ButtonAction) => {
     if (action === 'My Events') {
-      router.push('/list-events');
+      router.push('/screens/list-events');
     } else if (action === 'Create New Event') {
-      router.push('/create-event');
+      router.push('/screens/create-event');
     }
   };
 

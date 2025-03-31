@@ -1,5 +1,5 @@
-import { Client, Databases, ID, Query } from 'react-native-appwrite';
-import {AppwriteConfig, CreateEvent, EventDocument} from '../types/event'
+import { Account, Client, Databases, ID, Query } from 'react-native-appwrite';
+import {AppwriteConfig, CreateEvent, EventDocument} from './types'
 
 const config: AppwriteConfig = {
   endpoint: 'https://cloud.appwrite.io/v1',
@@ -13,6 +13,8 @@ const client = new Client()
   .setProject(config.projectId);
 
 const databases = new Databases(client);
+
+export const account = new Account(client);
 
 export const AppwriteService = {
   async createEvent(eventData: CreateEvent): Promise<EventDocument> {

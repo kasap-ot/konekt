@@ -1,20 +1,57 @@
-import { useAuth } from './testAuth/AuthContext';
-import Home from './testAuth/home';
-import Login from './testAuth/login';
-import { Text } from 'react-native';
+import React from 'react';
+import { StyleSheet, Text, TextStyle, View, ViewStyle } from 'react-native';
+import { useRouter } from 'expo-router';
+import { Colors } from '../styles/globalStyles';
+import HomeButton from '../components/HomeButton';
 
-function Root() {
-  const { user, loading } = useAuth();
+const App = (): React.ReactElement => {
+  const router = useRouter();
 
-  console.log(user);
-
-  if (loading) return <Text>Loading...</Text>;
-
-  return user ? <Home /> : <Login />;
-}
-
-export default function App() {
   return (
-    <Root />
+    <View style={styles.container}>
+      <Text style={styles.welcomeText}>Welcome to KONEKT</Text>
+
+      <HomeButton
+        title="Guest"
+        onPress={() => router.push('/screens/categories')}
+      />
+
+      <HomeButton
+        title="Organizer"
+        onPress={() => router.push('/screens/company-home')}
+      />
+
+      <HomeButton
+        title="Login"
+        onPress={() => router.push('/screens/login')}
+      />
+
+      <HomeButton
+        title="Register"
+        onPress={() => router.push('/screens/register')}
+      />
+    </View>
   );
+};
+
+interface Styles {
+  container: ViewStyle,
+  welcomeText: TextStyle,
 }
+
+const styles = StyleSheet.create<Styles>({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: Colors.background.primary,
+  },
+  welcomeText: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    color: Colors.text.primary,
+    marginBottom: 40,
+  }
+});
+
+export default App;

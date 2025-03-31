@@ -1,9 +1,9 @@
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { View, StyleSheet, ViewStyle, TextStyle } from 'react-native';
-import { Colors } from '../styles/globalStyles';
-import CategoryButton from '../components/CategoryButton';
-import { EventCategory } from '../types/event';
+import { Colors } from '../../styles/globalStyles';
+import CategoryButton from '../../components/CategoryButton';
+import { EventCategory } from '../../types';
 
 const CategoriesPage = (): React.ReactElement => {
   const router = useRouter();
@@ -11,7 +11,7 @@ const CategoriesPage = (): React.ReactElement => {
 
   const handleButtonPress = (category: EventCategory): void => {
     router.push({
-      pathname: '/list-events',
+      pathname: '/screens/list-events',
       params: { category: category },
     });
   };

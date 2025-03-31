@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Alert, ViewStyle, TextStyle } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
-import { useEvents } from './events-context';
-import { Colors } from '../styles/globalStyles';
-import Pill from '../components/EventPill';
-import EventImage from '../components/EventImage';
+import { useEvents } from '../EventsContext';
+import { Colors } from '../../styles/globalStyles';
+import Pill from '../../components/EventPill';
+import EventImage from '../../components/EventImage';
 
 type EventParams = {
   id: string | string[];
@@ -64,7 +64,7 @@ const EventPage = (): React.ReactElement => {
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           style={[styles.button, styles.guestsButton]}
-          onPress={() => router.push('/guests')}
+          onPress={() => router.push('/screens/guests')}
         >
           <Text style={styles.buttonText}>View Guests</Text>
         </TouchableOpacity>

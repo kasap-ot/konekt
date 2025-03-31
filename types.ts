@@ -24,5 +24,10 @@ export interface AppwriteConfig {
     eventsCollectionId: string;
 }
 
-
 export interface EventDocument extends CreateEvent, Models.Document { }
+
+export type User = {
+    $id: string,
+    email: string,
+    name: string,
+};

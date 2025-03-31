@@ -1,7 +1,7 @@
 import React, { useState, useEffect, createContext, useContext, ReactNode } from 'react';
 import * as ImagePicker from 'expo-image-picker';
-import AppwriteService from '../appwrite/config';
-import { Event, EventCategory, CreateEvent } from '../types/event';
+import AppwriteService from '../appwrite';
+import { Event, EventCategory, CreateEvent } from '../types';
 
 interface EventsContextType {
   events: Event[];

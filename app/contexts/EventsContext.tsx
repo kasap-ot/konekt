@@ -1,7 +1,8 @@
 import React, { useState, useEffect, createContext, useContext, ReactNode } from 'react';
 import * as ImagePicker from 'expo-image-picker';
-import EventService from '../../EventService';
+import EventService from '../services/EventService';
 import { Event, EventCategory, CreateEvent } from '../../types';
+
 
 interface EventsContextType {
   events: Event[];
@@ -13,6 +14,7 @@ interface EventsContextType {
   fetchEvents: (category?: EventCategory | null) => Promise<void>;
 }
 
+
 const EventsContext = createContext<EventsContextType>({
   events: [],
   addEvent: async () => {},
@@ -23,18 +25,22 @@ const EventsContext = createContext<EventsContextType>({
   fetchEvents: async () => {},
 });
 
+
 interface EventsProviderProps {
   children: ReactNode;
 }
+
 
 export const EventsProvider: React.FC<EventsProviderProps> = ({ children }) => {
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
+  
   useEffect(() => {
     fetchEvents();
   }, []);
+
 
   const fetchEvents = async (category: EventCategory | null = null) => {
     try {
@@ -52,6 +58,7 @@ export const EventsProvider: React.FC<EventsProviderProps> = ({ children }) => {
     }
   };
 
+
   const deleteEvent = async (eventId: string) => {
     try {
       setLoading(true);
@@ -66,6 +73,7 @@ export const EventsProvider: React.FC<EventsProviderProps> = ({ children }) => {
       setLoading(false);
     }
   };
+
 
   const addEvent = async (newEvent: CreateEvent) => {
     console.log('adding event:', newEvent);
@@ -99,6 +107,7 @@ export const EventsProvider: React.FC<EventsProviderProps> = ({ children }) => {
       setLoading(false);
     }
   };
+
 
   const pickImage = async (setEvent: React.Dispatch<React.SetStateAction<CreateEvent>>) => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();

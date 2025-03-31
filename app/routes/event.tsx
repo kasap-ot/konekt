@@ -22,6 +22,16 @@ const EventPage = (): React.ReactElement => {
   useEffect(() => console.log(user), []);
 
   const handleDelete = (): void => {
+    if (!user) {
+      Alert.alert('Cannot perform action if not logged in');
+    }
+    else if (!event) {
+      Alert.alert('Cannot perform action - event does not exist');
+    }
+    else if (user.$id !== event.userId) {
+      Alert.alert('Cannot delete event - current user is not owner');
+    }
+    
     Alert.alert(
       'Delete Event',
       'Are you sure you want to delete this event?',
@@ -75,7 +85,7 @@ const EventPage = (): React.ReactElement => {
           <Text style={styles.buttonText}>View Guests</Text>
         </TouchableOpacity>
 
-        {user.labels.includes('organizer') && (
+        {user.labels.includes('organizer') && user.$id === event.userId && (
           <>
             <TouchableOpacity
               style={[styles.button, styles.deleteButton]}

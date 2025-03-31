@@ -25,7 +25,7 @@ const RegisterPage: React.FC = () => {
   const [userType, setUserType] = useState<UserType>('guest');
   const { register } = useAuth();
 
-  const handleRegister = (): void => {
+  const handleRegister = async (): Promise<void> => {
     if (!email || !password || !repeatPassword) {
       alert('Please fill in all fields');
       return;
@@ -36,8 +36,7 @@ const RegisterPage: React.FC = () => {
       return;
     }
 
-    // TODO: Implement actual registration logic
-    alert(`Registration form submitted. Welcome: ${name}, ${userType}`);
+    await register(email, password, name, userType)
   };
 
   return (

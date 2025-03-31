@@ -3,13 +3,15 @@ import { StyleSheet, Text, TextStyle, View, ViewStyle } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Colors } from '../styles/globalStyles';
 import HomeButton from '../components/HomeButton';
+import { useAuth } from './AuthContext';
 
 const App = (): React.ReactElement => {
   const router = useRouter();
+  const { user, logout } = useAuth();
 
   return (
     <View style={styles.container}>
-      <Text style={styles.welcomeText}>Welcome to KONEKT</Text>
+      <Text style={styles.welcomeText}>Welcome to KONEKT {user ? user.name : 'Guest'}</Text>
 
       <HomeButton
         title="Guest"
@@ -29,6 +31,11 @@ const App = (): React.ReactElement => {
       <HomeButton
         title="Register"
         onPress={() => router.push('/screens/register')}
+      />
+
+      <HomeButton
+        title="Logout"
+        onPress={() => logout()}
       />
     </View>
   );

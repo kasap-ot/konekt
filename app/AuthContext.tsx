@@ -8,7 +8,7 @@ import { useRouter } from 'expo-router';
 type AuthContextType = {
   user: User | null;
   loading: boolean;
-  register: (email: string, password: string, name: string, userRoleValue: string) => Promise<void>;
+  register: (email: string, password: string, name: string, userTypeValue: string) => Promise<void>;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
 };
@@ -43,10 +43,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const register = async (email: string, password: string, name: string, userRoleValue: string) => {
+  const register = async (email: string, password: string, name: string, userTypeValue: string) => {
     await account.create(ID.unique(), email, password, name);
     await login(email, password);
-    await account.updatePrefs({userRole: userRoleValue});
+    await account.updatePrefs({userType: userTypeValue});
   };
 
   const login = async (email: string, password: string) => {
@@ -54,7 +54,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const currentUser = await account.get();
     setUser(currentUser);
 
-    // TODO: Replace value with correct one
     router.replace('/');
   };
 
@@ -62,8 +61,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     await account.deleteSession('current');
     setUser(null);
 
-    // TODO: Replace value with correct one
-    router.replace('/screens/login');
+    router.replace('/');
   };
 
   return (

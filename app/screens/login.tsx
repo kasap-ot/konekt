@@ -3,30 +3,31 @@ import { Text, TouchableOpacity, StyleSheet, ScrollView, StyleProp, ViewStyle, T
 import { useRouter } from 'expo-router';
 import { Colors } from '../../styles/globalStyles';
 import FormTextInput from '../../components/FormTextInput';
+import { useAuth } from 'app/AuthContext';
 
 const LoginPage: React.FC = () => {
   const router = useRouter();
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const { login } = useAuth();
 
-  const handleLogin = (): void => {
+  const handleLogin = async (): Promise<void> => {
     if (!email || !password) {
       alert('Please enter both email and password');
       return;
     }
 
-    // TODO: Implement actual login logic
-    alert('Login form submitted');
+    await login(email, password);
   };
 
   return (
-    <ScrollView 
+    <ScrollView
       contentContainerStyle={styles.container}
       keyboardShouldPersistTaps="handled"
     >
       <Text style={styles.title}>Login to KONEKT</Text>
 
-      <FormTextInput 
+      <FormTextInput
         label="Email"
         placeholder="Enter your email"
         value={email}
@@ -35,7 +36,7 @@ const LoginPage: React.FC = () => {
         autoCapitalize="none"
       />
 
-      <FormTextInput 
+      <FormTextInput
         label="Password"
         placeholder="Enter your password"
         value={password}
@@ -43,21 +44,21 @@ const LoginPage: React.FC = () => {
         secureTextEntry={true}
       />
 
-      <TouchableOpacity 
-        style={styles.button} 
+      <TouchableOpacity
+        style={styles.button}
         onPress={handleLogin}
       >
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity 
+      <TouchableOpacity
         style={styles.registerLink}
         onPress={() => router.push('/screens/register')}
       >
         <Text style={styles.registerLinkText}>Don't have an account? Register</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity 
+      <TouchableOpacity
         style={styles.forgotPasswordLink}
       >
         <Text style={styles.forgotPasswordLinkText}>Forgot Password?</Text>

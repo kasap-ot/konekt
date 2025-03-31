@@ -13,7 +13,7 @@ import { useRouter } from 'expo-router';
 import { Colors } from '../../styles/globalStyles';
 import FormTextInput from '../../components/FormTextInput';
 import { UserType } from 'types';
-import { useAuth } from 'app/AuthContext';
+import { useAuth } from 'app/contexts/AuthContext';
 
 
 const RegisterPage: React.FC = () => {

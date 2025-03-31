@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import {ID} from 'react-native-appwrite'
-import { account } from '../appwrite';
-import { User } from '../types';
+import { account } from '../../appwrite';
+import { User } from '../../types';
 import { useRouter } from 'expo-router';
 
 

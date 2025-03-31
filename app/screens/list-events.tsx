@@ -2,7 +2,7 @@ import React from 'react';
 import { FlatList, Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import EventIcon from '../../assets/images/event-icon.png';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useEvents } from '../EventsContext';
+import { useEvents } from '../contexts/EventsContext';
 import { Colors } from '../../styles/globalStyles';
 
 

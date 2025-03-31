@@ -3,7 +3,7 @@ import { Text, TouchableOpacity, StyleSheet, ScrollView, StyleProp, ViewStyle, T
 import { useRouter } from 'expo-router';
 import { Colors } from '../../styles/globalStyles';
 import FormTextInput from '../../components/FormTextInput';
-import { useAuth } from 'app/AuthContext';
+import { useAuth } from 'app/contexts/AuthContext';
 
 const LoginPage: React.FC = () => {
   const router = useRouter();

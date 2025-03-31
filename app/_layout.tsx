@@ -1,7 +1,7 @@
 import React from 'react';
 import { Stack } from 'expo-router';
-import { EventsProvider } from './EventsContext';
-import { AuthProvider } from './AuthContext';
+import { EventsProvider } from './contexts/EventsContext';
+import { AuthProvider } from './contexts/AuthContext';
 
 export default function RootLayout(): React.ReactElement {
   return (

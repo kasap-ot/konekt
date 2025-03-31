@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Alert, ViewStyle, TextStyle } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
-import { useEvents } from '../EventsContext';
+import { useEvents } from '../contexts/EventsContext';
 import { Colors } from '../../styles/globalStyles';
 import Pill from '../../components/EventPill';
 import EventImage from '../../components/EventImage';

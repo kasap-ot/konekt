@@ -3,7 +3,7 @@ import { StyleSheet, Text, TextStyle, View, ViewStyle } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Colors } from '../styles/globalStyles';
 import HomeButton from '../components/HomeButton';
-import { useAuth } from './AuthContext';
+import { useAuth } from './contexts/AuthContext';
 
 const App = (): React.ReactElement => {
   const router = useRouter();

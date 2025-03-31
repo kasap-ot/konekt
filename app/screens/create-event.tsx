@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, TouchableOpacity, Text, ViewStyle, TextStyle } from 'react-native';
-import { useEvents } from '../EventsContext';
+import { useEvents } from '../contexts/EventsContext';
 import { useRouter } from 'expo-router';
 import { Colors } from '../../styles/globalStyles';
 import { EventCategory, CreateEvent } from '../../types';

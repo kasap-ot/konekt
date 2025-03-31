@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, TouchableOpacity, Text, ViewStyle, TextStyle } from 'react-native';
 import { useEvents } from '../contexts/EventsContext';
-import { useRouter } from 'expo-router';
+import { Redirect, useRouter } from 'expo-router';
 import { Colors } from '../../styles/globalStyles';
 import { EventCategory, CreateEvent } from '../../types';
 
@@ -9,11 +9,17 @@ import FormTextInput from '../../components/FormTextInput';
 import PictureInput from '../../components/PictureInput';
 import CategoryInput from '../../components/EventCategoryInput';
 import DescriptionInput from '../../components/EventDescriptionInput';
+import { useAuth } from 'app/contexts/AuthContext';
 
 
 const CreateEventPage = (): React.ReactElement => {
   const { addEvent, pickImage } = useEvents();
   const router = useRouter();
+  const {user} = useAuth();
+
+  if (!user) {
+    return <Redirect href='/'/>
+  }
 
   const [event, setEvent] = useState<CreateEvent>({
     title: '',
@@ -24,13 +30,15 @@ const CreateEventPage = (): React.ReactElement => {
     description: '',
     category: 'Parties',
     imagePath: null,
+    userId: user.$id,
   });
 
   const handleSubmit = (): void => {
     if (!event.title || !event.date || !event.location) {
       return;
     }
-
+    
+    console.log(event);
     addEvent(event);
 
     setEvent({
@@ -42,6 +50,7 @@ const CreateEventPage = (): React.ReactElement => {
       description: '',
       category: 'Parties',
       imagePath: null,
+      userId: '',
     });
 
     router.push('/screens/list-events');

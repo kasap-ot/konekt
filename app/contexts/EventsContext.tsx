@@ -1,6 +1,6 @@
 import React, { useState, useEffect, createContext, useContext, ReactNode } from 'react';
 import * as ImagePicker from 'expo-image-picker';
-import AppwriteService from '../../appwrite';
+import EventService from '../../appwrite';
 import { Event, EventCategory, CreateEvent } from '../../types';
 
 interface EventsContextType {
@@ -40,7 +40,7 @@ export const EventsProvider: React.FC<EventsProviderProps> = ({ children }) => {
     try {
       setLoading(true);
       setError(null);
-      const fetchedEvents = await AppwriteService.fetchEvents(category);
+      const fetchedEvents = await EventService.fetchEvents(category);
       setEvents(fetchedEvents);
     } 
     catch (err) {
@@ -55,7 +55,7 @@ export const EventsProvider: React.FC<EventsProviderProps> = ({ children }) => {
   const deleteEvent = async (eventId: string) => {
     try {
       setLoading(true);
-      await AppwriteService.deleteEvent(eventId);
+      await EventService.deleteEvent(eventId);
       setEvents(prevEvents => prevEvents.filter(event => event.$id !== eventId));
     } 
     catch (err) {
@@ -68,11 +68,12 @@ export const EventsProvider: React.FC<EventsProviderProps> = ({ children }) => {
   };
 
   const addEvent = async (newEvent: CreateEvent) => {
+    console.log('adding event:', newEvent);
     try {
       setLoading(true);
       setError(null);
       
-      const createdEvent = await AppwriteService.createEvent({
+      const createdEvent = await EventService.createEvent({
         ...newEvent,
         imagePath: newEvent.imagePath || null,
       });
@@ -87,6 +88,7 @@ export const EventsProvider: React.FC<EventsProviderProps> = ({ children }) => {
         description: createdEvent.description,
         category: createdEvent.category as EventCategory,
         imagePath: createdEvent.imagePath ?? null,
+        userId: createdEvent.userId,
       }]);
     } 
     catch (err) {

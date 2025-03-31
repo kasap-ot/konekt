@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Alert, ViewStyle, TextStyle } from 'react-native';
 import { useRouter, useLocalSearchParams, Redirect } from 'expo-router';
 import { useEvents } from '../contexts/EventsContext';
@@ -18,6 +18,8 @@ const EventPage = (): React.ReactElement => {
   const { events, deleteEvent } = useEvents();
   const eventId = typeof params.id === 'string' ? params.id : params.id?.[0];
   const event = events.find(e => e.$id === eventId);
+
+  useEffect(() => console.log(user), []);
 
   const handleDelete = (): void => {
     Alert.alert(

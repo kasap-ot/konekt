@@ -11,6 +11,7 @@ export interface Event {
     description: string;
     category: EventCategory;
     imagePath: string | null;
+    userId: string;
 }
 
 export type EventCategory = 'Parties' | 'Sport Events' | 'Educational Events';

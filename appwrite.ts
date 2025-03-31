@@ -16,8 +16,9 @@ const databases = new Databases(client);
 
 export const account = new Account(client);
 
-export const AppwriteService = {
+export const EventService = {
   async createEvent(eventData: CreateEvent): Promise<EventDocument> {
+
     try {
       const response = await databases.createDocument<EventDocument>(
         config.databaseId,
@@ -31,7 +32,8 @@ export const AppwriteService = {
           organizer: eventData.organizer,
           description: eventData.description,
           category: eventData.category,
-          imagePath: eventData.imagePath || null
+          imagePath: eventData.imagePath || null,
+          userId: eventData.userId,
         }
       );
       return response;
@@ -72,4 +74,4 @@ export const AppwriteService = {
   },
 };
 
-export default AppwriteService;
+export default EventService;

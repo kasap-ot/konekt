@@ -11,32 +11,41 @@ const App = (): React.ReactElement => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.welcomeText}>Welcome to KONEKT {user ? user.name : 'Guest'}</Text>
+      <Text style={styles.welcomeText}>Welcome to KONEKT</Text>
 
-      <HomeButton
-        title="Guest"
-        onPress={() => router.push('/screens/categories')}
-      />
+      {user ? (
+        <>
+          <Text style={styles.userNameText}>{user.name}</Text>
+          <HomeButton
+            title="Categories"
+            onPress={() => router.push('/screens/categories')}
+          />
 
-      <HomeButton
-        title="Organizer"
-        onPress={() => router.push('/screens/company-home')}
-      />
+          <HomeButton
+            title="Organizer Home"
+            onPress={() => router.push('/screens/organizer-home')}
+          />
 
-      <HomeButton
-        title="Login"
-        onPress={() => router.push('/screens/login')}
-      />
+          <HomeButton
+            title="Logout"
+            onPress={() => logout()}
+          />
+        </>
+      ) : (
+        <>
+          <Text style={styles.userNameText}>(Guest User)</Text>
 
-      <HomeButton
-        title="Register"
-        onPress={() => router.push('/screens/register')}
-      />
+          <HomeButton
+            title="Login"
+            onPress={() => router.push('/screens/login')}
+          />
 
-      <HomeButton
-        title="Logout"
-        onPress={() => logout()}
-      />
+          <HomeButton
+            title="Register"
+            onPress={() => router.push('/screens/register')}
+          />
+        </>
+      )}
     </View>
   );
 };
@@ -44,6 +53,7 @@ const App = (): React.ReactElement => {
 interface Styles {
   container: ViewStyle,
   welcomeText: TextStyle,
+  userNameText: TextStyle,
 }
 
 const styles = StyleSheet.create<Styles>({
@@ -57,7 +67,13 @@ const styles = StyleSheet.create<Styles>({
     fontSize: 32,
     fontWeight: 'bold',
     color: Colors.text.primary,
-    marginBottom: 40,
+  },
+  userNameText: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    color: Colors.text.primary,
+    marginBottom: 30,
+
   }
 });
 

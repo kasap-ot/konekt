@@ -1,6 +1,6 @@
 import React, { useState, useEffect, createContext, useContext, ReactNode } from 'react';
 import * as ImagePicker from 'expo-image-picker';
-import EventService from '../../appwrite';
+import EventService from '../../EventService';
 import { Event, EventCategory, CreateEvent } from '../../types';
 
 interface EventsContextType {

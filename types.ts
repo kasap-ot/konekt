@@ -14,6 +14,7 @@ export interface Event {
 }
 
 export type EventCategory = 'Parties' | 'Sport Events' | 'Educational Events';
+export type UserType = 'guest' | 'organizer';
 
 export type CreateEvent = Omit<Event, '$id'>;
 

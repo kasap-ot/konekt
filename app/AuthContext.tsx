@@ -55,7 +55,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setUser(currentUser);
 
     // TODO: Replace value with correct one
-    router.replace('/testAuth/home');
+    router.replace('/');
   };
 
   const logout = async () => {
@@ -63,7 +63,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setUser(null);
 
     // TODO: Replace value with correct one
-    router.replace('/testAuth/login');
+    router.replace('/screens/login');
   };
 
   return (

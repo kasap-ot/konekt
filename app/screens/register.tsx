@@ -1,22 +1,29 @@
 import React, { useState } from 'react';
-import { 
-  Text, 
-  TouchableOpacity, 
-  StyleSheet, 
-  ScrollView, 
-  StyleProp, 
-  ViewStyle, 
-  TextStyle 
+import {
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  ScrollView,
+  ViewStyle,
+  TextStyle,
+  View,
 } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 import { useRouter } from 'expo-router';
 import { Colors } from '../../styles/globalStyles';
 import FormTextInput from '../../components/FormTextInput';
+import { UserType } from 'types';
+import { useAuth } from 'app/AuthContext';
+
 
 const RegisterPage: React.FC = () => {
   const router = useRouter();
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [repeatPassword, setRepeatPassword] = useState<string>('');
+  const [name, setName] = useState<string>('');
+  const [userType, setUserType] = useState<UserType>('guest');
+  const { register } = useAuth();
 
   const handleRegister = (): void => {
     if (!email || !password || !repeatPassword) {
@@ -30,17 +37,25 @@ const RegisterPage: React.FC = () => {
     }
 
     // TODO: Implement actual registration logic
-    alert('Registration form submitted');
+    alert(`Registration form submitted. Welcome: ${name}, ${userType}`);
   };
 
   return (
-    <ScrollView 
+    <ScrollView
       contentContainerStyle={styles.container}
       keyboardShouldPersistTaps="handled"
     >
       <Text style={styles.title}>Create Account</Text>
 
-      <FormTextInput 
+      <FormTextInput
+        label="Name"
+        placeholder="Enter your name"
+        value={name}
+        onChangeText={(text: string) => setName(text)}
+        keyboardType="default"
+      />
+
+      <FormTextInput
         label="Email"
         placeholder="Enter your email"
         value={email}
@@ -49,7 +64,7 @@ const RegisterPage: React.FC = () => {
         autoCapitalize="none"
       />
 
-      <FormTextInput 
+      <FormTextInput
         label="Password"
         placeholder="Enter your password"
         value={password}
@@ -57,7 +72,7 @@ const RegisterPage: React.FC = () => {
         secureTextEntry={true}
       />
 
-      <FormTextInput 
+      <FormTextInput
         label="Repeat Password"
         placeholder="Confirm your password"
         value={repeatPassword}
@@ -65,14 +80,28 @@ const RegisterPage: React.FC = () => {
         secureTextEntry={true}
       />
 
-      <TouchableOpacity 
-        style={styles.button} 
+      <Text style={styles.label}>User Type</Text>
+      <View style={styles.pickerContainer}>
+        <Picker
+          style={{ color: Colors.text.secondary }}
+          selectedValue={userType}
+          onValueChange={(selectedUserType: UserType) => setUserType(selectedUserType)}
+        >
+          <Picker.Item label="Guest" value="guest" />
+          <Picker.Item label="Organizer" value="organizer" />
+        </Picker>
+      </View>
+
+      {/* TODO: Extract labels, text inputs, and picker as separate components */}
+
+      <TouchableOpacity
+        style={styles.button}
         onPress={handleRegister}
       >
         <Text style={styles.buttonText}>Register</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity 
+      <TouchableOpacity
         style={styles.loginLink}
         onPress={() => router.push('/screens/login')}
       >
@@ -89,6 +118,8 @@ interface RegisterStyles {
   buttonText: TextStyle;
   loginLink: ViewStyle;
   loginLinkText: TextStyle;
+  label: TextStyle;
+  pickerContainer: ViewStyle;
 }
 
 const styles = StyleSheet.create<RegisterStyles>({
@@ -126,6 +157,17 @@ const styles = StyleSheet.create<RegisterStyles>({
     fontSize: 16,
     textDecorationLine: 'underline',
   },
+  label: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: Colors.text.primary,
+    marginBottom: 8,
+  },
+  pickerContainer: {
+    backgroundColor: Colors.background.secondary,
+    borderRadius: 10,
+    marginBottom: 20,
+  }
 });
 
 export default RegisterPage;

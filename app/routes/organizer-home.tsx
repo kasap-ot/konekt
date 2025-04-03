@@ -11,9 +11,9 @@ const CompanyHomePage: React.FC = () => {
 
   const handleButtonPress = (action: ButtonAction) => {
     if (action === 'My Events') {
-      router.push('/screens/list-events');
+      router.push('/routes/list-events');
     } else if (action === 'Create New Event') {
-      router.push('/screens/create-event');
+      router.push('/routes/create-event');
     }
   };
 

@@ -21,7 +21,7 @@ const ListEventsPage: React.FC = () => {
   const { category } = useLocalSearchParams<{ category?: string }>();
 
   const handleEventPress = (eventId: string) => {
-    router.push(`/screens/event?id=${eventId}`);
+    router.push(`/routes/event?id=${eventId}`);
   };
 
   const filteredEvents = category 

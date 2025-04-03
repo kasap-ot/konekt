@@ -53,7 +53,7 @@ const CreateEventPage = (): React.ReactElement => {
       userId: '',
     });
 
-    router.push('/screens/list-events');
+    router.push('/routes/list-events');
 
     alert('Event created successfully!');
   };

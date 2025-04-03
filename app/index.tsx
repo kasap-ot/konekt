@@ -21,14 +21,14 @@ const App = (): React.ReactElement => {
             <>
               <HomeButton
                 title="Categories"
-                onPress={() => router.push('/screens/categories')}
+                onPress={() => router.push('/routes/categories')}
               />
             </>
           ) : (
             <>
               <HomeButton
                 title="Organizer Home"
-                onPress={() => router.push('/screens/organizer-home')}
+                onPress={() => router.push('/routes/organizer-home')}
               />
             </>
           )}
@@ -44,12 +44,12 @@ const App = (): React.ReactElement => {
 
           <HomeButton
             title="Login"
-            onPress={() => router.push('/screens/login')}
+            onPress={() => router.push('/routes/login')}
           />
 
           <HomeButton
             title="Register"
-            onPress={() => router.push('/screens/register')}
+            onPress={() => router.push('/routes/register')}
           />
         </>
       )}

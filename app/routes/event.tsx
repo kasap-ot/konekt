@@ -80,7 +80,7 @@ const EventPage = (): React.ReactElement => {
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           style={[styles.button, styles.guestsButton]}
-          onPress={() => router.push('/screens/guests')}
+          onPress={() => router.push('/routes/guests')}
         >
           <Text style={styles.buttonText}>View Guests</Text>
         </TouchableOpacity>

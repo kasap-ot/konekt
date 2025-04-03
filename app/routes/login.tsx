@@ -53,7 +53,7 @@ const LoginPage: React.FC = () => {
 
       <TouchableOpacity
         style={styles.registerLink}
-        onPress={() => router.push('/screens/register')}
+        onPress={() => router.push('/routes/register')}
       >
         <Text style={styles.registerLinkText}>Don't have an account? Register</Text>
       </TouchableOpacity>

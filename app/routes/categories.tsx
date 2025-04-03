@@ -11,7 +11,7 @@ const CategoriesPage = (): React.ReactElement => {
 
   const handleButtonPress = (category: EventCategory): void => {
     router.push({
-      pathname: '/screens/list-events',
+      pathname: '/routes/list-events',
       params: { category: category },
     });
   };

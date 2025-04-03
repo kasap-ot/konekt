@@ -53,6 +53,11 @@ const App = (): React.ReactElement => {
           />
         </>
       )}
+
+      <HomeButton
+        title="Test Page"
+        onPress={() => router.push('/routes/test-page')}
+      />
     </View>
   );
 };

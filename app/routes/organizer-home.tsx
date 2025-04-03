@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, StyleProp, ViewStyle } from 'react-native';
+import { View, StyleSheet, ViewStyle } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Colors } from '../../styles/globalStyles';
 import CompanyHomeButton from '../../components/CompanyHomeButton';

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet, TouchableOpacity, Text, ViewStyle, TextStyle } from 'react-native';
+import { ScrollView, StyleSheet, TouchableOpacity, Text, ViewStyle, TextStyle, Platform, View } from 'react-native';
 import { useEvents } from '../contexts/EventsContext';
 import { Redirect, useRouter } from 'expo-router';
 import { Colors } from '../../styles/globalStyles';
 import { EventCategory, CreateEvent } from '../../types';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 import FormTextInput from '../../components/FormTextInput';
 import PictureInput from '../../components/PictureInput';
@@ -15,10 +16,37 @@ import { useAuth } from 'app/contexts/AuthContext';
 const CreateEventPage = (): React.ReactElement => {
   const { addEvent, pickImage } = useEvents();
   const router = useRouter();
-  const {user} = useAuth();
+  const { user } = useAuth();
+
+  // Date-time logic
+
+  const [dateTime, setDateTime] = useState(new Date());
+  const [isDatePickerShown, setIsDatePickerShown] = useState(false);
+  const [isTimePickerShown, setIsTimePickerShown] = useState(false);
+
+  function onDateTimeChange(event: any, selectedDate?: Date) {
+    const currentDate = selectedDate || dateTime;
+
+    if (Platform.OS === 'android') {
+      setIsDatePickerShown(false);
+      setIsTimePickerShown(false);
+    }
+
+    setDateTime(currentDate);
+  }
+
+  function showDatePicker() {
+    setIsDatePickerShown(true);
+    setIsTimePickerShown(false);
+  }
+
+  function showTimePicker() {
+    setIsDatePickerShown(false);
+    setIsTimePickerShown(true);
+  }
 
   if (!user) {
-    return <Redirect href='/'/>
+    return <Redirect href='/' />
   }
 
   const [event, setEvent] = useState<CreateEvent>({
@@ -33,11 +61,11 @@ const CreateEventPage = (): React.ReactElement => {
     userId: user.$id,
   });
 
-  const handleSubmit = (): void => {
+  function handleSubmit(): void {
     if (!event.title || !event.date || !event.location) {
       return;
     }
-    
+
     console.log(event);
     addEvent(event);
 
@@ -62,54 +90,100 @@ const CreateEventPage = (): React.ReactElement => {
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Create Event</Text>
 
-      <PictureInput 
-        image={event.imagePath} 
-        onPickImage={() => pickImage(setEvent)} 
+      <PictureInput
+        image={event.imagePath}
+        onPickImage={() => pickImage(setEvent)}
       />
 
-      <FormTextInput 
+      <FormTextInput
         label="Title"
         placeholder="Enter event title"
         value={event.title}
         onChangeText={(text) => setEvent({ ...event, title: text })}
       />
 
-      <FormTextInput 
+      {/* <FormTextInput
         label="Date"
         placeholder="Enter event date (e.g., November 15, 2023)"
         value={event.date}
         onChangeText={(text) => setEvent({ ...event, date: text })}
-      />
+      /> */}
 
-      <FormTextInput 
+      {/* <FormTextInput
         label="Time"
         placeholder="Enter event time (e.g., 9:00 AM - 5:00 PM)"
         value={event.time}
         onChangeText={(text) => setEvent({ ...event, time: text })}
-      />
+      /> */}
 
-      <FormTextInput 
+      {/* Date picker section - TODO - extract as separate component */}
+
+      <View style={styles.pickerSection}>
+        <Text style={styles.label}>Date</Text>
+        <TouchableOpacity
+          style={styles.pickerButton}
+          onPress={() => setIsDatePickerShown(true)}
+        >
+          <Text style={styles.pickerText}>
+            {dateTime.toLocaleDateString()}
+          </Text>
+        </TouchableOpacity>
+        {isDatePickerShown && (
+          <DateTimePicker
+            value={dateTime}
+            mode="date"
+            display={Platform.OS === 'ios' ? 'inline' : 'default'}
+            onChange={onDateTimeChange}
+            minimumDate={new Date()}
+          />
+        )}
+      </View>
+
+      {/* Time picker section - TODO - extract as separate component */}
+
+      <View style={styles.pickerSection}>
+        <Text style={styles.label}>Time</Text>
+        <TouchableOpacity
+          style={styles.pickerButton}
+          onPress={() => setIsTimePickerShown(true)}
+        >
+          <Text style={styles.pickerText}>
+            {dateTime.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})}
+          </Text>
+        </TouchableOpacity>
+        {isTimePickerShown && (
+          <DateTimePicker
+            value={dateTime}
+            mode="time"
+            display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+            onChange={onDateTimeChange}
+            is24Hour={false}
+          />
+        )}
+      </View>
+
+      <FormTextInput
         label="Location"
         placeholder="Enter event location"
         value={event.location}
         onChangeText={(text) => setEvent({ ...event, location: text })}
       />
 
-      <FormTextInput 
+      <FormTextInput
         label="Organizer"
         placeholder="Enter organizer name"
         value={event.organizer}
         onChangeText={(text) => setEvent({ ...event, organizer: text })}
       />
 
-      <CategoryInput 
-        selectedValue={event.category} 
-        onValueChange={(itemValue: EventCategory) => setEvent({ ...event, category: itemValue })} 
+      <CategoryInput
+        selectedValue={event.category}
+        onValueChange={(itemValue: EventCategory) => setEvent({ ...event, category: itemValue })}
       />
 
-      <DescriptionInput 
-        value={event.description} 
-        onChangeText={(text) => setEvent({ ...event, description: text })} 
+      <DescriptionInput
+        value={event.description}
+        onChangeText={(text) => setEvent({ ...event, description: text })}
       />
 
       <TouchableOpacity style={styles.button} onPress={handleSubmit}>
@@ -124,6 +198,10 @@ interface Styles {
   title: TextStyle;
   button: ViewStyle;
   buttonText: TextStyle;
+  pickerSection: ViewStyle;
+  pickerButton: ViewStyle;
+  pickerText: TextStyle;
+  label: TextStyle;
 }
 
 const styles = StyleSheet.create<Styles>({
@@ -149,6 +227,27 @@ const styles = StyleSheet.create<Styles>({
     fontSize: 18,
     fontWeight: 'bold',
     color: Colors.background.primary,
+  },
+
+  pickerSection: {
+    marginBottom: 20,
+  },
+  pickerButton: {
+    borderWidth: 1,
+    borderColor: Colors.border.light,
+    borderRadius: 8,
+    padding: 15,
+    backgroundColor: Colors.background.secondary,
+  },
+  pickerText: {
+    fontSize: 16,
+    color: Colors.text.secondary,
+  },
+  label: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: Colors.text.primary,
+    marginBottom: 8,
   },
 });
 

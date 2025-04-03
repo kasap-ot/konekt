@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet, TouchableOpacity, Text, ViewStyle, TextStyle, Platform, View } from 'react-native';
+import { ScrollView, StyleSheet, TouchableOpacity, Text, ViewStyle, TextStyle, Platform, View, Alert } from 'react-native';
 import { useEvents } from '../contexts/EventsContext';
 import { Redirect, useRouter } from 'expo-router';
 import { Colors } from '../../styles/globalStyles';
@@ -18,33 +18,6 @@ const CreateEventPage = (): React.ReactElement => {
   const router = useRouter();
   const { user } = useAuth();
 
-  // Date-time logic
-
-  const [dateTime, setDateTime] = useState(new Date());
-  const [isDatePickerShown, setIsDatePickerShown] = useState(false);
-  const [isTimePickerShown, setIsTimePickerShown] = useState(false);
-
-  function onDateTimeChange(event: any, selectedDate?: Date) {
-    const currentDate = selectedDate || dateTime;
-
-    if (Platform.OS === 'android') {
-      setIsDatePickerShown(false);
-      setIsTimePickerShown(false);
-    }
-
-    setDateTime(currentDate);
-  }
-
-  function showDatePicker() {
-    setIsDatePickerShown(true);
-    setIsTimePickerShown(false);
-  }
-
-  function showTimePicker() {
-    setIsDatePickerShown(false);
-    setIsTimePickerShown(true);
-  }
-
   if (!user) {
     return <Redirect href='/' />
   }
@@ -61,8 +34,32 @@ const CreateEventPage = (): React.ReactElement => {
     userId: user.$id,
   });
 
-  function handleSubmit(): void {
-    if (!event.title || !event.date || !event.location) {
+  // Date-time logic
+
+  const [dateTime, setDateTime] = useState(new Date());
+  const [isDatePickerShown, setIsDatePickerShown] = useState(false);
+  const [isTimePickerShown, setIsTimePickerShown] = useState(false);
+
+  function onDateTimeChange(event: any, selectedDate?: Date) {
+    const currentDate = selectedDate || dateTime;
+
+    if (Platform.OS === 'android') {
+      setIsDatePickerShown(false);
+      setIsTimePickerShown(false);
+    }
+
+    setDateTime(currentDate);
+
+    setEvent((prevEvent) => ({
+      ...prevEvent,
+      date: currentDate.toISOString().split('T')[0],
+      time: currentDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
+    }));
+  }
+
+  function handleFormSubmit(): void {
+    if (!event.title || !event.date || !event.location || !event.time || !event.organizer || !event.description) {
+      Alert.alert('Event must contain information for all fields. Please fill out the form.');
       return;
     }
 
@@ -128,6 +125,7 @@ const CreateEventPage = (): React.ReactElement => {
             {dateTime.toLocaleDateString()}
           </Text>
         </TouchableOpacity>
+
         {isDatePickerShown && (
           <DateTimePicker
             value={dateTime}
@@ -148,9 +146,10 @@ const CreateEventPage = (): React.ReactElement => {
           onPress={() => setIsTimePickerShown(true)}
         >
           <Text style={styles.pickerText}>
-            {dateTime.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})}
+            {dateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
           </Text>
         </TouchableOpacity>
+
         {isTimePickerShown && (
           <DateTimePicker
             value={dateTime}
@@ -186,7 +185,7 @@ const CreateEventPage = (): React.ReactElement => {
         onChangeText={(text) => setEvent({ ...event, description: text })}
       />
 
-      <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+      <TouchableOpacity style={styles.button} onPress={handleFormSubmit}>
         <Text style={styles.buttonText}>Create Event</Text>
       </TouchableOpacity>
     </ScrollView>
@@ -233,8 +232,6 @@ const styles = StyleSheet.create<Styles>({
     marginBottom: 20,
   },
   pickerButton: {
-    borderWidth: 1,
-    borderColor: Colors.border.light,
     borderRadius: 8,
     padding: 15,
     backgroundColor: Colors.background.secondary,

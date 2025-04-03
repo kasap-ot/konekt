@@ -32,7 +32,7 @@ const FormTextInput: React.FC<FormTextInputProps> = ({
           multiline && styles.multilineInput
         ]}
         placeholder={placeholder}
-        placeholderTextColor="#999"
+        placeholderTextColor={Colors.text.secondary}
         value={value}
         onChangeText={onChangeText}
         multiline={multiline}

@@ -6,29 +6,29 @@ import { Colors } from '../../styles/globalStyles';
 
 const TestPage = (): React.ReactElement => {
   const [date, setDate] = useState(new Date());
-  const [showDatePicker, setShowDatePicker] = useState(false);
-  const [showTimePicker, setShowTimePicker] = useState(false);
+  const [isDatePickerShown, setIsDatePickerShown] = useState(false);
+  const [isTimePickerShown, setIsTimePickerShown] = useState(false);
 
   const onChange = (event: any, selectedDate?: Date) => {
     const currentDate = selectedDate || date;
     
     // Close the picker on Android after selection
     if (Platform.OS === 'android') {
-      setShowDatePicker(false);
-      setShowTimePicker(false);
+      setIsDatePickerShown(false);
+      setIsTimePickerShown(false);
     }
     
     setDate(currentDate);
   };
 
-  const showDatepicker = () => {
-    setShowDatePicker(true);
-    setShowTimePicker(false);
+  const showDatePicker = () => {
+    setIsDatePickerShown(true);
+    setIsTimePickerShown(false);
   };
 
-  const showTimepicker = () => {
-    setShowTimePicker(true);
-    setShowDatePicker(false);
+  const showTimePicker = () => {
+    setIsTimePickerShown(true);
+    setIsDatePickerShown(false);
   };
 
   return (
@@ -38,7 +38,7 @@ const TestPage = (): React.ReactElement => {
           Selected Date: {date.toLocaleDateString()}
         </Text>
         <Button 
-          onPress={showDatepicker} 
+          onPress={showDatePicker} 
           title="Select Date" 
           color={Colors.accent.primary}
         />
@@ -49,13 +49,13 @@ const TestPage = (): React.ReactElement => {
           Selected Time: {date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
         </Text>
         <Button 
-          onPress={showTimepicker} 
+          onPress={showTimePicker} 
           title="Select Time" 
           color={Colors.accent.secondary}
         />
       </View>
 
-      {showDatePicker && (
+      {isDatePickerShown && (
         <DateTimePicker
           testID="datePicker"
           value={date}
@@ -66,7 +66,7 @@ const TestPage = (): React.ReactElement => {
         />
       )}
 
-      {showTimePicker && (
+      {isTimePickerShown && (
         <DateTimePicker
           testID="timePicker"
           value={date}

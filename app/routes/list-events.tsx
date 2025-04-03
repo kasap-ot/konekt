@@ -4,16 +4,8 @@ import EventIcon from '../../assets/images/event-icon.png';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEvents } from '../contexts/EventsContext';
 import { Colors } from '../../styles/globalStyles';
+import { Event } from 'types';
 
-
-interface Event {
-  $id: string;
-  title: string;
-  date: string;
-  location: string;
-  category: string;
-  image?: string;
-}
 
 const ListEventsPage: React.FC = () => {
   const { events } = useEvents();
@@ -27,6 +19,7 @@ const ListEventsPage: React.FC = () => {
   const filteredEvents = category 
     ? events.filter((event: Event) => event.category === category) 
     : events;
+
   
   const headerText = category || 'Events';
 
@@ -34,7 +27,7 @@ const ListEventsPage: React.FC = () => {
     <TouchableOpacity onPress={() => handleEventPress(item.$id)}>
       <View style={styles.eventItem}>
         <Image
-          source={item.image ? { uri: item.image } : EventIcon}
+          source={item.imagePath ? { uri: item.imagePath } : EventIcon}
           style={styles.eventImage}
         />
         <View style={styles.eventDetails}>

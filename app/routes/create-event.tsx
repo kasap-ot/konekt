@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { ScrollView, StyleSheet, TouchableOpacity, Text, ViewStyle, TextStyle, Alert } from 'react-native';
 import { useEvents } from '../contexts/EventsContext';
 import { Redirect, useRouter } from 'expo-router';
-import { Colors } from '../../styles/globalStyles';
+import { Colors } from '../../styles/Colors';
 import { EventCategory, CreateEvent } from '../../types';
 import DateTimePickerInput from '../../components/DateTimeInput';
 import FormTextInput from '../../components/FormTextInput';

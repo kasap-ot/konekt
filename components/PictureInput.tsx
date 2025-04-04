@@ -1,6 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, Text, Image, StyleSheet } from 'react-native';
-import { Colors } from '../styles/globalStyles';
+import { Colors } from '../styles/Colors';
 
 interface PictureInputProps {
   image?: string | null;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, ImageStyle, TextStyle, ViewStyle, StyleSheet } from 'react-native';
-import { Colors } from '../styles/globalStyles';
+import { Colors } from '../styles/Colors';
 import { Event } from 'types';
 import EventIcon from '../assets/images/event-icon.png';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, TouchableOpacity, StyleSheet, ViewStyle } from 'react-native';
-import { Colors } from '../styles/globalStyles';
+import { Colors } from '../styles/Colors';
 import { EventCategory } from 'types';
 
 interface CategoryButtonProps {

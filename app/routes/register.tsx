@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { useRouter } from 'expo-router';
-import { Colors } from '../../styles/globalStyles';
+import { Colors } from '../../styles/Colors';
 import FormTextInput from '../../components/FormTextInput';
 import { UserType } from 'types';
 import { useAuth } from 'app/contexts/AuthContext';

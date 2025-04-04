@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Button, Platform } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { Colors } from '../../styles/globalStyles';
+import { Colors } from '../../styles/Colors';
 
 const TestPage = (): React.ReactElement => {
   const [date, setDate] = useState(new Date());

@@ -4,39 +4,33 @@ import { useRouter } from 'expo-router';
 import { Colors } from '../../styles/globalStyles';
 import CompanyHomeButton from '../../components/CompanyHomeButton';
 
-type ButtonAction = 'My Events' | 'Create New Event';
 
 const CompanyHomePage: React.FC = () => {
   const router = useRouter();
-
-  const handleButtonPress = (action: ButtonAction) => {
-    if (action === 'My Events') {
-      router.push('/routes/list-events');
-    } else if (action === 'Create New Event') {
-      router.push('/routes/create-event');
-    }
-  };
 
   return (
     <View style={styles.container}>
       <CompanyHomeButton
         title="My Events"
-        onPress={() => handleButtonPress('My Events')}
-        style={styles.button}
+        onPress={() => router.push('/routes/list-events')}
+      />
+
+      <CompanyHomeButton
+        title="Categories"
+        onPress={() => router.push('/routes/categories')}
       />
 
       <CompanyHomeButton
         title="Create New Event"
-        onPress={() => handleButtonPress('Create New Event')}
-        style={styles.button}
+        onPress={() => router.push('/routes/create-event')}
       />
     </View>
   );
 };
 
+
 interface Styles {
   container: ViewStyle,
-  button: ViewStyle,
 }
 
 const styles = StyleSheet.create<Styles>({
@@ -46,11 +40,7 @@ const styles = StyleSheet.create<Styles>({
     alignItems: 'center',
     backgroundColor: Colors.background.primary,
     padding: 50,
-  },
-  button: {
-    width: '100%', 
-    height: '30%', 
-    marginVertical: 40,
+    paddingVertical: 100,
   },
 });
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet, TouchableOpacity, Text, ViewStyle, TextStyle, View, Alert } from 'react-native';
+import { ScrollView, StyleSheet, TouchableOpacity, Text, ViewStyle, TextStyle, Alert } from 'react-native';
 import { useEvents } from '../contexts/EventsContext';
 import { Redirect, useRouter } from 'expo-router';
 import { Colors } from '../../styles/globalStyles';
@@ -10,6 +10,7 @@ import PictureInput from '../../components/PictureInput';
 import CategoryInput from '../../components/EventCategoryInput';
 import DescriptionInput from '../../components/EventDescriptionInput';
 import { useAuth } from 'app/contexts/AuthContext';
+import Header from 'components/Header';
 
 const CreateEventPage = (): React.ReactElement => {
   const { addEvent, pickImage } = useEvents();
@@ -66,7 +67,7 @@ const CreateEventPage = (): React.ReactElement => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>Create Event</Text>
+      <Header title="Create Event"/>
 
       <PictureInput
         image={event.imagePath}
@@ -129,7 +130,6 @@ const CreateEventPage = (): React.ReactElement => {
 
 interface Styles {
   container: ViewStyle;
-  title: TextStyle;
   button: ViewStyle;
   buttonText: TextStyle;
 }
@@ -139,13 +139,6 @@ const styles = StyleSheet.create<Styles>({
     flexGrow: 1,
     padding: 20,
     backgroundColor: Colors.background.primary,
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: Colors.text.primary,
-    marginBottom: 20,
-    textAlign: 'center',
   },
   button: {
     backgroundColor: Colors.accent.primary,

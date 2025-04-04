@@ -5,6 +5,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEvents } from '../contexts/EventsContext';
 import { Colors } from '../../styles/globalStyles';
 import { Event } from 'types';
+import Header from '../../components/Header';
 
 
 const ListEventsPage: React.FC = () => {
@@ -42,9 +43,7 @@ const ListEventsPage: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.categoryHeader}>
-        <Text style={styles.categoryHeaderText}>{headerText}</Text>
-      </View>
+      <Header title={headerText}/>
 
       <FlatList
         data={filteredEvents}
@@ -118,16 +117,6 @@ const styles = StyleSheet.create({
   emptyText: {
     color: Colors.text.primary,
     fontSize: 18,
-  },
-  categoryHeader: {
-    backgroundColor: Colors.background.tertiary,
-    padding: 15,
-    alignItems: 'center',
-  },
-  categoryHeaderText: {
-    color: Colors.text.primary,
-    fontSize: 18,
-    fontWeight: 'bold',
   },
 });
 

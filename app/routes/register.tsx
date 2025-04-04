@@ -14,6 +14,7 @@ import { Colors } from '../../styles/globalStyles';
 import FormTextInput from '../../components/FormTextInput';
 import { UserType } from 'types';
 import { useAuth } from 'app/contexts/AuthContext';
+import Header from 'components/Header';
 
 
 const RegisterPage: React.FC = () => {
@@ -44,7 +45,7 @@ const RegisterPage: React.FC = () => {
       contentContainerStyle={styles.container}
       keyboardShouldPersistTaps="handled"
     >
-      <Text style={styles.title}>Create Account</Text>
+      <Header title="Create Account"/>
 
       <FormTextInput
         label="Name"
@@ -112,7 +113,6 @@ const RegisterPage: React.FC = () => {
 
 interface RegisterStyles {
   container: ViewStyle;
-  title: TextStyle;
   button: ViewStyle;
   buttonText: TextStyle;
   loginLink: ViewStyle;
@@ -127,13 +127,6 @@ const styles = StyleSheet.create<RegisterStyles>({
     justifyContent: 'center',
     padding: 20,
     backgroundColor: Colors.background.primary,
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: Colors.text.primary,
-    marginBottom: 20,
-    textAlign: 'center',
   },
   button: {
     backgroundColor: Colors.accent.primary,

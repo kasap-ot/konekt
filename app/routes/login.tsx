@@ -4,6 +4,7 @@ import { useRouter } from 'expo-router';
 import { Colors } from '../../styles/globalStyles';
 import FormTextInput from '../../components/FormTextInput';
 import { useAuth } from 'app/contexts/AuthContext';
+import Header from 'components/Header';
 
 const LoginPage: React.FC = () => {
   const router = useRouter();
@@ -25,7 +26,7 @@ const LoginPage: React.FC = () => {
       contentContainerStyle={styles.container}
       keyboardShouldPersistTaps="handled"
     >
-      <Text style={styles.title}>Login to KONEKT</Text>
+      <Header title="Login to KONEKT"/>
 
       <FormTextInput
         label="Email"
@@ -70,7 +71,6 @@ const LoginPage: React.FC = () => {
 // Define types for styles
 interface Styles {
   container: ViewStyle;
-  title: TextStyle;
   button: ViewStyle;
   buttonText: TextStyle;
   registerLink: ViewStyle;
@@ -85,13 +85,6 @@ const styles = StyleSheet.create<Styles>({
     justifyContent: 'center',
     padding: 20,
     backgroundColor: Colors.background.primary,
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: Colors.text.primary,
-    marginBottom: 20,
-    textAlign: 'center',
   },
   button: {
     backgroundColor: Colors.accent.primary,

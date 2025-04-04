@@ -1,11 +1,11 @@
 import React from 'react';
 import { FlatList, Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import EventIcon from '../../assets/images/event-icon.png';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEvents } from '../contexts/EventsContext';
 import { Colors } from '../../styles/globalStyles';
 import { Event } from 'types';
 import Header from '../../components/Header';
+import EventListItem from 'components/EventListItem';
 
 
 const ListEventsPage: React.FC = () => {
@@ -25,20 +25,7 @@ const ListEventsPage: React.FC = () => {
   const headerText = category || 'Events';
 
   const renderEventItem = ({ item }: { item: Event }) => (
-    <TouchableOpacity onPress={() => handleEventPress(item.$id)}>
-      <View style={styles.eventItem}>
-        <Image
-          source={item.imagePath ? { uri: item.imagePath } : EventIcon}
-          style={styles.eventImage}
-        />
-        <View style={styles.eventDetails}>
-          <Text style={styles.eventTitle}>{item.title}</Text>
-          <Text style={styles.eventText}>Date: {item.dateTime.split('T')[0]}</Text>
-          <Text style={styles.eventText}>Location: {item.location}</Text>
-          <Text style={styles.eventText}>Category: {item.category}</Text>
-        </View>
-      </View>
-    </TouchableOpacity>
+    <EventListItem event={item} onPress={() => handleEventPress(item.$id)}/>
   );
 
   return (
@@ -63,38 +50,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.background.primary,
-  },
-  eventItem: {
-    flexDirection: 'row',
-    backgroundColor: Colors.background.listItem,
-    borderRadius: 8,
-    margin: 8,
-    padding: 12,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
-  },
-  eventImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 8,
-    marginRight: 12,
-  },
-  eventDetails: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-  eventTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 8,
-    color: Colors.text.primary,
-  },
-  eventText: {
-    fontSize: 14,
-    color: Colors.text.secondary,
   },
   image: {
     width: 100,

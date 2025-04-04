@@ -4,14 +4,13 @@ import { Models } from 'react-native-appwrite';
 export interface Event {
     $id: string;
     title: string;
-    date: string;
-    time: string;
     location: string;
     organizer: string;
     description: string;
     category: EventCategory;
     imagePath: string | null;
     userId: string;
+    dateTime: string;
 }
 
 export type EventCategory = 'Parties' | 'Sport Events' | 'Educational Events';

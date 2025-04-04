@@ -16,6 +16,9 @@ const EventPage = (): React.ReactElement => {
   const { user } = useAuth();
   const params = useLocalSearchParams<EventParams>();
   const { events, deleteEvent } = useEvents();
+
+  // TODO: Add logic for fetching one event in EventService
+
   const eventId = typeof params.id === 'string' ? params.id : params.id?.[0];
   const event = events.find(e => e.$id === eventId);
 
@@ -70,8 +73,8 @@ const EventPage = (): React.ReactElement => {
 
       <View style={styles.gridContainer}>
         <Pill text={event.location} />
-        <Pill text={event.date} />
-        <Pill text={event.time} />
+        <Pill text={event.dateTime.split('T')[0]} />
+        <Pill text={event.dateTime.split('T')[1].slice(0, 5)} />
         <Pill text={event.organizer} />
       </View>
 

@@ -32,7 +32,7 @@ const ListEventsPage: React.FC = () => {
         />
         <View style={styles.eventDetails}>
           <Text style={styles.eventTitle}>{item.title}</Text>
-          <Text style={styles.eventText}>Date: {item.date}</Text>
+          <Text style={styles.eventText}>Date: {item.dateTime.split('T')[0]}</Text>
           <Text style={styles.eventText}>Location: {item.location}</Text>
           <Text style={styles.eventText}>Category: {item.category}</Text>
         </View>

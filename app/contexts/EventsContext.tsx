@@ -89,14 +89,13 @@ export const EventsProvider: React.FC<EventsProviderProps> = ({ children }) => {
       setEvents(prevEvents => [...prevEvents, {
         $id: createdEvent.$id,
         title: createdEvent.title,
-        date: createdEvent.date,
-        time: createdEvent.time,
         location: createdEvent.location,
         organizer: createdEvent.organizer,
         description: createdEvent.description,
         category: createdEvent.category as EventCategory,
         imagePath: createdEvent.imagePath ?? null,
         userId: createdEvent.userId,
+        dateTime: createdEvent.dateTime,
       }]);
     } 
     catch (err) {

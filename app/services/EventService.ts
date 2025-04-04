@@ -3,7 +3,7 @@ import { config, databases } from 'appwrite';
 import { ID, Query } from 'react-native-appwrite'
 
 export const EventService = {
-    async createEvent(eventData: CreateEvent): Promise<EventDocument> {
+    async createEvent(newEvent: CreateEvent): Promise<EventDocument> {
 
         try {
             const response = await databases.createDocument<EventDocument>(
@@ -11,15 +11,14 @@ export const EventService = {
                 config.eventsCollectionId,
                 ID.unique(),
                 {
-                    title: eventData.title,
-                    date: eventData.date,
-                    time: eventData.time,
-                    location: eventData.location,
-                    organizer: eventData.organizer,
-                    description: eventData.description,
-                    category: eventData.category,
-                    imagePath: eventData.imagePath || null,
-                    userId: eventData.userId,
+                    title: newEvent.title,
+                    location: newEvent.location,
+                    organizer: newEvent.organizer,
+                    description: newEvent.description,
+                    category: newEvent.category,
+                    imagePath: newEvent.imagePath || null,
+                    userId: newEvent.userId,
+                    dateTime: newEvent.dateTime,
                 }
             );
             return response;

@@ -24,14 +24,13 @@ const CreateEventPage = (): React.ReactElement => {
 
   const [event, setEvent] = useState<CreateEvent>({
     title: '',
-    date: '',
-    time: '',
     location: '',
     organizer: '',
     description: '',
     category: 'Parties',
     imagePath: null,
     userId: user.$id,
+    dateTime: '',
   });
 
   // Date-time logic
@@ -40,6 +39,7 @@ const CreateEventPage = (): React.ReactElement => {
   const [isDatePickerShown, setIsDatePickerShown] = useState(false);
   const [isTimePickerShown, setIsTimePickerShown] = useState(false);
 
+  
   function onDateTimeChange(event: any, selectedDate?: Date) {
     const currentDate = selectedDate || dateTime;
 
@@ -52,13 +52,13 @@ const CreateEventPage = (): React.ReactElement => {
 
     setEvent((prevEvent) => ({
       ...prevEvent,
-      date: currentDate.toISOString().split('T')[0],
-      time: currentDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
+      dateTime: currentDate.toISOString(),
     }));
   }
 
+
   function handleFormSubmit(): void {
-    if (!event.title || !event.date || !event.location || !event.time || !event.organizer || !event.description) {
+    if (!event.title || !event.dateTime || !event.location || !event.organizer || !event.description) {
       Alert.alert('Event must contain information for all fields. Please fill out the form.');
       return;
     }
@@ -68,14 +68,13 @@ const CreateEventPage = (): React.ReactElement => {
 
     setEvent({
       title: '',
-      date: '',
-      time: '',
       location: '',
       organizer: '',
       description: '',
       category: 'Parties',
       imagePath: null,
       userId: '',
+      dateTime: '',
     });
 
     router.push('/routes/list-events');

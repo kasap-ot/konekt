@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, FlatList, ListRenderItem } from 'react-native';
 import { Colors } from '../../styles/globalStyles';
+import UserItem from 'components/UserItem';
 
 interface User {
   id: string;
@@ -19,10 +20,7 @@ const InterestedUsersPage: React.FC = () => {
   const numberOfInterestedUsers: number = interestedUsers.length;
 
   const renderUserItem: ListRenderItem<User> = ({ item }) => (
-    <View style={styles.userItem}>
-      <View style={styles.circle} />
-      <Text style={styles.username}>{item.username}</Text>
-    </View>
+    <UserItem username={item.username}/>
   );
 
   return (
@@ -62,24 +60,6 @@ const styles = StyleSheet.create({
   listContent: {
     padding: 16,
   },
-  userItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: Colors.border.light, 
-  },
-  circle: {
-    width: 24,
-    height: 24,
-    borderRadius: 12, 
-    backgroundColor: Colors.accent.primary, 
-    marginRight: 12,
-  },
-  username: {
-    fontSize: 18,
-    color: Colors.text.primary 
-  }
 });
 
 export default InterestedUsersPage;

@@ -12,17 +12,33 @@ import EmptyState from '../../components/EmpyState';
 const ListEventsPage: React.FC = () => {
   const { events } = useEvents();
   const router = useRouter();
-  const { category } = useLocalSearchParams<{ category?: string }>();
+  const { category, userId } = useLocalSearchParams<{
+    category?: string;
+    userId?: string;
+  }>();
+
 
   function handleEventPress(eventId: string): void {
     router.push(`/routes/event?id=${eventId}`);
   };
 
-  const filteredEvents = category
-    ? events.filter((event: Event) => event.category === category)
-    : events;
 
-  const headerText = category || 'Events';
+  const filteredEvents = React.useMemo(() => {
+    let result = [...events];
+    if (category)
+      result = result.filter((event: Event) => event.category === category);
+    if (userId)
+      result = result.filter((event: Event) => event.userId === userId);
+    return result;
+  }, [events, category, userId]);
+
+  
+  const headerText = React.useMemo(() => {
+    if (userId) return 'My Events';
+    if (category) return category;
+    return 'Events';
+  }, [category, userId]);
+
 
   function renderEventItem({ item }: { item: Event }) {
     return (<EventListItem event={item} onPress={() => handleEventPress(item.$id)} />);
@@ -36,7 +52,7 @@ const ListEventsPage: React.FC = () => {
         data={filteredEvents}
         keyExtractor={(item: Event) => item.$id}
         renderItem={renderEventItem}
-        ListEmptyComponent={<EmptyState message='No events found for this category' />}
+        ListEmptyComponent={<EmptyState message='No events found' />}
       />
     </View>
   );

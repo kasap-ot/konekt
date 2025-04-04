@@ -76,7 +76,6 @@ export const EventsProvider: React.FC<EventsProviderProps> = ({ children }) => {
 
 
   const addEvent = async (newEvent: CreateEvent) => {
-    console.log('adding event:', newEvent);
     try {
       setLoading(true);
       setError(null);

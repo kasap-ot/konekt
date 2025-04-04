@@ -63,7 +63,6 @@ const CreateEventPage = (): React.ReactElement => {
       return;
     }
 
-    console.log(event);
     addEvent(event);
 
     setEvent({

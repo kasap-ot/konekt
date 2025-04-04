@@ -1,15 +1,18 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Alert, ViewStyle, TextStyle } from 'react-native';
 import { useRouter, useLocalSearchParams, Redirect } from 'expo-router';
-import { useEvents } from '../contexts/EventsContext';
+
+import { useAuth } from 'app/contexts/AuthContext';
 import { Colors } from '../../styles/globalStyles';
+import { useEvents } from '../contexts/EventsContext';
 import Pill from '../../components/EventPill';
 import EventImage from '../../components/EventImage';
-import { useAuth } from 'app/contexts/AuthContext';
+
 
 type EventParams = {
   id: string | string[];
 };
+
 
 const EventPage = (): React.ReactElement => {
   const router = useRouter();
@@ -22,19 +25,11 @@ const EventPage = (): React.ReactElement => {
   const eventId = typeof params.id === 'string' ? params.id : params.id?.[0];
   const event = events.find(e => e.$id === eventId);
 
-  useEffect(() => console.log(user), []);
+  function handleDelete(): void {
+    if (!user) { Alert.alert('Cannot perform action if not logged in'); }
+    else if (!event) { Alert.alert('Cannot perform action - event does not exist'); }
+    else if (user.$id !== event.userId) { Alert.alert('Cannot delete event - current user is not owner'); }
 
-  const handleDelete = (): void => {
-    if (!user) {
-      Alert.alert('Cannot perform action if not logged in');
-    }
-    else if (!event) {
-      Alert.alert('Cannot perform action - event does not exist');
-    }
-    else if (user.$id !== event.userId) {
-      Alert.alert('Cannot delete event - current user is not owner');
-    }
-    
     Alert.alert(
       'Delete Event',
       'Are you sure you want to delete this event?',

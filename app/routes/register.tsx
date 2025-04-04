@@ -91,7 +91,7 @@ const RegisterPage: React.FC = () => {
         </Picker>
       </View>
 
-      {/* TODO: Extract labels, text inputs, and picker as separate components */}
+      {/* // TODO: Extract labels, text inputs, and picker as separate components */}
 
       <TouchableOpacity
         style={styles.button}

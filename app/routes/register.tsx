@@ -15,6 +15,7 @@ import FormTextInput from '../../components/FormTextInput';
 import { UserType } from 'types';
 import { useAuth } from 'app/contexts/AuthContext';
 import Header from 'components/Header';
+import Link from 'components/Link';
 
 
 const RegisterPage: React.FC = () => {
@@ -45,7 +46,7 @@ const RegisterPage: React.FC = () => {
       contentContainerStyle={styles.container}
       keyboardShouldPersistTaps="handled"
     >
-      <Header title="Create Account"/>
+      <Header title="Create Account" />
 
       <FormTextInput
         label="Name"
@@ -101,12 +102,7 @@ const RegisterPage: React.FC = () => {
         <Text style={styles.buttonText}>Register</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity
-        style={styles.loginLink}
-        onPress={() => router.push('/routes/login')}
-      >
-        <Text style={styles.loginLinkText}>Already have an account? Log in</Text>
-      </TouchableOpacity>
+      <Link title='Already have an account? Log in' onPress={() => router.push('/routes/login')} />
     </ScrollView>
   );
 };
@@ -115,8 +111,6 @@ interface RegisterStyles {
   container: ViewStyle;
   button: ViewStyle;
   buttonText: TextStyle;
-  loginLink: ViewStyle;
-  loginLinkText: TextStyle;
   label: TextStyle;
   pickerContainer: ViewStyle;
 }
@@ -139,15 +133,6 @@ const styles = StyleSheet.create<RegisterStyles>({
     fontSize: 18,
     fontWeight: 'bold',
     color: Colors.background.primary,
-  },
-  loginLink: {
-    marginTop: 15,
-    alignItems: 'center',
-  },
-  loginLinkText: {
-    color: Colors.text.secondary,
-    fontSize: 16,
-    textDecorationLine: 'underline',
   },
   label: {
     fontSize: 16,

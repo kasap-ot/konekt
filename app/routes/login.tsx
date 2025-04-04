@@ -5,6 +5,7 @@ import { Colors } from '../../styles/globalStyles';
 import FormTextInput from '../../components/FormTextInput';
 import { useAuth } from 'app/contexts/AuthContext';
 import Header from 'components/Header';
+import Link from 'components/Link';
 
 const LoginPage: React.FC = () => {
   const router = useRouter();
@@ -52,31 +53,16 @@ const LoginPage: React.FC = () => {
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity
-        style={styles.registerLink}
-        onPress={() => router.push('/routes/register')}
-      >
-        <Text style={styles.registerLinkText}>Don't have an account? Register</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={styles.forgotPasswordLink}
-      >
-        <Text style={styles.forgotPasswordLinkText}>Forgot Password?</Text>
-      </TouchableOpacity>
+      <Link title="Don't have an account? Register" onPress={() => router.push('/routes/register')}/>
+      <Link title="Fogot password?" onPress={() => {}}/>
     </ScrollView>
   );
 };
 
-// Define types for styles
 interface Styles {
   container: ViewStyle;
   button: ViewStyle;
   buttonText: TextStyle;
-  registerLink: ViewStyle;
-  registerLinkText: TextStyle;
-  forgotPasswordLink: ViewStyle;
-  forgotPasswordLinkText: TextStyle;
 }
 
 const styles = StyleSheet.create<Styles>({
@@ -97,24 +83,6 @@ const styles = StyleSheet.create<Styles>({
     fontSize: 18,
     fontWeight: 'bold',
     color: Colors.background.primary,
-  },
-  registerLink: {
-    marginTop: 15,
-    alignItems: 'center',
-  },
-  registerLinkText: {
-    color: Colors.text.secondary,
-    fontSize: 16,
-    textDecorationLine: 'underline',
-  },
-  forgotPasswordLink: {
-    marginTop: 10,
-    alignItems: 'center',
-  },
-  forgotPasswordLinkText: {
-    color: Colors.text.secondary,
-    fontSize: 16,
-    textDecorationLine: 'underline',
   },
 });
 

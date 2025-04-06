@@ -1,0 +1,2 @@
+npm install react-native-google-places-autocomplete
+npm install @types/react-native-google-places-autocomplete --save-dev

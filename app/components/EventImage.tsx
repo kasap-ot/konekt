@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
-import { Colors } from '../styles/Colors';
+import { Colors } from 'styles/Colors';
 
 interface EventImageProps {
   imageUri?: string | null;

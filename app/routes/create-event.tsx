@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, TouchableOpacity, Text, ViewStyle, TextStyle, Alert } from 'react-native';
-import { useEvents } from '../contexts/EventsContext';
+import { useEvents } from 'app/contexts/EventsContext';
 import { Redirect, useRouter } from 'expo-router';
-import { Colors } from '../../styles/Colors';
-import { EventCategory, CreateEvent } from '../../types';
-import DateTimePickerInput from '../components/DateTimeInput';
-import FormTextInput from '../components/FormTextInput';
-import PictureInput from '../components/PictureInput';
-import CategoryInput from '../components/EventCategoryInput';
-import DescriptionInput from '../components/EventDescriptionInput';
+import { Colors } from 'styles/Colors';
+import { EventCategory, CreateEvent } from 'types';
+import DateTimePickerInput from 'app/components/DateTimeInput';
+import FormTextInput from 'app/components/FormTextInput';
+import PictureInput from 'app/components/PictureInput';
+import CategoryInput from 'app/components/EventCategoryInput';
+import DescriptionInput from 'app/components/EventDescriptionInput';
+import Header from 'app/components/Header';
+import LocationInput from 'app/components/LocationInput';
 import { useAuth } from 'app/contexts/AuthContext';
-import Header from '../components/Header';
 
 const CreateEventPage = (): React.ReactElement => {
   const { addEvent, pickImage } = useEvents();
@@ -103,6 +104,8 @@ const CreateEventPage = (): React.ReactElement => {
         value={event.location}
         onChangeText={(text) => setEvent({ ...event, location: text })}
       />
+
+      <LocationInput/>
 
       <FormTextInput
         label="Organizer"

@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, Text, View, Platform, ViewStyle, TextStyle, StyleSheet } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { Colors } from '../styles/Colors';
+import { Colors } from 'styles/Colors';
 
 
 interface DateTimePickerInputProps {

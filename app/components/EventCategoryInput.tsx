@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-import { Colors } from '../styles/Colors';
+import { Colors } from 'styles/Colors';
 import { EventCategory } from 'types';
 
 interface CategoryInputProps {

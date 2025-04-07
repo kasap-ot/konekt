@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import {GOOGLE_CLOUD_API_KEY} from 'config';
 
 const App = () => {
   const [selectedPlace, setSelectedPlace] = useState<string | null>(null);
-  const GOOGLE_API_KEY = 'AIzaSyAFndIP9jHQJ3D24QuIrtFVaGg4rxAcz3Y';
 
   return (
     <View style={styles.container}>
@@ -15,7 +15,7 @@ const App = () => {
         }}
         fetchDetails={false}
         query={{
-          key: GOOGLE_API_KEY,
+          key: GOOGLE_CLOUD_API_KEY,
           language: 'en',
         }}
         styles={{

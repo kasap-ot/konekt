@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { Text, TouchableOpacity, StyleSheet, ScrollView, StyleProp, ViewStyle, TextStyle } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Colors } from '../../styles/Colors';
-import FormTextInput from '../../components/FormTextInput';
+import FormTextInput from '../components/FormTextInput';
 import { useAuth } from 'app/contexts/AuthContext';
-import Header from 'components/Header';
-import Link from 'components/Link';
+import Header from '../components/Header';
+import Link from '../components/Link';
 
 const LoginPage: React.FC = () => {
   const router = useRouter();

@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet, ViewStyle, Text } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Colors } from '../../styles/Colors';
-import CompanyHomeButton from '../../components/CompanyHomeButton';
+import CompanyHomeButton from '../components/CompanyHomeButton';
 import { useAuth } from 'app/contexts/AuthContext';
 
 

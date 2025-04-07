@@ -4,13 +4,13 @@ import { useEvents } from '../contexts/EventsContext';
 import { Redirect, useRouter } from 'expo-router';
 import { Colors } from '../../styles/Colors';
 import { EventCategory, CreateEvent } from '../../types';
-import DateTimePickerInput from '../../components/DateTimeInput';
-import FormTextInput from '../../components/FormTextInput';
-import PictureInput from '../../components/PictureInput';
-import CategoryInput from '../../components/EventCategoryInput';
-import DescriptionInput from '../../components/EventDescriptionInput';
+import DateTimePickerInput from '../components/DateTimeInput';
+import FormTextInput from '../components/FormTextInput';
+import PictureInput from '../components/PictureInput';
+import CategoryInput from '../components/EventCategoryInput';
+import DescriptionInput from '../components/EventDescriptionInput';
 import { useAuth } from 'app/contexts/AuthContext';
-import Header from 'components/Header';
+import Header from '../components/Header';
 
 const CreateEventPage = (): React.ReactElement => {
   const { addEvent, pickImage } = useEvents();

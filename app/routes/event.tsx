@@ -5,8 +5,8 @@ import { useRouter, useLocalSearchParams, Redirect } from 'expo-router';
 import { useAuth } from 'app/contexts/AuthContext';
 import { Colors } from '../../styles/Colors';
 import { useEvents } from '../contexts/EventsContext';
-import Pill from '../../components/EventPill';
-import EventImage from '../../components/EventImage';
+import Pill from '../components/EventPill';
+import EventImage from '../components/EventImage';
 
 
 type EventParams = {

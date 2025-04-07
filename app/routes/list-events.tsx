@@ -4,9 +4,9 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEvents } from '../contexts/EventsContext';
 import { Colors } from '../../styles/Colors';
 import { Event } from 'types';
-import Header from '../../components/Header';
-import EventListItem from 'components/EventListItem';
-import EmptyState from '../../components/EmpyState';
+import Header from '../components/Header';
+import EventListItem from '../components/EventListItem';
+import EmptyState from '../components/EmpyState';
 
 
 const ListEventsPage: React.FC = () => {

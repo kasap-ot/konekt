@@ -2,7 +2,7 @@ import { useRouter } from 'expo-router';
 import React from 'react';
 import { View, StyleSheet, ViewStyle, TextStyle } from 'react-native';
 import { Colors } from '../../styles/Colors';
-import CategoryButton from '../../components/CategoryButton';
+import CategoryButton from '../components/CategoryButton';
 import { EventCategory } from '../../types';
 
 const CategoriesPage = (): React.ReactElement => {

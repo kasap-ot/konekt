@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, FlatList, ListRenderItem } from 'react-native';
 import { Colors } from '../../styles/Colors';
-import UserItem from 'components/UserItem';
+import UserItem from '../components/UserItem';
 
 interface User {
   id: string;

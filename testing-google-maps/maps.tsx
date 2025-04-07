@@ -1,84 +1,62 @@
-import React, { useRef } from 'react';
-import { View, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import { GOOGLE_MAPS_API_KEY } from './config'; // Store your API key securely
 
-// Define types for the selected location data
-type LocationData = {
-    description: string;
-    place_id: string;
-    geometry: {
-        location: {
-            lat: number;
-            lng: number;
-        };
-    };
-};
+const App = () => {
+  const [selectedPlace, setSelectedPlace] = useState<string | null>(null);
+  const GOOGLE_API_KEY = 'AIzaSyAFndIP9jHQJ3D24QuIrtFVaGg4rxAcz3Y';
 
-type PlaceDetails = {
-    formatted_address: string;
-    name: string;
-    // Add other fields you need
-};
+  return (
+    <View style={styles.container}>
+      <GooglePlacesAutocomplete
+        placeholder="Search for a place"
+        onPress={(data, details = null) => {
+          setSelectedPlace(data.description);
+        }}
+        fetchDetails={false}
+        query={{
+          key: GOOGLE_API_KEY,
+          language: 'en',
+        }}
+        styles={{
+          textInput: styles.input,
+          listView: styles.list,
+        }}
+      />
 
-export const LocationSearchBar = () => {
-    const searchRef = useRef<GooglePlacesAutocomplete>(null);
-
-    return (
-        <View style={styles.container}>
-            <GooglePlacesAutocomplete
-                ref={searchRef}
-                placeholder="Search location"
-                minLength={2}
-                fetchDetails={true}
-                onPress={(data: LocationData, details: PlaceDetails | null) => {
-                    // Handle selected location
-                    console.log('Selected place:', data.description);
-                    console.log('Coordinates:', details?.geometry.location);
-                }}
-                query={{
-                    key: GOOGLE_MAPS_API_KEY,
-                    language: 'en',
-                    components: 'country:us', // Optional: restrict to specific country
-                }}
-                styles={{
-                    textInputContainer: styles.inputContainer,
-                    textInput: styles.textInput,
-                    listView: styles.listView,
-                }}
-                currentLocation={false} // Don't show current location button
-                debounce={300} // Debounce requests
-                enablePoweredByContainer={false} // Remove "Powered by Google"
-            />
+      {selectedPlace && (
+        <View style={styles.resultContainer}>
+          <Text style={styles.resultText}>Selected: {selectedPlace}</Text>
         </View>
-    );
+      )}
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 16,
-        backgroundColor: '#fff',
-    },
-    inputContainer: {
-        backgroundColor: 'transparent',
-        borderTopWidth: 0,
-        borderBottomWidth: 0,
-    },
-    textInput: {
-        height: 48,
-        color: '#5d5d5d',
-        fontSize: 16,
-        borderWidth: 1,
-        borderColor: '#ddd',
-        borderRadius: 8,
-        paddingHorizontal: 16,
-    },
-    listView: {
-        marginTop: 8,
-        backgroundColor: '#fff',
-        borderRadius: 8,
-        elevation: 3,
-        zIndex: 1000, // Ensure dropdown appears above other elements
-    },
+  container: {
+    paddingTop: 50,
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  input: {
+    height: 50,
+    borderColor: '#888',
+    borderWidth: 1,
+    paddingHorizontal: 10,
+    borderRadius: 5,
+    marginHorizontal: 10,
+  },
+  list: {
+    marginHorizontal: 10,
+  },
+  resultContainer: {
+    marginTop: 20,
+    marginHorizontal: 10,
+  },
+  resultText: {
+    fontSize: 16,
+  },
 });
+
+export default App;

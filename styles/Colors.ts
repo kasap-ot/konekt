@@ -4,6 +4,7 @@ export const Colors = {
       secondary: '#2a2a2a',
       tertiary: '#3a3a3a',
       listItem: '#252525',
+      light: '#ffffff',
     },
     text: {
       primary: '#ffffff',
@@ -20,10 +21,3 @@ export const Colors = {
       dark: '#222222',
     },
   };
-  
-  export interface ButtonStyleProps {
-    backgroundColor?: string;
-    textColor?: string;
-    width?: string | number;
-    height?: string | number;
-  }

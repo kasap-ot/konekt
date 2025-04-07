@@ -2,20 +2,21 @@ import { Text, StyleSheet, StyleProp, ViewStyle, TextStyle } from 'react-native'
 import { GooglePlacesAutocomplete, GooglePlacesAutocompleteProps } from 'react-native-google-places-autocomplete';
 import { GOOGLE_CLOUD_API_KEY } from 'config';
 import { Colors } from 'styles/Colors';
+import 'react-native-get-random-values'
 
 interface LocationInputProps {
   placeholder?: string;
   inputStyle?: StyleProp<TextStyle>;
   listStyle?: StyleProp<ViewStyle>;
   googlePlacesProps?: Partial<GooglePlacesAutocompleteProps>;
-  onPlaceSelected?: (description: string) => void;
+  onLocationSelected?: (description: string) => void;
 }
 
 const LocationInput: React.FC<LocationInputProps> = ({
   placeholder = 'Search for a place',
   inputStyle,
   listStyle,
-  onPlaceSelected,
+  onLocationSelected: onPlaceSelected,
   googlePlacesProps = {},
 }) => {
   const handlePlaceSelect = (data: any, details: any = null) => {

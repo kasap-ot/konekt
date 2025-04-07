@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, TouchableOpacity, Text, ViewStyle, TextStyle, Alert } from 'react-native';
 import { useEvents } from 'app/contexts/EventsContext';
-import { Redirect, useRouter } from 'expo-router';
+import { Redirect, useLocalSearchParams, useRouter } from 'expo-router';
 import { Colors } from 'styles/Colors';
 import { EventCategory, CreateEvent } from 'types';
 import DateTimePickerInput from 'app/components/DateTimeInput';
@@ -10,11 +10,11 @@ import PictureInput from 'app/components/PictureInput';
 import CategoryInput from 'app/components/EventCategoryInput';
 import DescriptionInput from 'app/components/EventDescriptionInput';
 import Header from 'app/components/Header';
-import LocationInput from 'app/components/LocationInput';
 import { useAuth } from 'app/contexts/AuthContext';
 
 const CreateEventPage = (): React.ReactElement => {
   const { addEvent, pickImage } = useEvents();
+  const params = useLocalSearchParams();
   const router = useRouter();
   const { user } = useAuth();
 
@@ -24,7 +24,7 @@ const CreateEventPage = (): React.ReactElement => {
 
   const [event, setEvent] = useState<CreateEvent>({
     title: '',
-    location: '',
+    location: params.location?.toString() || '',
     organizer: '',
     description: '',
     category: 'Parties',
@@ -45,6 +45,9 @@ const CreateEventPage = (): React.ReactElement => {
   }
 
   function handleFormSubmit(): void {
+    console.log(event);
+    return;
+
     if (!event.title || !event.dateTime || !event.location || !event.organizer || !event.description) {
       Alert.alert('Event must contain information for all fields. Please fill out the form.');
       return;
@@ -68,7 +71,7 @@ const CreateEventPage = (): React.ReactElement => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Header title="Create Event"/>
+      <Header title="Create Event" />
 
       <PictureInput
         image={event.imagePath}
@@ -98,14 +101,25 @@ const CreateEventPage = (): React.ReactElement => {
         is24Hour={false}
       />
 
-      <FormTextInput
+      {/* NOTE - Old code */}
+
+      {/* <FormTextInput
         label="Location"
         placeholder="Enter event location"
         value={event.location}
         onChangeText={(text) => setEvent({ ...event, location: text })}
-      />
+      /> */}
 
-      <LocationInput/>
+      {/* TODO - Extract as separate page / component */}
+
+      <TouchableOpacity
+        style={styles.locationButton}
+        onPress={() => router.push('/routes/select-location')}
+      >
+        <Text style={styles.locationButtonText}>
+          {event.location || 'Select Location'}
+        </Text>
+      </TouchableOpacity>
 
       <FormTextInput
         label="Organizer"
@@ -135,6 +149,8 @@ interface Styles {
   container: ViewStyle;
   button: ViewStyle;
   buttonText: TextStyle;
+  locationButton: ViewStyle;
+  locationButtonText: TextStyle;
 }
 
 const styles = StyleSheet.create<Styles>({
@@ -153,6 +169,16 @@ const styles = StyleSheet.create<Styles>({
     fontSize: 18,
     fontWeight: 'bold',
     color: Colors.background.primary,
+  },
+  locationButton: {
+    backgroundColor: Colors.background.secondary,
+    borderRadius: 10,
+    padding: 15,
+    marginBottom: 20,
+  },
+  locationButtonText: {
+    fontSize: 16,
+    color: Colors.text.primary,
   },
 });
 

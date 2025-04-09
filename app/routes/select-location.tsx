@@ -5,17 +5,18 @@ import LocationInput from '../components/LocationInput';
 import Header from '../components/Header';
 import { Colors } from 'styles/Colors';
 
-const LocationSearchPage = ({ route }: any) => {
+
+const LocationSearchPage = () => {
   const router = useRouter();
 
   const handleLocationSelected = (description: string) => {
-    router.back();
     router.setParams({ location: description });
+    router.back();
   };
 
   return (
     <View style={styles.container}>
-      <Header title="Search Location" showBackButton />
+      <Header title="Search Location"/>
       <LocationInput 
         onLocationSelected={handleLocationSelected}
         googlePlacesProps={{

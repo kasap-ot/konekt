@@ -11,6 +11,8 @@ import CategoryInput from 'app/components/EventCategoryInput';
 import DescriptionInput from 'app/components/EventDescriptionInput';
 import Header from 'app/components/Header';
 import { useAuth } from 'app/contexts/AuthContext';
+import LocationButton from 'app/components/LocationButton';
+
 
 const CreateEventPage = (): React.ReactElement => {
   const { addEvent, pickImage } = useEvents();
@@ -47,6 +49,8 @@ const CreateEventPage = (): React.ReactElement => {
   function handleFormSubmit(): void {
     console.log(event);
     return;
+
+    // * Revert old code when needed...
 
     if (!event.title || !event.dateTime || !event.location || !event.organizer || !event.description) {
       Alert.alert('Event must contain information for all fields. Please fill out the form.');
@@ -110,16 +114,7 @@ const CreateEventPage = (): React.ReactElement => {
         onChangeText={(text) => setEvent({ ...event, location: text })}
       /> */}
 
-      {/* TODO - Extract as separate page / component */}
-
-      <TouchableOpacity
-        style={styles.locationButton}
-        onPress={() => router.push('/routes/select-location')}
-      >
-        <Text style={styles.locationButtonText}>
-          {event.location || 'Select Location'}
-        </Text>
-      </TouchableOpacity>
+      <LocationButton event={event} text='Location'/>
 
       <FormTextInput
         label="Organizer"

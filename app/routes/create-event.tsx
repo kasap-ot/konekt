@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet, TouchableOpacity, Text, ViewStyle, TextStyle, Alert } from 'react-native';
+import { ScrollView, StyleSheet, TouchableOpacity, Text, ViewStyle, TextStyle, Alert, Modal, View, Pressable } from 'react-native';
 import { useEvents } from 'app/contexts/EventsContext';
+import { Ionicons } from '@expo/vector-icons';
 import { Redirect, useLocalSearchParams, useRouter } from 'expo-router';
 import { Colors } from 'styles/Colors';
 import { EventCategory, CreateEvent } from 'types';
@@ -47,11 +48,6 @@ const CreateEventPage = (): React.ReactElement => {
   }
 
   function handleFormSubmit(): void {
-    console.log(event);
-    return;
-
-    // * Revert old code when needed...
-
     if (!event.title || !event.dateTime || !event.location || !event.organizer || !event.description) {
       Alert.alert('Event must contain information for all fields. Please fill out the form.');
       return;
@@ -72,6 +68,8 @@ const CreateEventPage = (): React.ReactElement => {
     router.push('/routes/list-events');
     alert('Event created successfully!');
   };
+
+  const [modalVisible, setModalVisible] = useState(false);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -114,7 +112,34 @@ const CreateEventPage = (): React.ReactElement => {
         onChangeText={(text) => setEvent({ ...event, location: text })}
       /> */}
 
-      <LocationButton event={event} text='Location'/>
+      {/* <LocationButton event={event} text='Location' /> */}
+
+      {/* ------------------------------------------ */}
+
+      <TouchableOpacity
+        style={styles.locationButton}
+        onPress={() => setModalVisible(true)}
+      >
+        <Text style={styles.locationButtonText}>Select Location</Text>
+      </TouchableOpacity>
+
+      <Modal
+        animationType='slide'
+        transparent={false}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.modal}>
+          <View style={styles.modalHeader}>
+          <Text style={styles.modalText}>There will be a search bar here...</Text>
+          <Pressable onPress={() => setModalVisible(false)}>
+            <Ionicons name='close' size={24} color='#fff'/>
+          </Pressable>
+          </View>
+        </View>
+      </Modal>
+
+      {/* ------------------------------------------ */}
 
       <FormTextInput
         label="Organizer"
@@ -146,6 +171,9 @@ interface Styles {
   buttonText: TextStyle;
   locationButton: ViewStyle;
   locationButtonText: TextStyle;
+  modal: ViewStyle;
+  modalText: TextStyle;
+  modalHeader: ViewStyle;
 }
 
 const styles = StyleSheet.create<Styles>({
@@ -175,6 +203,19 @@ const styles = StyleSheet.create<Styles>({
     fontSize: 16,
     color: Colors.text.primary,
   },
+  modal: {
+    backgroundColor: Colors.background.primary,
+    flex: 1,
+    padding: 30,
+  },
+  modalText: {
+    color: Colors.text.primary,
+    fontSize: 20,
+  },
+  modalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  }
 });
 
 export default CreateEventPage;

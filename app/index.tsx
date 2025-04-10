@@ -13,11 +13,6 @@ const App = (): React.ReactElement => {
     <View style={styles.container}>
       <Text style={styles.welcomeText}>Welcome to KONEKT</Text>
 
-      <HomeButton
-            title="Modal"
-            onPress={() => router.push('/routes/test-modal')}
-          />
-
       {user ? (
         <>
           <Text style={styles.userNameText}>{user.name}</Text>
@@ -58,6 +53,12 @@ const App = (): React.ReactElement => {
           />
         </>
       )}
+
+      {/* Replace the route with the needed testing page */}
+      <HomeButton
+        title="Testing"
+        onPress={() => router.push('/routes/testing/test-map-links')}
+      />
     </View>
   );
 };

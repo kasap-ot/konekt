@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Linking } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Linking, Modal, Pressable } from 'react-native';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { Ionicons } from '@expo/vector-icons';
 import { GOOGLE_CLOUD_API_KEY } from 'config';
@@ -12,6 +12,7 @@ type Location = {
 
 export default function LocationSearch() {
   const [savedLocations, setSavedLocations] = useState<Location[]>([]);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const handlePlaceSelected = (data: any, details: any) => {
     if (!details?.geometry?.location) return;
@@ -43,32 +44,60 @@ export default function LocationSearch() {
 
   return (
     <View style={styles.container}>
-      <GooglePlacesAutocomplete
-        placeholder="Search places..."
-        onPress={handlePlaceSelected}
-        query={{
-          key: GOOGLE_CLOUD_API_KEY,
-          language: 'en',
-        }}
-        styles={{
-          textInput: styles.searchInput,
-        }}
-        fetchDetails={true}
-      />
+      <TouchableOpacity 
+        style={styles.openButton}
+        onPress={() => setModalVisible(true)}
+      >
+        <Text style={styles.openButtonText}>Open Location Search</Text>
+      </TouchableOpacity>
 
-      <Text style={styles.savedTitle}>Saved Locations:</Text>
-      
-      {savedLocations.map((location, index) => (
-        <TouchableOpacity 
-          key={index}
-          style={styles.locationItem}
-          onPress={() => openLocation(location.appUrl, location.webUrl)}
-        >
-          <Ionicons name="location" size={24} color="#4285F4" />
-          <Text style={styles.locationText}>{location.name}</Text>
-          <Ionicons name="open-outline" size={20} color="#4285F4" />
-        </TouchableOpacity>
-      ))}
+      <Modal
+        animationType="slide"
+        transparent={false}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalHeader}>
+            <Text style={styles.modalTitle}>Location Search</Text>
+            <Pressable
+              style={styles.closeButton}
+              onPress={() => setModalVisible(false)}
+            >
+              <Ionicons name="close" size={24} color="#4285F4" />
+            </Pressable>
+          </View>
+
+          <GooglePlacesAutocomplete
+            placeholder="Search places..."
+            onPress={handlePlaceSelected}
+            query={{
+              key: GOOGLE_CLOUD_API_KEY,
+              language: 'en',
+            }}
+            styles={{
+              textInput: styles.searchInput,
+            }}
+            fetchDetails={true}
+          />
+
+          <Text style={styles.savedTitle}>Saved Locations:</Text>
+          
+          {savedLocations.map((location, index) => (
+            <TouchableOpacity 
+              key={index}
+              style={styles.locationItem}
+              onPress={() => openLocation(location.appUrl, location.webUrl)}
+            >
+              <Ionicons name="location" size={24} color="#4285F4" />
+              <Text style={styles.locationText}>{location.name}</Text>
+              <Ionicons name="open-outline" size={20} color="#4285F4" />
+            </TouchableOpacity>
+          ))}
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -78,6 +107,36 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     backgroundColor: '#fff',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  openButton: {
+    backgroundColor: '#4285F4',
+    padding: 15,
+    borderRadius: 8,
+  },
+  openButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  modalContainer: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: '#fff',
+  },
+  modalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  closeButton: {
+    padding: 5,
   },
   searchInput: {
     height: 50,

@@ -1,47 +1,66 @@
-import { View, Text, StyleSheet, Linking, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Linking } from 'react-native';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { Ionicons } from '@expo/vector-icons';
+import { GOOGLE_CLOUD_API_KEY } from 'config';
 
-export default function LocationLinks() {
-  const locations = [
-    {
-      name: 'Statue of Liberty',
-      appUrl: 'comgooglemaps://?center=40.6892494,-74.0466891&q=Statue+of+Liberty',
-      webUrl: 'https://maps.google.com/?q=Statue+of+Liberty@40.6892494,-74.0466891'
-    },
-    {
-      name: 'Eiffel Tower',
-      appUrl: 'comgooglemaps://?center=48.8583736,2.2922926&q=Eiffel+Tower',
-      webUrl: 'https://maps.google.com/?q=Eiffel+Tower@48.8583736,2.2922926'
-    },
-    {
-      name: 'Sydney Opera House',
-      appUrl: 'comgooglemaps://?center=-33.8567844,151.213108&q=Sydney+Opera+House',
-      webUrl: 'https://maps.google.com/?q=Sydney+Opera+House@-33.8567844,151.213108'
-    },
-  ];
+type Location = {
+  name: string;
+  appUrl: string;
+  webUrl: string;
+};
+
+export default function LocationSearch() {
+  const [savedLocations, setSavedLocations] = useState<Location[]>([]);
+
+  const handlePlaceSelected = (data: any, details: any) => {
+    if (!details?.geometry?.location) return;
+
+    const { lat, lng } = details.geometry.location;
+    const name = data.structured_formatting.main_text;
+    
+    const newLocation: Location = {
+      name,
+      appUrl: `comgooglemaps://?center=${lat},${lng}&q=${encodeURIComponent(name)}`,
+      webUrl: `https://www.google.com/maps/search/?api=1&query=${lat},${lng}&query_place_id=${details.place_id}`
+    };
+
+    setSavedLocations(prev => [newLocation, ...prev]);
+  };
 
   const openLocation = async (appUrl: string, webUrl: string) => {
     try {
-      // First try opening in Google Maps app
       const supported = await Linking.canOpenURL(appUrl);
       if (supported) {
         await Linking.openURL(appUrl);
       } else {
-        // Fallback to web URL if app isn't installed
         await Linking.openURL(webUrl);
       }
     } catch (error) {
-      alert(`Couldn't open the map: ${error}`);
+      console.error('Error opening map:', error);
     }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Famous Locations</Text>
+      <GooglePlacesAutocomplete
+        placeholder="Search places..."
+        onPress={handlePlaceSelected}
+        query={{
+          key: GOOGLE_CLOUD_API_KEY,
+          language: 'en',
+        }}
+        styles={{
+          textInput: styles.searchInput,
+        }}
+        fetchDetails={true}
+      />
+
+      <Text style={styles.savedTitle}>Saved Locations:</Text>
       
-      {locations.map((location, index) => (
+      {savedLocations.map((location, index) => (
         <TouchableOpacity 
-          key={index} 
+          key={index}
           style={styles.locationItem}
           onPress={() => openLocation(location.appUrl, location.webUrl)}
         >
@@ -60,11 +79,18 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: '#fff',
   },
-  title: {
-    fontSize: 24,
+  searchInput: {
+    height: 50,
+    borderWidth: 1,
+    borderColor: '#ddd',
+    borderRadius: 8,
+    paddingHorizontal: 15,
+    marginBottom: 15,
+  },
+  savedTitle: {
+    fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 20,
-    textAlign: 'center',
+    marginVertical: 15,
   },
   locationItem: {
     flexDirection: 'row',

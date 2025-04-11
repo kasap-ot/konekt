@@ -8,9 +8,10 @@ import LocationInput from 'app/components/LocationInput';
 interface LocationModalProps {
   visible: boolean;
   onClose: () => void;
+  onLocationSelect: (location: string) => void;
 }
 
-const LocationModal = ({ visible, onClose }: LocationModalProps): React.ReactElement => {
+const LocationModal = ({ visible, onClose, onLocationSelect }: LocationModalProps): React.ReactElement => {
   return (
     <Modal
       animationType='slide'
@@ -26,7 +27,7 @@ const LocationModal = ({ visible, onClose }: LocationModalProps): React.ReactEle
           </Pressable>
         </View>
 
-        <LocationInput/>
+        <LocationInput onLocationSelect={onLocationSelect}/>
       </View>
     </Modal>
   );

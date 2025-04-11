@@ -13,10 +13,14 @@ type Location = {
   webUrl: string;
 }
 
-const LocationInput: React.FC = () => {
-  const [savedLocations, setSavedLocations] = useState<Location[]>([]);
+interface LocationInputProps {
+  onLocationSelect: (location: string) => void;
+}
 
+const LocationInput: React.FC<LocationInputProps> = ({ onLocationSelect: onLocationSave }) => {
   function handlePlaceSelected(data: any, details: any) {
+    console.log('saving location...');
+    
     if (!details?.geometry?.location) return;
 
     const { lat, lng } = details.geometry.location;
@@ -28,20 +32,7 @@ const LocationInput: React.FC = () => {
       webUrl: `https://www.google.com/maps/search/?api=1&query=${lat},${lng}&query_place_id=${details.place_id}`,
     }
 
-    setSavedLocations(prev => [newLocation, ...prev]);
-  }
-
-  async function openLocation(appUrl: string, webUrl: string) {
-    try {
-      const supported = await Linking.canOpenURL(appUrl);
-      if (supported)
-        await Linking.openURL(appUrl);
-      else
-        await Linking.openURL(webUrl);
-    }
-    catch (error) {
-      console.error('Error opening map:', error);
-    }
+    onLocationSave(newLocation.appUrl);
   }
 
   return (
@@ -60,18 +51,6 @@ const LocationInput: React.FC = () => {
       />
 
       <Text style={styles.savedTitle}>Saved Locations:</Text>
-
-      {savedLocations.map((location, index) => (
-        <TouchableOpacity
-          key={index}
-          style={styles.locationItem}
-          onPress={() => openLocation(location.appUrl, location.webUrl)}
-        >
-          <Ionicons name="location" size={24} color="#4285F4" />
-          <Text style={styles.locationText}>{location.name}</Text>
-          <Ionicons name="open-outline" size={20} color="#4285F4" />
-        </TouchableOpacity>
-      ))}
     </View>
   );
 };

@@ -39,7 +39,7 @@ const CreateEventPage = (): React.ReactElement => {
 
   const [dateTime, setDateTime] = useState(new Date());
 
-  function onDateTimeChange(event: any, selectedDate?: Date) {
+  function onDateTimeChange(appEvent: any, selectedDate?: Date) {
     const currentDate = selectedDate || dateTime;
     setDateTime(currentDate);
     setEvent(prevEvent => ({
@@ -49,6 +49,9 @@ const CreateEventPage = (): React.ReactElement => {
   }
 
   function handleFormSubmit(): void {
+    console.log(event);
+    return;
+
     if (!event.title || !event.dateTime || !event.location || !event.organizer || !event.description) {
       Alert.alert('Event must contain information for all fields. Please fill out the form.');
       return;
@@ -69,6 +72,12 @@ const CreateEventPage = (): React.ReactElement => {
     router.push('/routes/list-events');
     alert('Event created successfully!');
   };
+
+  function handleLocationSelect(location: string) {
+    setEvent(prev => ({...prev, location}));
+    setModalVisible(false);
+    console.log(event);
+  }
 
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -113,27 +122,10 @@ const CreateEventPage = (): React.ReactElement => {
         onChangeText={(text) => setEvent({ ...event, location: text })}
       /> */}
 
-      <LocationButton onPress={() => setModalVisible(true)} text='Location' />
-
       {/* ------------------------------------------ */}
 
-      <LocationModal visible={modalVisible} onClose={() => setModalVisible(false)} />
-
-      {/* <Modal
-        animationType='slide'
-        transparent={false}
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <View style={styles.modal}>
-          <View style={styles.modalHeader}>
-          <Text style={styles.modalText}>There will be a search bar here...</Text>
-          <Pressable onPress={() => setModalVisible(false)}>
-            <Ionicons name='close' size={24} color='#fff'/>
-          </Pressable>
-          </View>
-        </View>
-      </Modal> */}
+      <LocationButton onPress={() => setModalVisible(true)} labelText='Location' locationText={event.location} />
+      <LocationModal visible={modalVisible} onClose={() => setModalVisible(false)} onLocationSelect={handleLocationSelect}/>
 
       {/* ------------------------------------------ */}
 

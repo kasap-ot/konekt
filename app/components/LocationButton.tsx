@@ -4,19 +4,39 @@ import { Colors } from 'styles/Colors';
 
 interface LocationButtonProps {
     onPress: () => void;
-    text: string;
+    labelText: string;
+    locationText: string;
 }
 
-const LocationButton: React.FC<LocationButtonProps> = ({ onPress, text }) => {
+const LocationButton: React.FC<LocationButtonProps> = ({ onPress, labelText, locationText }) => {
+    function extractLocationName(url: string): string | null {
+        try {
+            const queryStart = url.indexOf('?');
+            if (queryStart === -1) return null;
+
+            const queryString = url.slice(queryStart + 1);
+
+            const params = new URLSearchParams(queryString);
+            const encodedName = params.get('q');
+
+            if (!encodedName) return null;
+
+            return decodeURIComponent(encodedName);
+        } 
+        catch (error) {
+            console.error('Error parsing Google Maps URL:', error);
+            return null;
+        }
+    }
     return (
         <>
-            <Text style={styles.label}>{text}</Text>
+            <Text style={styles.label}>{labelText}</Text>
             <TouchableOpacity
                 style={styles.locationButton}
                 onPress={onPress}
             >
                 <Text style={styles.locationButtonText}>
-                    Select Location
+                    {extractLocationName(locationText) || 'Select Location'}
                 </Text>
             </TouchableOpacity>
         </>

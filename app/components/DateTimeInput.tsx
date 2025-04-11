@@ -1,32 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TouchableOpacity, Text, View, Platform, ViewStyle, TextStyle, StyleSheet } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Colors } from 'styles/Colors';
 
-
 interface DateTimePickerInputProps {
     mode: 'date' | 'time';
-    value: Date;
-    onChange: (event: any, selectedDate?: Date) => void;
     label: string;
     minimumDate?: Date;
     is24Hour?: boolean;
+    onDateTimeChange: (dateTime: string) => void;
+    initialDate?: Date;
 }
-
 
 const DateTimePickerInput: React.FC<DateTimePickerInputProps> = ({
     mode,
-    value,
-    onChange,
     label,
     minimumDate,
     is24Hour = false,
+    onDateTimeChange,
+    initialDate = new Date(),
 }) => {
-    const [showPicker, setShowPicker] = React.useState(false);
+    const [dateTime, setDateTime] = useState(initialDate);
+    const [showPicker, setShowPicker] = useState(false);
 
     const displayValue = mode === 'date'
-        ? value.toLocaleDateString()
-        : value.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        ? dateTime.toLocaleDateString()
+        : dateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
     const displayMode = Platform.OS === 'ios'
         ? (mode === 'date' ? 'inline' : 'spinner')
@@ -36,7 +35,11 @@ const DateTimePickerInput: React.FC<DateTimePickerInputProps> = ({
         if (Platform.OS === 'android') {
             setShowPicker(false);
         }
-        onChange(event, selectedDate);
+        
+        if (selectedDate) {
+            setDateTime(selectedDate);
+            onDateTimeChange(selectedDate.toISOString());
+        }
     };
 
     return (
@@ -51,7 +54,7 @@ const DateTimePickerInput: React.FC<DateTimePickerInputProps> = ({
 
             {showPicker && (
                 <DateTimePicker
-                    value={value}
+                    value={dateTime}
                     mode={mode}
                     display={displayMode}
                     onChange={handleChange}

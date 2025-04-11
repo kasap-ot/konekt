@@ -37,16 +37,7 @@ const CreateEventPage = (): React.ReactElement => {
     dateTime: '',
   });
 
-  const [dateTime, setDateTime] = useState(new Date());
-
-  function onDateTimeChange(appEvent: any, selectedDate?: Date) {
-    const currentDate = selectedDate || dateTime;
-    setDateTime(currentDate);
-    setEvent(prevEvent => ({
-      ...prevEvent,
-      dateTime: currentDate.toISOString(),
-    }));
-  }
+  const [modalVisible, setModalVisible] = useState(false);
 
   function handleFormSubmit(): void {
     console.log(event);
@@ -79,8 +70,6 @@ const CreateEventPage = (): React.ReactElement => {
     console.log(event);
   }
 
-  const [modalVisible, setModalVisible] = useState(false);
-
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Header title="Create Event" />
@@ -99,35 +88,20 @@ const CreateEventPage = (): React.ReactElement => {
 
       <DateTimePickerInput
         mode="date"
-        value={dateTime}
-        onChange={onDateTimeChange}
         label="Date"
         minimumDate={new Date()}
+        onDateTimeChange={(dateTime) => setEvent(prev => ({...prev, dateTime}))}
       />
 
       <DateTimePickerInput
         mode="time"
-        value={dateTime}
-        onChange={onDateTimeChange}
         label="Time"
         is24Hour={false}
+        onDateTimeChange={(dateTime) => setEvent(prev => ({...prev, dateTime}))}
       />
-
-      {/* NOTE - Old code */}
-
-      {/* <FormTextInput
-        label="Location"
-        placeholder="Enter event location"
-        value={event.location}
-        onChangeText={(text) => setEvent({ ...event, location: text })}
-      /> */}
-
-      {/* ------------------------------------------ */}
 
       <LocationButton onPress={() => setModalVisible(true)} labelText='Location' locationText={event.location} />
       <LocationModal visible={modalVisible} onClose={() => setModalVisible(false)} onLocationSelect={handleLocationSelect}/>
-
-      {/* ------------------------------------------ */}
 
       <FormTextInput
         label="Organizer"

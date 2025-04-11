@@ -1,23 +1,16 @@
 import { GooglePlacesAutocomplete } from 'node_modules/react-native-google-places-autocomplete/GooglePlacesAutocomplete';
-import React, { useRef, useState } from 'react';
-import { Linking, StyleSheet, TouchableOpacity, Text, View } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import React, { useState } from 'react';
+import { StyleSheet, View } from 'react-native';
 import { GOOGLE_CLOUD_API_KEY } from 'config';
 import 'react-native-get-random-values'
 import { Colors } from 'styles/Colors';
 
 
-type Location = {
-  name: string;
-  appUrl: string;
-  webUrl: string;
-}
-
 interface LocationInputProps {
   onLocationSelect: (location: string) => void;
 }
 
-const LocationInput: React.FC<LocationInputProps> = ({ onLocationSelect: onLocationSave }) => {
+const LocationInput: React.FC<LocationInputProps> = ({ onLocationSelect }) => {
   function handlePlaceSelected(data: any, details: any) {
     console.log('saving location...');
     
@@ -26,13 +19,8 @@ const LocationInput: React.FC<LocationInputProps> = ({ onLocationSelect: onLocat
     const { lat, lng } = details.geometry.location;
     const name = data.structured_formatting.main_text;
 
-    const newLocation: Location = {
-      name,
-      appUrl: `comgooglemaps://?center=${lat},${lng}&q=${encodeURIComponent(name)}`,
-      webUrl: `https://www.google.com/maps/search/?api=1&query=${lat},${lng}&query_place_id=${details.place_id}`,
-    }
-
-    onLocationSave(newLocation.appUrl);
+    const selectedLocation = `comgooglemaps://?center=${lat},${lng}&q=${encodeURIComponent(name)}`;
+    onLocationSelect(selectedLocation);
   }
 
   return (
@@ -50,7 +38,6 @@ const LocationInput: React.FC<LocationInputProps> = ({ onLocationSelect: onLocat
         fetchDetails={true}
       />
 
-      <Text style={styles.savedTitle}>Saved Locations:</Text>
     </View>
   );
 };
@@ -70,24 +57,6 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     backgroundColor: Colors.background.light,
     color: Colors.text.secondary,
-  },
-  savedTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginVertical: 15,
-  },
-  locationItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 15,
-    marginBottom: 10,
-    backgroundColor: '#f5f5f5',
-    borderRadius: 8,
-  },
-  locationText: {
-    flex: 1,
-    marginLeft: 10,
-    fontSize: 16,
   },
 });
 

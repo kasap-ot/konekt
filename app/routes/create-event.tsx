@@ -65,65 +65,68 @@ const CreateEventPage = (): React.ReactElement => {
   };
 
   function handleLocationSelect(location: string) {
-    setEvent(prev => ({...prev, location}));
+    setEvent(prev => ({ ...prev, location }));
     setModalVisible(false);
     console.log(event);
   }
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Header title="Create Event" />
+    <>
+      <ScrollView contentContainerStyle={styles.container}>
+        <Header title="Create Event" />
 
-      <PictureInput
-        image={event.imagePath}
-        setEvent={setEvent}
-      />
+        <PictureInput
+          image={event.imagePath}
+          setEvent={setEvent}
+        />
 
-      <FormTextInput
-        label="Title"
-        placeholder="Enter event title"
-        value={event.title}
-        onChangeText={(text) => setEvent({ ...event, title: text })}
-      />
+        <FormTextInput
+          label="Title"
+          placeholder="Enter event title"
+          value={event.title}
+          onChangeText={(text) => setEvent({ ...event, title: text })}
+        />
 
-      <DateTimePickerInput
-        mode="date"
-        label="Date"
-        minimumDate={new Date()}
-        onDateTimeChange={(dateTime) => setEvent(prev => ({...prev, dateTime}))}
-      />
+        <DateTimePickerInput
+          mode="date"
+          label="Date"
+          minimumDate={new Date()}
+          onDateTimeChange={(dateTime) => setEvent(prev => ({ ...prev, dateTime }))}
+        />
 
-      <DateTimePickerInput
-        mode="time"
-        label="Time"
-        is24Hour={false}
-        onDateTimeChange={(dateTime) => setEvent(prev => ({...prev, dateTime}))}
-      />
+        <DateTimePickerInput
+          mode="time"
+          label="Time"
+          is24Hour={false}
+          onDateTimeChange={(dateTime) => setEvent(prev => ({ ...prev, dateTime }))}
+        />
 
-      <LocationButton onPress={() => setModalVisible(true)} labelText='Location' locationText={event.location} />
-      <LocationModal visible={modalVisible} onClose={() => setModalVisible(false)} onLocationSelect={handleLocationSelect}/>
+        <LocationButton onPress={() => setModalVisible(true)} labelText='Location' locationText={event.location} />
 
-      <FormTextInput
-        label="Organizer"
-        placeholder="Enter organizer name"
-        value={event.organizer}
-        onChangeText={(text) => setEvent({ ...event, organizer: text })}
-      />
+        <FormTextInput
+          label="Organizer"
+          placeholder="Enter organizer name"
+          value={event.organizer}
+          onChangeText={(text) => setEvent({ ...event, organizer: text })}
+        />
 
-      <CategoryInput
-        selectedValue={event.category}
-        onValueChange={(itemValue: EventCategory) => setEvent({ ...event, category: itemValue })}
-      />
+        <CategoryInput
+          selectedValue={event.category}
+          onValueChange={(itemValue: EventCategory) => setEvent({ ...event, category: itemValue })}
+        />
 
-      <DescriptionInput
-        value={event.description}
-        onChangeText={(text) => setEvent({ ...event, description: text })}
-      />
+        <DescriptionInput
+          value={event.description}
+          onChangeText={(text) => setEvent({ ...event, description: text })}
+        />
 
-      <TouchableOpacity style={styles.button} onPress={handleFormSubmit}>
-        <Text style={styles.buttonText}>Create Event</Text>
-      </TouchableOpacity>
-    </ScrollView>
+        <TouchableOpacity style={styles.button} onPress={handleFormSubmit}>
+          <Text style={styles.buttonText}>Create Event</Text>
+        </TouchableOpacity>
+      </ScrollView>
+
+      <LocationModal visible={modalVisible} onClose={() => setModalVisible(false)} onLocationSelect={handleLocationSelect} />
+    </>
   );
 };
 
@@ -133,9 +136,6 @@ interface Styles {
   buttonText: TextStyle;
   locationButton: ViewStyle;
   locationButtonText: TextStyle;
-  // modal: ViewStyle;
-  // modalText: TextStyle;
-  // modalHeader: ViewStyle;
 }
 
 const styles = StyleSheet.create<Styles>({
@@ -165,19 +165,6 @@ const styles = StyleSheet.create<Styles>({
     fontSize: 16,
     color: Colors.text.primary,
   },
-  // modal: {
-  //   backgroundColor: Colors.background.primary,
-  //   flex: 1,
-  //   padding: 30,
-  // },
-  // modalText: {
-  //   color: Colors.text.primary,
-  //   fontSize: 20,
-  // },
-  // modalHeader: {
-  //   flexDirection: 'row',
-  //   justifyContent: 'space-between'
-  // }
 });
 
 export default CreateEventPage;

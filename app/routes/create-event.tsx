@@ -17,7 +17,7 @@ import LocationModal from 'app/components/LocationModal';
 
 
 const CreateEventPage = (): React.ReactElement => {
-  const { addEvent, pickImage } = useEvents();
+  const { addEvent } = useEvents();
   const params = useLocalSearchParams();
   const router = useRouter();
   const { user } = useAuth();
@@ -87,7 +87,7 @@ const CreateEventPage = (): React.ReactElement => {
 
       <PictureInput
         image={event.imagePath}
-        onPickImage={() => pickImage(setEvent)}
+        setEvent={setEvent}
       />
 
       <FormTextInput

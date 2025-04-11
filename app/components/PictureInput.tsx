@@ -1,17 +1,23 @@
+import { useEvents } from 'app/contexts/EventsContext';
 import React from 'react';
 import { TouchableOpacity, Text, Image, StyleSheet } from 'react-native';
 import { Colors } from 'styles/Colors';
+import { CreateEvent } from 'types';
 
 interface PictureInputProps {
   image?: string | null;
-  onPickImage: () => void;
+  setEvent: (value: React.SetStateAction<CreateEvent>) => void;
 }
 
-const PictureInput: React.FC<PictureInputProps> = ({ image, onPickImage }) => {
+const PictureInput: React.FC<PictureInputProps> = ({ image, setEvent }) => {
+  const {pickImage} = useEvents();
+
+  function handleOnPress() { pickImage(setEvent); }
+  
   return (
     <TouchableOpacity
       style={styles.imageUploadContainer}
-      onPress={onPickImage}
+      onPress={handleOnPress}
     >
       {image ? (
         <Image

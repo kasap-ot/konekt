@@ -3,6 +3,7 @@ import { Modal, View, Pressable, Text, ViewStyle, TextStyle } from 'react-native
 import { Ionicons } from '@expo/vector-icons';
 import { Colors } from 'styles/Colors';
 import { StyleSheet } from 'react-native';
+import LocationInput from 'app/components/LocationInput';
 
 interface LocationModalProps {
   visible: boolean;
@@ -19,11 +20,13 @@ const LocationModal = ({ visible, onClose }: LocationModalProps): React.ReactEle
     >
       <View style={styles.modal}>
         <View style={styles.modalHeader}>
-          <Text style={styles.modalText}>There will be a search bar here...</Text>
+          <Text style={styles.modalText}>Find your location:</Text>
           <Pressable onPress={onClose}>
             <Ionicons name='close' size={24} color='#fff'/>
           </Pressable>
         </View>
+
+        <LocationInput/>
       </View>
     </Modal>
   );

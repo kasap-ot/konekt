@@ -1,105 +1,114 @@
-import { Text, StyleSheet, StyleProp, ViewStyle, TextStyle } from 'react-native';
-import { GooglePlacesAutocomplete, GooglePlacesAutocompleteProps } from 'react-native-google-places-autocomplete';
+import { GooglePlacesAutocomplete } from 'node_modules/react-native-google-places-autocomplete/GooglePlacesAutocomplete';
+import React, { useRef, useState } from 'react';
+import { Linking, StyleSheet, TouchableOpacity, Text, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { GOOGLE_CLOUD_API_KEY } from 'config';
-import { Colors } from 'styles/Colors';
 import 'react-native-get-random-values'
+import { Colors } from 'styles/Colors';
 
-interface LocationInputProps {
-  placeholder?: string;
-  inputStyle?: StyleProp<TextStyle>;
-  listStyle?: StyleProp<ViewStyle>;
-  googlePlacesProps?: Partial<GooglePlacesAutocompleteProps>;
-  onLocationSelected?: (description: string) => void;
+
+type Location = {
+  name: string;
+  appUrl: string;
+  webUrl: string;
 }
 
-const LocationInput: React.FC<LocationInputProps> = ({
-  placeholder = 'Search for a place',
-  inputStyle,
-  listStyle,
-  onLocationSelected: onPlaceSelected,
-  googlePlacesProps = {},
-}) => {
-  const handlePlaceSelect = (data: any, details: any = null) => {
-    if (onPlaceSelected) {
-      onPlaceSelected(data.description);
+const LocationInput: React.FC = () => {
+  const [savedLocations, setSavedLocations] = useState<Location[]>([]);
+
+  function handlePlaceSelected(data: any, details: any) {
+    if (!details?.geometry?.location) return;
+
+    const { lat, lng } = details.geometry.location;
+    const name = data.structured_formatting.main_text;
+
+    const newLocation: Location = {
+      name,
+      appUrl: `comgooglemaps://?center=${lat},${lng}&q=${encodeURIComponent(name)}`,
+      webUrl: `https://www.google.com/maps/search/?api=1&query=${lat},${lng}&query_place_id=${details.place_id}`,
     }
-  };
+
+    setSavedLocations(prev => [newLocation, ...prev]);
+  }
+
+  async function openLocation(appUrl: string, webUrl: string) {
+    try {
+      const supported = await Linking.canOpenURL(appUrl);
+      if (supported)
+        await Linking.openURL(appUrl);
+      else
+        await Linking.openURL(webUrl);
+    }
+    catch (error) {
+      console.error('Error opening map:', error);
+    }
+  }
 
   return (
-    <>
-      <Text style={styles.label}>Maps Location</Text>
+    <View style={styles.container}>
       <GooglePlacesAutocomplete
-        placeholder={placeholder}
-        onPress={handlePlaceSelect}
-        fetchDetails={false}
+        placeholder="Search places..."
+        onPress={handlePlaceSelected}
         query={{
           key: GOOGLE_CLOUD_API_KEY,
           language: 'en',
         }}
         styles={{
-          container: styles.container,
-          textInputContainer: styles.textInputContainer,
-          textInput: [styles.input, inputStyle],
-          listView: [styles.list, listStyle],
-          row: styles.row,
-          separator: styles.separator,
-          poweredContainer: styles.poweredContainer,
+          textInput: styles.searchInput,
         }}
-        textInputProps={{placeholderTextColor: Colors.text.secondary}}
-        {...googlePlacesProps}
+        fetchDetails={true}
       />
-    </>
+
+      <Text style={styles.savedTitle}>Saved Locations:</Text>
+
+      {savedLocations.map((location, index) => (
+        <TouchableOpacity
+          key={index}
+          style={styles.locationItem}
+          onPress={() => openLocation(location.appUrl, location.webUrl)}
+        >
+          <Ionicons name="location" size={24} color="#4285F4" />
+          <Text style={styles.locationText}>{location.name}</Text>
+          <Ionicons name="open-outline" size={20} color="#4285F4" />
+        </TouchableOpacity>
+      ))}
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  label: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: Colors.text.primary,
-    marginBottom: 8,
-  },
   container: {
-    marginBottom: 20,
+    flex: 1,
+    backgroundColor: Colors.background.primary,
+    marginTop: 20,
   },
-  textInputContainer: {
-    backgroundColor: 'transparent',
-    borderTopWidth: 0,
-    borderBottomWidth: 0,
-    paddingHorizontal: 0,
-  },
-  input: {
-    backgroundColor: Colors.background.secondary,
-    borderRadius: 10,
-    padding: 15,
-    fontSize: 16,
+  searchInput: {
+    height: 50,
+    borderWidth: 1,
+    borderColor: Colors.border.light,
+    borderRadius: 8,
+    paddingHorizontal: 15,
+    marginBottom: 15,
+    backgroundColor: Colors.background.light,
     color: Colors.text.secondary,
-    height: 50,
   },
-  list: {
-    backgroundColor: Colors.background.secondary,
-    borderRadius: 10,
-    marginTop: 8,
-    elevation: 3,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
+  savedTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginVertical: 15,
   },
-  row: {
-    backgroundColor: Colors.background.light,
+  locationItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
     padding: 15,
-    height: 50,
-    borderBottomWidth: 0,
+    marginBottom: 10,
+    backgroundColor: '#f5f5f5',
+    borderRadius: 8,
   },
-  separator: {
-    backgroundColor: Colors.border.light,
-  },
-  poweredContainer: {
-    backgroundColor: Colors.background.light,
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10,
-    padding: 8,
+  locationText: {
+    flex: 1,
+    marginLeft: 10,
+    fontSize: 16,
   },
 });
 

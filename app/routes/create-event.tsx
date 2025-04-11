@@ -40,9 +40,6 @@ const CreateEventPage = (): React.ReactElement => {
   const [modalVisible, setModalVisible] = useState(false);
 
   function handleFormSubmit(): void {
-    console.log(event);
-    return;
-
     if (!event.title || !event.dateTime || !event.location || !event.organizer || !event.description) {
       Alert.alert('Event must contain information for all fields. Please fill out the form.');
       return;

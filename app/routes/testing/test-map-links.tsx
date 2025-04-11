@@ -4,11 +4,130 @@ import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplet
 import { Ionicons } from '@expo/vector-icons';
 import { GOOGLE_CLOUD_API_KEY } from 'config';
 
+
 type Location = {
   name: string;
   appUrl: string;
   webUrl: string;
 };
+
+interface GoogleComponentProps {
+  handlePlaceSelected: (data: any, details: any) => void;
+}
+
+interface ModalProps {
+  setModalVisible: (newValue: boolean) => void;
+  modalVisible: boolean;
+  handlePlaceSelected: (data: any, details: any) => void;
+  savedLocations: Location[];
+  openLocation: (appUrl: string, webUrl: string) => void;
+}
+
+interface SavedLocationsProps {
+  savedLocations: Location[];
+  openLocation: (appUrl: string, webUrl: string) => void;
+}
+
+interface ModalHeaderProps {
+  setModalVisible: (newValue: boolean) => void;
+}
+
+interface ModalButtonProps {
+  setModalVisible: (value: boolean) => void;
+}
+
+
+function GoogleComponent({ handlePlaceSelected }: GoogleComponentProps) {
+  return (
+    <GooglePlacesAutocomplete
+      placeholder="Search places..."
+      onPress={handlePlaceSelected}
+      query={{
+        key: GOOGLE_CLOUD_API_KEY,
+        language: 'en',
+      }}
+      styles={{
+        textInput: styles.searchInput,
+      }}
+      fetchDetails={true}
+    />
+  );
+}
+
+
+function SavedLocations({ savedLocations, openLocation }: SavedLocationsProps) {
+  return (
+    <>
+      <Text style={styles.savedTitle}>Saved Locations:</Text>
+
+      {savedLocations.map((location, index) => (
+        <TouchableOpacity
+          key={index}
+          style={styles.locationItem}
+          onPress={() => openLocation(location.appUrl, location.webUrl)}
+        >
+          <Ionicons name="location" size={24} color="#4285F4" />
+          <Text style={styles.locationText}>{location.name}</Text>
+          <Ionicons name="open-outline" size={20} color="#4285F4" />
+        </TouchableOpacity>
+      ))}
+    </>
+  );
+}
+
+
+function ModalHeader({ setModalVisible }: ModalHeaderProps) {
+  return (
+    <View style={styles.modalHeader}>
+      <Text style={styles.modalTitle}>Location Search</Text>
+      <Pressable
+        style={styles.closeButton}
+        onPress={() => setModalVisible(false)}
+      >
+        <Ionicons name="close" size={24} color="#4285F4" />
+      </Pressable>
+    </View>
+  );
+}
+
+
+function MyModal({
+  setModalVisible,
+  modalVisible,
+  handlePlaceSelected,
+  savedLocations,
+  openLocation,
+}: ModalProps) {
+  return (
+    <Modal
+      animationType="slide"
+      transparent={false}
+      visible={modalVisible}
+      onRequestClose={() => {
+        setModalVisible(!modalVisible);
+      }}
+    >
+      <View style={styles.modalContainer}>
+        <ModalHeader setModalVisible={setModalVisible} />
+        <GoogleComponent handlePlaceSelected={handlePlaceSelected} />
+        <SavedLocations openLocation={openLocation} savedLocations={savedLocations} />
+      </View>
+    </Modal>
+  );
+}
+
+
+function ModalButton({ setModalVisible }: ModalButtonProps) {
+  return (
+    <TouchableOpacity
+      style={styles.openButton}
+      onPress={() => setModalVisible(true)}
+    >
+      <Text style={styles.openButtonText}>Open Location Search</Text>
+    </TouchableOpacity>
+  );
+}
+
 
 export default function LocationSearch() {
   const [savedLocations, setSavedLocations] = useState<Location[]>([]);
@@ -19,7 +138,7 @@ export default function LocationSearch() {
 
     const { lat, lng } = details.geometry.location;
     const name = data.structured_formatting.main_text;
-    
+
     const newLocation: Location = {
       name,
       appUrl: `comgooglemaps://?center=${lat},${lng}&q=${encodeURIComponent(name)}`,
@@ -44,60 +163,15 @@ export default function LocationSearch() {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity 
-        style={styles.openButton}
-        onPress={() => setModalVisible(true)}
-      >
-        <Text style={styles.openButtonText}>Open Location Search</Text>
-      </TouchableOpacity>
+      <ModalButton setModalVisible={setModalVisible} />
 
-      <Modal
-        animationType="slide"
-        transparent={false}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}
-      >
-        <View style={styles.modalContainer}>
-          <View style={styles.modalHeader}>
-            <Text style={styles.modalTitle}>Location Search</Text>
-            <Pressable
-              style={styles.closeButton}
-              onPress={() => setModalVisible(false)}
-            >
-              <Ionicons name="close" size={24} color="#4285F4" />
-            </Pressable>
-          </View>
-
-          <GooglePlacesAutocomplete
-            placeholder="Search places..."
-            onPress={handlePlaceSelected}
-            query={{
-              key: GOOGLE_CLOUD_API_KEY,
-              language: 'en',
-            }}
-            styles={{
-              textInput: styles.searchInput,
-            }}
-            fetchDetails={true}
-          />
-
-          <Text style={styles.savedTitle}>Saved Locations:</Text>
-          
-          {savedLocations.map((location, index) => (
-            <TouchableOpacity 
-              key={index}
-              style={styles.locationItem}
-              onPress={() => openLocation(location.appUrl, location.webUrl)}
-            >
-              <Ionicons name="location" size={24} color="#4285F4" />
-              <Text style={styles.locationText}>{location.name}</Text>
-              <Ionicons name="open-outline" size={20} color="#4285F4" />
-            </TouchableOpacity>
-          ))}
-        </View>
-      </Modal>
+      <MyModal
+        handlePlaceSelected={handlePlaceSelected}
+        modalVisible={modalVisible}
+        openLocation={openLocation}
+        savedLocations={savedLocations}
+        setModalVisible={setModalVisible}
+      />
     </View>
   );
 }

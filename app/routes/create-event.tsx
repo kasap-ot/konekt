@@ -13,6 +13,7 @@ import DescriptionInput from 'app/components/EventDescriptionInput';
 import Header from 'app/components/Header';
 import { useAuth } from 'app/contexts/AuthContext';
 import LocationButton from 'app/components/LocationButton';
+import LocationModal from 'app/components/LocationModal';
 
 
 const CreateEventPage = (): React.ReactElement => {
@@ -112,18 +113,13 @@ const CreateEventPage = (): React.ReactElement => {
         onChangeText={(text) => setEvent({ ...event, location: text })}
       /> */}
 
-      {/* <LocationButton event={event} text='Location' /> */}
+      <LocationButton onPress={() => setModalVisible(true)} text='Location' />
 
       {/* ------------------------------------------ */}
 
-      <TouchableOpacity
-        style={styles.locationButton}
-        onPress={() => setModalVisible(true)}
-      >
-        <Text style={styles.locationButtonText}>Select Location</Text>
-      </TouchableOpacity>
+      <LocationModal visible={modalVisible} onClose={() => setModalVisible(false)} />
 
-      <Modal
+      {/* <Modal
         animationType='slide'
         transparent={false}
         visible={modalVisible}
@@ -137,7 +133,7 @@ const CreateEventPage = (): React.ReactElement => {
           </Pressable>
           </View>
         </View>
-      </Modal>
+      </Modal> */}
 
       {/* ------------------------------------------ */}
 
@@ -171,9 +167,9 @@ interface Styles {
   buttonText: TextStyle;
   locationButton: ViewStyle;
   locationButtonText: TextStyle;
-  modal: ViewStyle;
-  modalText: TextStyle;
-  modalHeader: ViewStyle;
+  // modal: ViewStyle;
+  // modalText: TextStyle;
+  // modalHeader: ViewStyle;
 }
 
 const styles = StyleSheet.create<Styles>({
@@ -203,19 +199,19 @@ const styles = StyleSheet.create<Styles>({
     fontSize: 16,
     color: Colors.text.primary,
   },
-  modal: {
-    backgroundColor: Colors.background.primary,
-    flex: 1,
-    padding: 30,
-  },
-  modalText: {
-    color: Colors.text.primary,
-    fontSize: 20,
-  },
-  modalHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between'
-  }
+  // modal: {
+  //   backgroundColor: Colors.background.primary,
+  //   flex: 1,
+  //   padding: 30,
+  // },
+  // modalText: {
+  //   color: Colors.text.primary,
+  //   fontSize: 20,
+  // },
+  // modalHeader: {
+  //   flexDirection: 'row',
+  //   justifyContent: 'space-between'
+  // }
 });
 
 export default CreateEventPage;

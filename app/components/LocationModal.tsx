@@ -1,18 +1,54 @@
-import React, { useState } from 'react';
-import { Modal } from 'react-native';
+import React from 'react';
+import { Modal, View, Pressable, Text, ViewStyle, TextStyle } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { Colors } from 'styles/Colors';
+import { StyleSheet } from 'react-native';
 
-const LocationModal = () => {
-    const [isVisible, setIsVisible] = useState(false);
-
-    return (
-        <Modal
-            visible={isVisible}
-            onRequestClose={() => setIsVisible(false)}
-            animationType='slide'
-        >
-            {/* // TODO - add code for the location input logic */}
-        </Modal>
-    );
+interface LocationModalProps {
+  visible: boolean;
+  onClose: () => void;
 }
+
+const LocationModal = ({ visible, onClose }: LocationModalProps): React.ReactElement => {
+  return (
+    <Modal
+      animationType='slide'
+      transparent={false}
+      visible={visible}
+      onRequestClose={onClose}
+    >
+      <View style={styles.modal}>
+        <View style={styles.modalHeader}>
+          <Text style={styles.modalText}>There will be a search bar here...</Text>
+          <Pressable onPress={onClose}>
+            <Ionicons name='close' size={24} color='#fff'/>
+          </Pressable>
+        </View>
+      </View>
+    </Modal>
+  );
+};
+
+interface Styles {
+  modal: ViewStyle;
+  modalText: TextStyle;
+  modalHeader: ViewStyle;
+}
+
+const styles = StyleSheet.create<Styles>({
+  modal: {
+    backgroundColor: Colors.background.primary,
+    flex: 1,
+    padding: 30,
+  },
+  modalText: {
+    color: Colors.text.primary,
+    fontSize: 20,
+  },
+  modalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  }
+});
 
 export default LocationModal;

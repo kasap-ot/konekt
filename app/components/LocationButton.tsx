@@ -1,26 +1,22 @@
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
-import { useRouter } from 'expo-router';
-import { CreateEvent } from 'types';
 import { Colors } from 'styles/Colors';
 
 interface LocationButtonProps {
-    event: CreateEvent;
+    onPress: () => void;
     text: string;
 }
 
-const LocationButton: React.FC<LocationButtonProps> = ({ event, text }) => {
-    const router = useRouter();
-
+const LocationButton: React.FC<LocationButtonProps> = ({ onPress, text }) => {
     return (
         <>
             <Text style={styles.label}>{text}</Text>
             <TouchableOpacity
                 style={styles.locationButton}
-                onPress={() => router.push('/routes/select-location')}
+                onPress={onPress}
             >
                 <Text style={styles.locationButtonText}>
-                    {event.location || 'Select Location'}
+                    Select Location
                 </Text>
             </TouchableOpacity>
         </>

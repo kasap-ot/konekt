@@ -5,9 +5,8 @@ import { useRouter, useLocalSearchParams, Redirect } from 'expo-router';
 import { useAuth } from 'app/contexts/AuthContext';
 import { Colors } from '../../styles/Colors';
 import { useEvents } from '../contexts/EventsContext';
-import Pill from '../components/EventPill';
+import Pill from '../components/Pill';
 import EventImage from '../components/EventImage';
-import { extractLocationName } from 'utils';
 
 
 type EventParams = {
@@ -68,7 +67,7 @@ const EventPage = (): React.ReactElement => {
       <Text style={styles.eventTitle}>{event.title}</Text>
 
       <View style={styles.gridContainer}>
-        <Pill text={extractLocationName(event.location)} />
+        <Pill text={event.locationName} />
         <Pill text={event.dateTime.split('T')[0]} />
         <Pill text={event.dateTime.split('T')[1].slice(0, 5)} />
         <Pill text={event.organizer} />

@@ -12,7 +12,8 @@ export const EventService = {
                 ID.unique(),
                 {
                     title: newEvent.title,
-                    location: newEvent.location,
+                    locationName: newEvent.locationName,
+                    locationUrl: newEvent.locationUrl,
                     organizer: newEvent.organizer,
                     description: newEvent.description,
                     category: newEvent.category,

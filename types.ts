@@ -1,10 +1,17 @@
 import { Models } from 'react-native-appwrite';
 
 
+export type Location = {
+    name: string;
+    url: string;
+}
+
+
 export interface Event {
     $id: string;
     title: string;
-    location: string;
+    locationName: string;
+    locationUrl: string;
     organizer: string;
     description: string;
     category: EventCategory;
@@ -13,7 +20,7 @@ export interface Event {
     dateTime: string;
 }
 
-export type EventCategory = 'Parties' | 'Sport Events' | 'Educational Events';
+export type EventCategory = 'Party' | 'Sport' | 'Education';
 export type UserType = 'guest' | 'organizer';
 
 export type CreateEvent = Omit<Event, '$id'>;

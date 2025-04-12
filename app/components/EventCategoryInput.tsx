@@ -19,9 +19,9 @@ const CategoryInput: React.FC<CategoryInputProps> = ({ selectedValue, onValueCha
           style={styles.picker}
           onValueChange={onValueChange}
         >
-          <Picker.Item label="Parties" value="Parties" />
-          <Picker.Item label="Sport Events" value="Sport Events" />
-          <Picker.Item label="Educational Events" value="Educational Events" />
+          <Picker.Item label="Party" value="Party" />
+          <Picker.Item label="Sport" value="Sport" />
+          <Picker.Item label="Education" value="Education" />
         </Picker>
       </View>
     </>

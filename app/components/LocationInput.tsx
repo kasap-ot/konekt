@@ -1,26 +1,28 @@
 import { GooglePlacesAutocomplete } from 'node_modules/react-native-google-places-autocomplete/GooglePlacesAutocomplete';
-import React, { useState } from 'react';
+import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { GOOGLE_CLOUD_API_KEY } from 'config';
 import 'react-native-get-random-values'
 import { Colors } from 'styles/Colors';
+import { Location } from 'types';
 
 
 interface LocationInputProps {
-  onLocationSelect: (location: string) => void;
+  onLocationSelect: (location: Location) => void;
 }
 
 const LocationInput: React.FC<LocationInputProps> = ({ onLocationSelect }) => {
   function handlePlaceSelected(data: any, details: any) {
-    console.log('saving location...');
-    
     if (!details?.geometry?.location) return;
 
     const { lat, lng } = details.geometry.location;
     const name = data.structured_formatting.main_text;
+    const location = {
+      name: name,
+      url: `comgooglemaps://?center=${lat},${lng}&q=${encodeURIComponent(name)}`,
+    }
 
-    const selectedLocation = `comgooglemaps://?center=${lat},${lng}&q=${encodeURIComponent(name)}`;
-    onLocationSelect(selectedLocation);
+    onLocationSelect(location);
   }
 
   return (

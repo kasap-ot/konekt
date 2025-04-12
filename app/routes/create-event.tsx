@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet, TouchableOpacity, Text, ViewStyle, TextStyle, Alert, Modal, View, Pressable } from 'react-native';
+import { ScrollView, StyleSheet, TouchableOpacity, Text, ViewStyle, TextStyle, Alert } from 'react-native';
 import { useEvents } from 'app/contexts/EventsContext';
-import { Ionicons } from '@expo/vector-icons';
-import { Redirect, useLocalSearchParams, useRouter } from 'expo-router';
+import { Redirect, useRouter } from 'expo-router';
 import { Colors } from 'styles/Colors';
-import { EventCategory, CreateEvent } from 'types';
+import { EventCategory, CreateEvent, Location } from 'types';
 import DateTimePickerInput from 'app/components/DateTimeInput';
 import FormTextInput from 'app/components/FormTextInput';
 import PictureInput from 'app/components/PictureInput';
@@ -18,7 +17,6 @@ import LocationModal from 'app/components/LocationModal';
 
 const CreateEventPage = (): React.ReactElement => {
   const { addEvent } = useEvents();
-  const params = useLocalSearchParams();
   const router = useRouter();
   const { user } = useAuth();
 
@@ -28,10 +26,11 @@ const CreateEventPage = (): React.ReactElement => {
 
   const [event, setEvent] = useState<CreateEvent>({
     title: '',
-    location: params.location?.toString() || '',
+    locationName: '',
+    locationUrl: '',
     organizer: '',
     description: '',
-    category: 'Parties',
+    category: 'Party',
     imagePath: null,
     userId: user.$id,
     dateTime: '',
@@ -40,18 +39,14 @@ const CreateEventPage = (): React.ReactElement => {
   const [modalVisible, setModalVisible] = useState(false);
 
   function handleFormSubmit(): void {
-    if (!event.title || !event.dateTime || !event.location || !event.organizer || !event.description) {
-      Alert.alert('Event must contain information for all fields. Please fill out the form.');
-      return;
-    }
-
     addEvent(event);
     setEvent({
       title: '',
-      location: '',
+      locationName: '',
+      locationUrl: '',
       organizer: '',
       description: '',
-      category: 'Parties',
+      category: 'Party',
       imagePath: null,
       userId: '',
       dateTime: '',
@@ -61,8 +56,12 @@ const CreateEventPage = (): React.ReactElement => {
     alert('Event created successfully!');
   };
 
-  function handleLocationSelect(location: string) {
-    setEvent(prev => ({ ...prev, location }));
+  function handleLocationSelect(location: Location) {
+    setEvent(prev => ({
+       ...prev, 
+       locationName: location.name,
+       locationUrl: location.url,
+    }));
     setModalVisible(false);
     console.log(event);
   }
@@ -98,7 +97,7 @@ const CreateEventPage = (): React.ReactElement => {
           onDateTimeChange={(dateTime) => setEvent(prev => ({ ...prev, dateTime }))}
         />
 
-        <LocationButton onPress={() => setModalVisible(true)} labelText='Location' locationText={event.location} />
+        <LocationButton onPress={() => setModalVisible(true)} labelText='Location' locationName={event.locationName} />
 
         <FormTextInput
           label="Organizer"

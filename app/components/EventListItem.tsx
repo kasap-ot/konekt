@@ -3,7 +3,6 @@ import { View, Text, Image, TouchableOpacity, ImageStyle, TextStyle, ViewStyle, 
 import { Colors } from 'styles/Colors';
 import { Event } from 'types';
 import EventIcon from 'assets/images/event-icon.png';
-import { extractLocationName } from 'utils';
 
 
 interface Props {
@@ -25,7 +24,7 @@ const EventListItem: React.FC<Props> = ({ event, onPress, imageStyle, textStyle,
                 <View style={styles.eventDetails}>
                     <Text style={[styles.eventTitle, textStyle]}>{event.title}</Text>
                     <Text style={[styles.eventText, textStyle]}>Date: {event.dateTime.split('T')[0]}</Text>
-                    <Text style={[styles.eventText, textStyle]}>Location: {extractLocationName(event.location)}</Text>
+                    <Text style={[styles.eventText, textStyle]}>Location: {event.locationName}</Text>
                     <Text style={[styles.eventText, textStyle]}>Category: {event.category}</Text>
                 </View>
             </View>

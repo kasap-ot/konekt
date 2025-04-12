@@ -88,7 +88,8 @@ export const EventsProvider: React.FC<EventsProviderProps> = ({ children }) => {
       setEvents(prevEvents => [...prevEvents, {
         $id: createdEvent.$id,
         title: createdEvent.title,
-        location: createdEvent.location,
+        locationName: createdEvent.locationName,
+        locationUrl: createdEvent.locationUrl,
         organizer: createdEvent.organizer,
         description: createdEvent.description,
         category: createdEvent.category as EventCategory,

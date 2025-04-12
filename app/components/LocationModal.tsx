@@ -4,11 +4,12 @@ import { Ionicons } from '@expo/vector-icons';
 import { Colors } from 'styles/Colors';
 import { StyleSheet } from 'react-native';
 import LocationInput from 'app/components/LocationInput';
+import { Location } from 'types';
 
 interface LocationModalProps {
   visible: boolean;
   onClose: () => void;
-  onLocationSelect: (location: string) => void;
+  onLocationSelect: (location: Location) => void;
 }
 
 const LocationModal = ({ visible, onClose, onLocationSelect }: LocationModalProps): React.ReactElement => {

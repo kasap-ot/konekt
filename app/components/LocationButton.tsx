@@ -1,16 +1,15 @@
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { Colors } from 'styles/Colors';
-import { extractLocationName } from 'utils';
 
 
 interface LocationButtonProps {
     onPress: () => void;
     labelText: string;
-    locationText: string;
+    locationName: string;
 }
 
-const LocationButton: React.FC<LocationButtonProps> = ({ onPress, labelText, locationText }) => {
+const LocationButton: React.FC<LocationButtonProps> = ({ onPress, labelText, locationName }) => {
     return (
         <>
             <Text style={styles.label}>{labelText}</Text>
@@ -19,7 +18,7 @@ const LocationButton: React.FC<LocationButtonProps> = ({ onPress, labelText, loc
                 onPress={onPress}
             >
                 <Text style={styles.locationButtonText}>
-                    {extractLocationName(locationText) || 'Select Location'}
+                    {locationName || 'Select Location'}
                 </Text>
             </TouchableOpacity>
         </>

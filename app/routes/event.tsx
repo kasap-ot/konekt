@@ -7,6 +7,7 @@ import { Colors } from '../../styles/Colors';
 import { useEvents } from '../contexts/EventsContext';
 import Pill from '../components/Pill';
 import EventImage from '../components/EventImage';
+import LocationPill from 'app/components/LocationPill';
 
 
 type EventParams = {
@@ -67,7 +68,7 @@ const EventPage = (): React.ReactElement => {
       <Text style={styles.eventTitle}>{event.title}</Text>
 
       <View style={styles.gridContainer}>
-        <Pill text={event.locationName} />
+        <LocationPill event={event}/>
         <Pill text={event.dateTime.split('T')[0]} />
         <Pill text={event.dateTime.split('T')[1].slice(0, 5)} />
         <Pill text={event.organizer} />

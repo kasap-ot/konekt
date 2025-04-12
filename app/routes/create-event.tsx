@@ -63,7 +63,6 @@ const CreateEventPage = (): React.ReactElement => {
        locationUrl: location.url,
     }));
     setModalVisible(false);
-    console.log(event);
   }
 
   return (

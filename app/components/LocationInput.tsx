@@ -17,10 +17,12 @@ const LocationInput: React.FC<LocationInputProps> = ({ onLocationSelect }) => {
 
     const { lat, lng } = details.geometry.location;
     const name = data.structured_formatting.main_text;
+    const placeId = details.place_id; // Get the Google Place ID
+
     const location = {
       name: name,
-      url: `comgooglemaps://?center=${lat},${lng}&q=${encodeURIComponent(name)}`,
-    }
+      url: `https://www.google.com/maps/search/?api=1&query=${lat},${lng}&query_place_id=${placeId}`,
+    };
 
     onLocationSelect(location);
   }

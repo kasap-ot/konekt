@@ -36,6 +36,12 @@ interface ModalButtonProps {
   setModalVisible: (value: boolean) => void;
 }
 
+interface LocationLinkProps {
+  index: number;
+  openLocation: (appUrl: string, webUrl: string) => void;
+  location: Location;
+}
+
 
 function GoogleComponent({ handlePlaceSelected }: GoogleComponentProps) {
   return (
@@ -55,21 +61,32 @@ function GoogleComponent({ handlePlaceSelected }: GoogleComponentProps) {
 }
 
 
+function LocationLink({ index, openLocation, location }: LocationLinkProps) {
+  return (
+    <TouchableOpacity
+      key={index}
+      style={styles.locationItem}
+      onPress={() => openLocation(location.appUrl, location.webUrl)}
+    >
+      <Ionicons name="location" size={24} color="#4285F4" />
+      <Text style={styles.locationText}>{location.name}</Text>
+      <Ionicons name="open-outline" size={20} color="#4285F4" />
+    </TouchableOpacity>
+  );
+}
+
+
 function SavedLocations({ savedLocations, openLocation }: SavedLocationsProps) {
   return (
     <>
       <Text style={styles.savedTitle}>Saved Locations:</Text>
-
       {savedLocations.map((location, index) => (
-        <TouchableOpacity
+        <LocationLink
           key={index}
-          style={styles.locationItem}
-          onPress={() => openLocation(location.appUrl, location.webUrl)}
-        >
-          <Ionicons name="location" size={24} color="#4285F4" />
-          <Text style={styles.locationText}>{location.name}</Text>
-          <Ionicons name="open-outline" size={20} color="#4285F4" />
-        </TouchableOpacity>
+          index={index}
+          openLocation={openLocation}
+          location={location}
+        />
       ))}
     </>
   );

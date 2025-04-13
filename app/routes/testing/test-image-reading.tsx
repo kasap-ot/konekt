@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View, Image } from 'react-native';
 import { Client, Storage } from 'react-native-appwrite';
+import {
+  APPWRITE_ENDPOINT,
+  APPWRITE_PROJECT_ID,
+  APPWRITE_EVENT_PHOTOS_BUCKED_ID,
+  APPWRITE_EVENT_ICON_FILE_ID,
+} from 'config';
 
-const endpoint = 'https://cloud.appwrite.io/v1';
-const projectId = 'konekt';
-const bucketId = '67f7e35b000dfa9a3674';
-const fileId = '67f7e395001bc9365d06';
+const endpoint = APPWRITE_ENDPOINT;
+const projectId = APPWRITE_PROJECT_ID;
+const bucketId = APPWRITE_EVENT_PHOTOS_BUCKED_ID;
+const fileId = APPWRITE_EVENT_ICON_FILE_ID;
 
 const client = new Client();
 client.setEndpoint(endpoint).setProject(projectId);

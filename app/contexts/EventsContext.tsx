@@ -9,20 +9,16 @@ interface EventsContextType {
   addEvent: (newEvent: CreateEvent) => Promise<void>;
   pickImage: (setEvent: React.Dispatch<React.SetStateAction<CreateEvent>>) => Promise<void>;
   deleteEvent: (eventId: string) => Promise<void>;
-  loading: boolean;
-  error: string | null;
   fetchEvents: (category?: EventCategory | null) => Promise<void>;
 }
 
 
 const EventsContext = createContext<EventsContextType>({
   events: [],
-  addEvent: async () => {},
-  pickImage: async () => {},
-  deleteEvent: async () => {},
-  loading: false,
-  error: null,
-  fetchEvents: async () => {},
+  addEvent: async () => { },
+  pickImage: async () => { },
+  deleteEvent: async () => { },
+  fetchEvents: async () => { },
 });
 
 
@@ -33,10 +29,7 @@ interface EventsProviderProps {
 
 export const EventsProvider: React.FC<EventsProviderProps> = ({ children }) => {
   const [events, setEvents] = useState<Event[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
 
-  
   useEffect(() => {
     fetchEvents();
   }, []);
@@ -44,47 +37,31 @@ export const EventsProvider: React.FC<EventsProviderProps> = ({ children }) => {
 
   const fetchEvents = async (category: EventCategory | null = null) => {
     try {
-      setLoading(true);
-      setError(null);
       const fetchedEvents = await EventService.fetchEvents(category);
       setEvents(fetchedEvents);
-    } 
-    catch (err) {
-      console.error('Failed to fetch events:', err);
-      setError('Failed to load events. Please try again later.');
-    } 
-    finally {
-      setLoading(false);
     }
+    catch (err) { console.error('Failed to fetch events:', err); }
   };
 
 
   const deleteEvent = async (eventId: string) => {
     try {
-      setLoading(true);
       await EventService.deleteEvent(eventId);
       setEvents(prevEvents => prevEvents.filter(event => event.$id !== eventId));
-    } 
-    catch (err) {
-      console.error('Failed to delete event:', err);
-      setError('Failed to delete event. Please try again later.');
-    } 
-    finally {
-      setLoading(false);
     }
+    catch (err) { console.error('Failed to delete event:', err); }
   };
 
 
   const addEvent = async (newEvent: CreateEvent) => {
     try {
-      setLoading(true);
-      setError(null);
-      
       const createdEvent = await EventService.createEvent({
         ...newEvent,
         imagePath: newEvent.imagePath || null,
       });
-      
+
+      // TODO - Add logic for saving the image to the storage bucket...
+
       setEvents(prevEvents => [...prevEvents, {
         $id: createdEvent.$id,
         title: createdEvent.title,
@@ -97,14 +74,8 @@ export const EventsProvider: React.FC<EventsProviderProps> = ({ children }) => {
         userId: createdEvent.userId,
         dateTime: createdEvent.dateTime,
       }]);
-    } 
-    catch (err) {
-      console.error('Failed to add event:', err);
-      setError('Failed to add event. Please try again later.');
-    } 
-    finally {
-      setLoading(false);
     }
+    catch (err) { console.error('Failed to add event:', err); }
   };
 
 
@@ -122,23 +93,19 @@ export const EventsProvider: React.FC<EventsProviderProps> = ({ children }) => {
       quality: 1,
     });
 
-    if (!result.canceled) {
-      setEvent(prevEvent => ({
-        ...prevEvent,
-        imagePath: result.assets[0].uri
-      }));
-    }
+    if (result.canceled || result.assets.length < 1)
+      return;
+
+    setEvent(prevEvent => ({ ...prevEvent, imagePath: result.assets[0].uri }))
   };
 
   return (
-    <EventsContext.Provider value={{ 
-      events, 
-      addEvent, 
-      pickImage, 
-      deleteEvent, 
-      loading,
-      error,
-      fetchEvents 
+    <EventsContext.Provider value={{
+      events,
+      addEvent,
+      pickImage,
+      deleteEvent,
+      fetchEvents
     }}>
       {children}
     </EventsContext.Provider>

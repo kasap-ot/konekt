@@ -2,7 +2,7 @@ import { CreateEvent, EventCategory, User } from "types";
 
 export function defaultEvent(user?: User): CreateEvent {
     const category: EventCategory = 'Party';
-    const event =  {
+    const event: CreateEvent =  {
         title: '',
         locationName: '',
         locationUrl: '',
@@ -12,6 +12,7 @@ export function defaultEvent(user?: User): CreateEvent {
         imagePath: null,
         userId: user?.$id || '',
         dateTime: '',
+        fileInfo: {},
       }
     return event;
 }

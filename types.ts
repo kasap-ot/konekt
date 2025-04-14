@@ -1,11 +1,9 @@
 import { Models } from 'react-native-appwrite';
 
-
 export type Location = {
     name: string;
     url: string;
 }
-
 
 export interface Event {
     $id: string;
@@ -23,14 +21,7 @@ export interface Event {
 export type EventCategory = 'Party' | 'Sport' | 'Education';
 export type UserType = 'guest' | 'organizer';
 
-export type CreateEvent = Omit<Event, '$id'>;
-
-export interface AppwriteConfig {
-    endpoint: string;
-    projectId: string;
-    databaseId: string;
-    eventsCollectionId: string;
-}
+export type CreateEvent = Omit<Event, '$id'> & {fileInfo: FileInfo | {}};
 
 export interface EventDocument extends CreateEvent, Models.Document { }
 
@@ -40,3 +31,10 @@ export type User = {
     name: string,
     labels: string[],
 };
+
+export type FileInfo = {
+    name: string,
+    type: string,
+    size: number,
+    uri: string,
+}

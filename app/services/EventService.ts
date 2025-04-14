@@ -1,5 +1,6 @@
 import { CreateEvent, EventDocument } from "types";
-import { config, databases } from 'appwrite';
+import { databases } from 'appwrite';
+import { APPWRITE_DATABASE_ID, APPWRITE_EVENTS_COLLECTION_ID } from 'config';
 import { ID, Query } from 'react-native-appwrite'
 
 export const EventService = {
@@ -7,8 +8,8 @@ export const EventService = {
 
         try {
             const response = await databases.createDocument<EventDocument>(
-                config.databaseId,
-                config.eventsCollectionId,
+                APPWRITE_DATABASE_ID,
+                APPWRITE_EVENTS_COLLECTION_ID,
                 ID.unique(),
                 {
                     title: newEvent.title,
@@ -34,8 +35,8 @@ export const EventService = {
             const queries = category ? [Query.equal('category', category)] : [];
 
             const response = await databases.listDocuments<EventDocument>(
-                config.databaseId,
-                config.eventsCollectionId,
+                APPWRITE_DATABASE_ID,
+                APPWRITE_EVENTS_COLLECTION_ID,
                 queries
             );
 
@@ -49,8 +50,8 @@ export const EventService = {
     async deleteEvent(eventId: string): Promise<void> {
         try {
             await databases.deleteDocument(
-                config.databaseId,
-                config.eventsCollectionId,
+                APPWRITE_DATABASE_ID,
+                APPWRITE_EVENTS_COLLECTION_ID,
                 eventId
             );
         } catch (error) {

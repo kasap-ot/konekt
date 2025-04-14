@@ -10,10 +10,10 @@ interface PictureInputProps {
 }
 
 const PictureInput: React.FC<PictureInputProps> = ({ image, setEvent }) => {
-  const {pickImage} = useEvents();
+  const { pickImage } = useEvents();
 
   function handleOnPress() { pickImage(setEvent); }
-  
+
   return (
     <TouchableOpacity
       style={styles.imageUploadContainer}

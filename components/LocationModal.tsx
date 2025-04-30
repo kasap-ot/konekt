@@ -3,7 +3,7 @@ import { Modal, View, Pressable, Text, ViewStyle, TextStyle } from 'react-native
 import { Ionicons } from '@expo/vector-icons';
 import { Colors } from 'styles/Colors';
 import { StyleSheet } from 'react-native';
-import LocationInput from 'app/components/LocationInput';
+import LocationInput from 'components/LocationInput';
 import { Location } from 'types';
 
 interface LocationModalProps {

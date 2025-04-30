@@ -11,9 +11,9 @@ import {
 import { Picker } from '@react-native-picker/picker';
 import { useRouter } from 'expo-router';
 import { Colors } from '../../styles/Colors';
-import FormTextInput from '../components/FormTextInput';
-import Header from '../components/Header';
-import Link from '../components/Link';
+import FormTextInput from 'components/FormTextInput';
+import Header from 'components/Header';
+import Link from 'components/Link';
 import { UserType } from 'types';
 import { useAuth } from 'app/contexts/AuthContext';
 

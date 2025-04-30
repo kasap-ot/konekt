@@ -4,7 +4,7 @@ import { Redirect, useRouter } from 'expo-router';
 import { CreateEvent, Location } from 'types';
 import { useAuth } from 'app/contexts/AuthContext';
 import { defaultEvent } from 'utils';
-import EventForm from 'app/components/EventForm';
+import EventForm from 'components/EventForm';
 
 
 const CreateEventPage = (): React.ReactElement => {

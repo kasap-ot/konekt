@@ -44,13 +44,11 @@ export default function ImagePickerExample() {
             };
 
             try {
-                console.log('Uploading to Appwrite...');
                 const response = await storage.createFile(
                     APPWRITE_EVENT_PHOTOS_BUCKED_ID,
                     ID.unique(),
                     file,
                 );
-                console.log('Upload successful:', response);
             } catch (error) {
                 console.error('Upload failed:', error);
             }

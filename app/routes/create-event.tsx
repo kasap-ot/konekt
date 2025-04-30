@@ -35,9 +35,6 @@ const CreateEventPage = (): React.ReactElement => {
     setModalVisible(false);
   }
 
-  console.log('EVENT:');
-  console.log(event);
-
   return (
     <EventForm
       event={event}

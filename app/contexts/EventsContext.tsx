@@ -4,6 +4,7 @@ import EventService from '../services/EventService';
 import { ID } from 'react-native-appwrite';
 import { Event, EventCategory, CreateEvent } from '../../types';
 import { extractFileInfo } from 'utils';
+import { EventPhotoService } from 'app/services/EventPhotoService';
 
 
 interface EventsContextType {
@@ -62,11 +63,8 @@ export const EventsProvider: React.FC<EventsProviderProps> = ({ children }) => {
         imageId: newEvent.imageId || null,
       });
 
-      // TODO:
-      // Add logic for saving the image to the storage bucket
-      // ..
+      const photoResponse = await EventPhotoService.createEventPhoto(newEvent);      
 
-      // Reset the whole list of events
       setEvents(prevEvents => [...prevEvents, {
         $id: createdEvent.$id,
         title: createdEvent.title,
@@ -87,10 +85,9 @@ export const EventsProvider: React.FC<EventsProviderProps> = ({ children }) => {
   async function pickImage(setEvent: React.Dispatch<React.SetStateAction<CreateEvent>>): Promise<void> {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== 'granted') {
-      alert('Sorry, we need camera roll permissions to make this work!');
+      alert('Camera roll permission required...');
       return;
     }
-    console.log('selecting image...');
 
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ['images'],
@@ -99,17 +96,11 @@ export const EventsProvider: React.FC<EventsProviderProps> = ({ children }) => {
       quality: 1,
     });
 
-    console.log('image selected.');
-
-    // TODO: 
-    // Change this so that the file id is saved instead of the file uri
     const fileId = ID.unique();
     const fileInfo = extractFileInfo(result);
 
     if (fileInfo === null)
       return;
-
-    console.log('saving all event and file data...');
 
     setEvent(prevEvent => ({ 
       ...prevEvent, 

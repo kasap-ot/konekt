@@ -48,14 +48,12 @@ export default function ImageUploadAndDisplay() {
       };
 
       try {
-        console.log('Uploading to Appwrite...');
         const fileId = ID.unique();
         const response = await storage.createFile(
           APPWRITE_EVENT_PHOTOS_BUCKED_ID,
           fileId,
           file,
         );
-        console.log('Upload successful:', response);
 
         // Immediately fetch the uploaded image
         fetchUploadedImage(fileId);
@@ -69,7 +67,6 @@ export default function ImageUploadAndDisplay() {
     try {
       const result = storage.getFileView(APPWRITE_EVENT_PHOTOS_BUCKED_ID, fileId);
       setServerImageUri(result.toString());
-      console.log('Image URL:', result.toString());
     } catch (error) {
       console.error('Error fetching file:', error);
     }

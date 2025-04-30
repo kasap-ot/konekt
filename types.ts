@@ -21,7 +21,7 @@ export interface Event {
 export type EventCategory = 'Party' | 'Sport' | 'Education';
 export type UserType = 'guest' | 'organizer';
 
-export type CreateEvent = Omit<Event, '$id'> & {fileInfo: FileInfo | {}};
+export type CreateEvent = Omit<Event, '$id'> & {fileInfo: FileInfo | null};
 
 export interface EventDocument extends CreateEvent, Models.Document { }
 

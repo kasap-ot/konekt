@@ -21,8 +21,7 @@ export default function ImageUploadAndDisplay() {
   const [localImage, setLocalImage] = useState<string | null>(null);
   const [serverImageUri, setServerImageUri] = useState<string | null>(null);
 
-  async function pickAndUploadImage() 
-  {
+  async function pickAndUploadImage() {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ['images'],
       allowsEditing: true,
@@ -57,7 +56,7 @@ export default function ImageUploadAndDisplay() {
           file,
         );
         console.log('Upload successful:', response);
-        
+
         // Immediately fetch the uploaded image
         fetchUploadedImage(fileId);
       } catch (error) {
@@ -66,7 +65,7 @@ export default function ImageUploadAndDisplay() {
     }
   };
 
-  function fetchUploadedImage(fileId: string) : void {
+  function fetchUploadedImage(fileId: string): void {
     try {
       const result = storage.getFileView(APPWRITE_EVENT_PHOTOS_BUCKED_ID, fileId);
       setServerImageUri(result.toString());

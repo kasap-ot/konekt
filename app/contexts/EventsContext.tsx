@@ -1,7 +1,9 @@
 import React, { useState, useEffect, createContext, useContext, ReactNode } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import EventService from '../services/EventService';
+import { ID } from 'react-native-appwrite';
 import { Event, EventCategory, CreateEvent } from '../../types';
+import { extractFileInfo } from 'utils';
 
 
 interface EventsContextType {
@@ -35,7 +37,7 @@ export const EventsProvider: React.FC<EventsProviderProps> = ({ children }) => {
   }, []);
 
 
-  const fetchEvents = async (category: EventCategory | null = null) => {
+  async function fetchEvents(category: EventCategory | null = null): Promise<void> {
     try {
       const fetchedEvents = await EventService.fetchEvents(category);
       setEvents(fetchedEvents);
@@ -44,7 +46,7 @@ export const EventsProvider: React.FC<EventsProviderProps> = ({ children }) => {
   };
 
 
-  const deleteEvent = async (eventId: string) => {
+  async function deleteEvent(eventId: string): Promise<void> {
     try {
       await EventService.deleteEvent(eventId);
       setEvents(prevEvents => prevEvents.filter(event => event.$id !== eventId));
@@ -53,15 +55,18 @@ export const EventsProvider: React.FC<EventsProviderProps> = ({ children }) => {
   };
 
 
-  const addEvent = async (newEvent: CreateEvent) => {
+  async function addEvent(newEvent: CreateEvent): Promise<void> {
     try {
       const createdEvent = await EventService.createEvent({
         ...newEvent,
         imageId: newEvent.imageId || null,
       });
 
-      // TODO - Add logic for saving the image to the storage bucket...
+      // TODO:
+      // Add logic for saving the image to the storage bucket
+      // ..
 
+      // Reset the whole list of events
       setEvents(prevEvents => [...prevEvents, {
         $id: createdEvent.$id,
         title: createdEvent.title,
@@ -79,24 +84,38 @@ export const EventsProvider: React.FC<EventsProviderProps> = ({ children }) => {
   };
 
 
-  const pickImage = async (setEvent: React.Dispatch<React.SetStateAction<CreateEvent>>) => {
+  async function pickImage(setEvent: React.Dispatch<React.SetStateAction<CreateEvent>>): Promise<void> {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== 'granted') {
       alert('Sorry, we need camera roll permissions to make this work!');
       return;
     }
+    console.log('selecting image...');
 
-    let result = await ImagePicker.launchImageLibraryAsync({
+    const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ['images'],
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
 
-    if (result.canceled || result.assets.length < 1)
+    console.log('image selected.');
+
+    // TODO: 
+    // Change this so that the file id is saved instead of the file uri
+    const fileId = ID.unique();
+    const fileInfo = extractFileInfo(result);
+
+    if (fileInfo === null)
       return;
 
-    setEvent(prevEvent => ({ ...prevEvent, imageId: result.assets[0].uri }))
+    console.log('saving all event and file data...');
+
+    setEvent(prevEvent => ({ 
+      ...prevEvent, 
+      imageId: fileId,
+      fileInfo: fileInfo,
+    }));
   };
 
   return (

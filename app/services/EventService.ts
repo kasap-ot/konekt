@@ -5,7 +5,6 @@ import { ID, Query } from 'react-native-appwrite'
 
 export const EventService = {
     async createEvent(newEvent: CreateEvent): Promise<EventDocument> {
-
         try {
             const response = await databases.createDocument<EventDocument>(
                 APPWRITE_DATABASE_ID,

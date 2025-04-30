@@ -5,11 +5,11 @@ import { Colors } from 'styles/Colors';
 import { CreateEvent } from 'types';
 
 interface PictureInputProps {
-  image?: string | null;
+  imageUri?: string | null;
   setEvent: (value: React.SetStateAction<CreateEvent>) => void;
 }
 
-const PictureInput: React.FC<PictureInputProps> = ({ image, setEvent }) => {
+const PictureInput: React.FC<PictureInputProps> = ({ imageUri, setEvent }) => {
   const { pickImage } = useEvents();
 
   function handleOnPress() { pickImage(setEvent); }
@@ -19,9 +19,9 @@ const PictureInput: React.FC<PictureInputProps> = ({ image, setEvent }) => {
       style={styles.imageUploadContainer}
       onPress={handleOnPress}
     >
-      {image ? (
+      {imageUri ? (
         <Image
-          source={{ uri: image }}
+          source={{ uri: imageUri }}
           style={styles.uploadedImage}
         />
       ) : (

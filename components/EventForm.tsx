@@ -34,7 +34,7 @@ export default function EventForm({
                 <Header title="Create Event" />
 
                 <PictureInput
-                    image={event.imageId}
+                    imageUri={event.fileInfo?.uri}
                     setEvent={setEvent}
                 />
 

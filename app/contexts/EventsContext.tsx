@@ -57,7 +57,7 @@ export const EventsProvider: React.FC<EventsProviderProps> = ({ children }) => {
     try {
       const createdEvent = await EventService.createEvent({
         ...newEvent,
-        imagePath: newEvent.imagePath || null,
+        imageId: newEvent.imageId || null,
       });
 
       // TODO - Add logic for saving the image to the storage bucket...
@@ -70,7 +70,7 @@ export const EventsProvider: React.FC<EventsProviderProps> = ({ children }) => {
         organizer: createdEvent.organizer,
         description: createdEvent.description,
         category: createdEvent.category as EventCategory,
-        imagePath: createdEvent.imagePath ?? null,
+        imageId: createdEvent.imageId ?? null,
         userId: createdEvent.userId,
         dateTime: createdEvent.dateTime,
       }]);
@@ -96,7 +96,7 @@ export const EventsProvider: React.FC<EventsProviderProps> = ({ children }) => {
     if (result.canceled || result.assets.length < 1)
       return;
 
-    setEvent(prevEvent => ({ ...prevEvent, imagePath: result.assets[0].uri }))
+    setEvent(prevEvent => ({ ...prevEvent, imageId: result.assets[0].uri }))
   };
 
   return (

@@ -34,7 +34,7 @@ export default function EventForm({
                 <Header title="Create Event" />
 
                 <PictureInput
-                    image={event.imagePath}
+                    image={event.imageId}
                     setEvent={setEvent}
                 />
 

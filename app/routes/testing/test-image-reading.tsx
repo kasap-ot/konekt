@@ -1,49 +1,124 @@
-import React, { useEffect, useState } from 'react';
-import { Text, View, Image } from 'react-native';
-import { Client, Storage } from 'react-native-appwrite';
+import React, { useState, useEffect } from 'react';
+import { Button, Image, View, StyleSheet, Platform, Text } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
+import { Client, ID, Storage } from "react-native-appwrite";
 import {
   APPWRITE_ENDPOINT,
   APPWRITE_PROJECT_ID,
   APPWRITE_EVENT_PHOTOS_BUCKED_ID,
-  APPWRITE_EVENT_ICON_FILE_ID,
 } from 'config';
 
-const endpoint = APPWRITE_ENDPOINT;
-const projectId = APPWRITE_PROJECT_ID;
-const bucketId = APPWRITE_EVENT_PHOTOS_BUCKED_ID;
-const fileId = APPWRITE_EVENT_ICON_FILE_ID;
+// Set up the connection to Appwrite
+const client = new Client()
+  .setEndpoint(APPWRITE_ENDPOINT)
+  .setProject(APPWRITE_PROJECT_ID);
 
-const client = new Client();
-client.setEndpoint(endpoint).setProject(projectId);
-export const storage = new Storage(client);
+const storage = new Storage(client);
 
-export default function TestImageAppwrite() {
-  const [imageUri, setImageUri] = useState<string | null>(null);
+// The whole component the will be displayeed
+export default function ImageUploadAndDisplay() {
+  // We use state for storing the URLs of the local and remote images
+  const [localImage, setLocalImage] = useState<string | null>(null);
+  const [serverImageUri, setServerImageUri] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchFile = () => {
+  async function pickAndUploadImage() 
+  {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ['images'],
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled && result.assets.length > 0) {
+      const asset = result.assets[0];
+
+      const fileUri = asset.uri;
+      const mimeType = asset.mimeType || 'image/jpg';
+      const fileSize = asset.fileSize || 0;
+      let fileName = asset.fileName || 'photo.jpg';
+      fileName = fileName.replace(/\.jpeg$/, ".jpg");
+
+      setLocalImage(fileUri);
+
+      const file = {
+        uri: Platform.OS === 'ios' ? fileUri.replace('file://', '') : fileUri,
+        name: fileName,
+        type: mimeType,
+        size: fileSize,
+      };
+
       try {
-        const result = storage.getFileView(bucketId, fileId);
-        setImageUri(result.toString());
-        console.log('Image URL:', result.toString());
+        console.log('Uploading to Appwrite...');
+        const fileId = ID.unique();
+        const response = await storage.createFile(
+          APPWRITE_EVENT_PHOTOS_BUCKED_ID,
+          fileId,
+          file,
+        );
+        console.log('Upload successful:', response);
+        
+        // Immediately fetch the uploaded image
+        fetchUploadedImage(fileId);
       } catch (error) {
-        console.error('Error fetching file:', error);
+        console.error('Upload failed:', error);
       }
-    };
+    }
+  };
 
-    fetchFile();
-  }, []);
+  function fetchUploadedImage(fileId: string) : void {
+    try {
+      const result = storage.getFileView(APPWRITE_EVENT_PHOTOS_BUCKED_ID, fileId);
+      setServerImageUri(result.toString());
+      console.log('Image URL:', result.toString());
+    } catch (error) {
+      console.error('Error fetching file:', error);
+    }
+  };
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Check console for file content</Text>
-      {imageUri && (
-        <Image
-          source={{ uri: imageUri }}
-          style={{ width: 200, height: 200, borderRadius: 10 }}
-          resizeMode="contain"
-        />
+    <View style={styles.container}>
+      <Button title="Pick and Upload Image" onPress={pickAndUploadImage} />
+
+      {localImage && (
+        <>
+          <Text style={styles.sectionTitle}>Local Preview:</Text>
+          <Image source={{ uri: localImage }} style={styles.image} />
+        </>
+      )}
+
+      {serverImageUri && (
+        <>
+          <Text style={styles.sectionTitle}>Image from Appwrite:</Text>
+          <Image
+            source={{ uri: serverImageUri }}
+            style={styles.image}
+            resizeMode="contain"
+          />
+          <Text>{serverImageUri}</Text>
+        </>
       )}
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
+  },
+  image: {
+    width: 300,
+    height: 200,
+    marginVertical: 10,
+    borderRadius: 5,
+  },
+  sectionTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginTop: 20,
+    marginBottom: 5,
+  },
+});

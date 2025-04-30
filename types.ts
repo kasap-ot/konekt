@@ -13,9 +13,9 @@ export interface Event {
     organizer: string;
     description: string;
     category: EventCategory;
-    imagePath: string | null;
     userId: string;
     dateTime: string;
+    imageId: string | null;
 }
 
 export type EventCategory = 'Party' | 'Sport' | 'Education';

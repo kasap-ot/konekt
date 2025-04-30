@@ -57,7 +57,7 @@ const App = (): React.ReactElement => {
       {/* Replace the route with the needed testing page */}
       <HomeButton
         title="Testing"
-        onPress={() => router.push('/routes/testing/test-custom-hooks')}
+        onPress={() => router.push('/routes/testing/test-image-reading')}
       />
     </View>
   );

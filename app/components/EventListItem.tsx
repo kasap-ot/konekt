@@ -18,7 +18,7 @@ const EventListItem: React.FC<Props> = ({ event, onPress, imageStyle, textStyle,
         <TouchableOpacity onPress={onPress}>
             <View style={[styles.eventItem, containerStyle]}>
                 <Image
-                    source={event.imagePath ? { uri: event.imagePath } : EventIcon}
+                    source={event.imageId ? { uri: event.imageId } : EventIcon}
                     style={[styles.eventImage, imageStyle]}
                 />
                 <View style={styles.eventDetails}>

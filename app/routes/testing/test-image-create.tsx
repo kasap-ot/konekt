@@ -77,22 +77,22 @@ const styles = StyleSheet.create({
     },
 });
 
-const exampleImage = {
-    "assets": [
-        {
-            "assetId": null,
-            "base64": null,
-            "duration": null,
-            "exif": null,
-            "fileName": "fcee4dde-9c6c-4404-a682-16855d3f3bfb.jpeg",
-            "fileSize": 12108058,
-            "height": 3472,
-            "mimeType": "image/jpeg",
-            "rotation": null,
-            "type": "image",
-            "uri": "file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540anonymous%252Fkonekt-75011ade-a9d2-40a9-aab7-f71fa3da927c/ImagePicker/fcee4dde-9c6c-4404-a682-16855d3f3bfb.jpeg",
-            "width": 4630
-        }
-    ],
-    "canceled": false
-}
+// const exampleImage = {
+//     "assets": [
+//         {
+//             "assetId": null,
+//             "base64": null,
+//             "duration": null,
+//             "exif": null,
+//             "fileName": "fcee4dde-9c6c-4404-a682-16855d3f3bfb.jpeg",
+//             "fileSize": 12108058,
+//             "height": 3472,
+//             "mimeType": "image/jpeg",
+//             "rotation": null,
+//             "type": "image",
+//             "uri": "file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540anonymous%252Fkonekt-75011ade-a9d2-40a9-aab7-f71fa3da927c/ImagePicker/fcee4dde-9c6c-4404-a682-16855d3f3bfb.jpeg",
+//             "width": 4630
+//         }
+//     ],
+//     "canceled": false
+// }

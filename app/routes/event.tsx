@@ -64,7 +64,7 @@ const EventPage = (): React.ReactElement => {
 
   return (
     <View style={styles.container}>
-      <EventImage imageUri={event.imagePath} />
+      <EventImage imageUri={event.imageId} />
       <Text style={styles.eventTitle}>{event.title}</Text>
 
       <View style={styles.gridContainer}>

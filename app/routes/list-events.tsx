@@ -1,5 +1,5 @@
-import React from 'react';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { FlatList, StyleSheet, View } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEvents } from '../contexts/EventsContext';
 import { Colors } from '../../styles/Colors';
@@ -13,25 +13,32 @@ import EventSearchBar from 'components/EventSearchBar';
 const ListEventsPage: React.FC = () => {
   const { events } = useEvents();
   const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState<string>('');
   const { category, userId } = useLocalSearchParams<{
     category?: string;
     userId?: string;
   }>();
 
-
   function handleEventPress(eventId: string): void {
     router.push(`/routes/event?id=${eventId}`);
   };
-
 
   const filteredEvents = React.useMemo(() => {
     let result = [...events];
     if (category)
       result = result.filter((event: Event) => event.category === category);
+    
     if (userId)
       result = result.filter((event: Event) => event.userId === userId);
+    
+    if (searchQuery.trim())
+      result = result.filter((event: Event) => 
+        event.title.toLowerCase().includes(searchQuery.toLowerCase().trim()));
+    
     return result;
-  }, [events, category, userId]);
+  }, [
+    events, category, userId, searchQuery
+  ]);
 
   
   const headerText = React.useMemo(() => {
@@ -49,7 +56,7 @@ const ListEventsPage: React.FC = () => {
     <View style={styles.container}>
       <Header title={headerText} />
 
-      <EventSearchBar/>
+      <EventSearchBar onSearch={setSearchQuery}/>
 
       <FlatList
         data={filteredEvents}

@@ -49,7 +49,7 @@ const ListEventsPage: React.FC = () => {
     <View style={styles.container}>
       <Header title={headerText} />
 
-      <EventSearchBar></EventSearchBar>
+      <EventSearchBar/>
 
       <FlatList
         data={filteredEvents}

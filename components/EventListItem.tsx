@@ -3,6 +3,7 @@ import { View, Text, Image, TouchableOpacity, ImageStyle, TextStyle, ViewStyle, 
 import { Colors } from 'styles/Colors';
 import { Event } from 'types';
 import EventIcon from 'assets/images/event-icon.png';
+import { EventPhotoService } from 'app/services/EventPhotoService';
 
 
 interface Props {
@@ -14,11 +15,13 @@ interface Props {
 }
 
 const EventListItem: React.FC<Props> = ({ event, onPress, imageStyle, textStyle, containerStyle }) => {
+    const imageUrl = EventPhotoService.fetchEventPhoto(event.imageId);
+    
     return (
         <TouchableOpacity onPress={onPress}>
             <View style={[styles.eventItem, containerStyle]}>
                 <Image
-                    source={EventIcon}
+                    source={{ uri: imageUrl.toString() }}
                     style={[styles.eventImage, imageStyle]}
                 />
                 <View style={styles.eventDetails}>

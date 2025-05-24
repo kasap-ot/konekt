@@ -4,7 +4,7 @@ import { View, Text } from 'react-native';
 const EventSearchBar: React.FC = () => {
     return (
         <View>
-            <Text>This is some text</Text>
+            <Text style={{color: 'white'}}>Here will be the search bar</Text>
         </View>
     );
 }

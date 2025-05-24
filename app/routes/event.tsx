@@ -79,13 +79,6 @@ const EventPage = (): React.ReactElement => {
       <Text style={styles.description}>{event.description}</Text>
 
       <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={[styles.button, styles.guestsButton]}
-          onPress={() => router.push('/routes/guests')}
-        >
-          <Text style={styles.buttonText}>View Guests</Text>
-        </TouchableOpacity>
-
         {user.labels.includes('organizer') && user.$id === event.userId && (
           <>
             <TouchableOpacity
@@ -150,6 +143,7 @@ const styles = StyleSheet.create<Styles>({
   },
   button: {
     borderRadius: 10,
+    marginTop: 30,
     paddingVertical: 15,
     paddingHorizontal: 20,
     alignItems: 'center',

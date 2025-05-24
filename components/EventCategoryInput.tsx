@@ -22,6 +22,7 @@ const CategoryInput: React.FC<CategoryInputProps> = ({ selectedValue, onValueCha
           <Picker.Item label="Party" value="Party" />
           <Picker.Item label="Sport" value="Sport" />
           <Picker.Item label="Education" value="Education" />
+          <Picker.Item label="Promotion" value="Promotion" />
         </Picker>
       </View>
     </>

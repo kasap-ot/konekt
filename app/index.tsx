@@ -20,7 +20,7 @@ const App = (): React.ReactElement => {
           {user.labels.includes('guest') ? (
             <>
               <HomeButton
-                title="Categories"
+                title="Events"
                 onPress={() => router.push('/routes/categories')}
               />
             </>

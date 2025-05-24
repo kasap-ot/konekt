@@ -18,14 +18,14 @@ const CategoryButton: React.FC<CategoryButtonProps> = ({ category, onPress, styl
 const styles = StyleSheet.create({
   button: {
     width: '90%',
-    height: '25%',
+    height: '18%',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 15,
     marginVertical: 10,
   },
   buttonText: {
-    fontSize: 24,
+    fontSize: 30,
     fontWeight: 'bold',
     color: Colors.text.primary,
   },

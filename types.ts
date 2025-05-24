@@ -18,7 +18,7 @@ export interface Event {
     imageId: string;
 }
 
-export type EventCategory = 'Party' | 'Sport' | 'Education';
+export type EventCategory = 'Party' | 'Sport' | 'Education' | 'Promotion';
 export type UserType = 'guest' | 'organizer';
 
 export type CreateEvent = Omit<Event, '$id'> & {fileInfo: FileInfo | null};

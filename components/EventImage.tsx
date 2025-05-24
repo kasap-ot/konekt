@@ -1,22 +1,18 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { Image, StyleSheet } from 'react-native';
 import { Colors } from 'styles/Colors';
 
 interface EventImageProps {
-  imageUri?: string | null;
+  imageUri: string;
 }
 
 const EventImage: React.FC<EventImageProps> = ({ imageUri }) => {
-  return imageUri ? (
+  return (
     <Image
       source={{ uri: imageUri }}
       style={styles.photo}
       resizeMode="cover"
     />
-  ) : (
-    <View style={styles.imagePlaceholder}>
-      <Text style={styles.placeholderText}>...</Text>
-    </View>
   );
 };
 

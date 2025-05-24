@@ -7,7 +7,7 @@ import { EventCategory } from '../../types';
 
 const CategoriesPage = (): React.ReactElement => {
   const router = useRouter();
-  const categories: EventCategory[] = ['Party', 'Sport', 'Education'];
+  const categories: EventCategory[] = ['Party', 'Sport', 'Education', 'Promotion'];
 
   const handleButtonPress = (category: EventCategory): void => {
     router.push({

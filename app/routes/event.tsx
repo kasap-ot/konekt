@@ -62,9 +62,7 @@ const EventPage = (): React.ReactElement => {
     );
   }
 
-  console.log('reading image url');
   const imageUrl = EventPhotoService.fetchEventPhoto(event.imageId);
-  console.log('image url is: ', imageUrl);
 
   return (
     <View style={styles.container}>

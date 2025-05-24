@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
         elevation: 2,
     },
     eventImage: {
-        width: 100,
+        width: 150,
         height: 100,
         borderRadius: 8,
         marginRight: 12,

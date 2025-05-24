@@ -17,7 +17,7 @@ export const EventService = {
                     organizer: newEvent.organizer,
                     description: newEvent.description,
                     category: newEvent.category,
-                    imageId: newEvent.imageId || null,
+                    imageId: newEvent.imageId,
                     userId: newEvent.userId,
                     dateTime: newEvent.dateTime,
                 }

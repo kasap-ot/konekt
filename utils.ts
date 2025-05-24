@@ -11,7 +11,7 @@ export function defaultEvent(user?: User): CreateEvent {
     organizer: '',
     description: '',
     category: category,
-    imageId: null,
+    imageId: '',
     userId: user?.$id || '',
     dateTime: '',
     fileInfo: null

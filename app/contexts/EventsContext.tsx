@@ -60,7 +60,7 @@ export const EventsProvider: React.FC<EventsProviderProps> = ({ children }) => {
     try {
       const createdEvent = await EventService.createEvent({
         ...newEvent,
-        imageId: newEvent.imageId || null,
+        imageId: newEvent.imageId,
       });
 
       const photoResponse = await EventPhotoService.createEventPhoto(newEvent);      
@@ -73,7 +73,7 @@ export const EventsProvider: React.FC<EventsProviderProps> = ({ children }) => {
         organizer: createdEvent.organizer,
         description: createdEvent.description,
         category: createdEvent.category as EventCategory,
-        imageId: createdEvent.imageId ?? null,
+        imageId: createdEvent.imageId,
         userId: createdEvent.userId,
         dateTime: createdEvent.dateTime,
       }]);

@@ -21,5 +21,10 @@ export const EventPhotoService =
         );
 
         return response;
+    },
+
+    fetchEventPhoto(imageId: string): URL {
+        const imageUrl = storage.getFileView(APPWRITE_EVENT_PHOTOS_BUCKED_ID, imageId);
+        return imageUrl;
     }
 }

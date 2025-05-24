@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Alert, ViewStyle, TextStyle } from 'react-native';
 import { useRouter, useLocalSearchParams, Redirect } from 'expo-router';
-
+import { EventPhotoService } from 'app/services/EventPhotoService'
 import { useAuth } from 'app/contexts/AuthContext';
 import { Colors } from '../../styles/Colors';
 import { useEvents } from '../contexts/EventsContext';
@@ -62,9 +62,13 @@ const EventPage = (): React.ReactElement => {
     );
   }
 
+  console.log('reading image url');
+  const imageUrl = EventPhotoService.fetchEventPhoto(event.imageId);
+  console.log('image url is: ', imageUrl);
+
   return (
     <View style={styles.container}>
-      <EventImage imageUri={event.imageId} />
+      <EventImage imageUri={imageUrl.toString()} />
       <Text style={styles.eventTitle}>{event.title}</Text>
 
       <View style={styles.gridContainer}>

@@ -15,7 +15,7 @@ export interface Event {
     category: EventCategory;
     userId: string;
     dateTime: string;
-    imageId: string | null;
+    imageId: string;
 }
 
 export type EventCategory = 'Party' | 'Sport' | 'Education';

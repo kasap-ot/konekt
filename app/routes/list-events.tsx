@@ -7,6 +7,7 @@ import { Event } from 'types';
 import Header from 'components/Header';
 import EventListItem from 'components/EventListItem';
 import EmptyState from 'components/EmpyState';
+import EventSearchBar from 'components/EventSearchBar';
 
 
 const ListEventsPage: React.FC = () => {
@@ -47,6 +48,8 @@ const ListEventsPage: React.FC = () => {
   return (
     <View style={styles.container}>
       <Header title={headerText} />
+
+      <EventSearchBar></EventSearchBar>
 
       <FlatList
         data={filteredEvents}

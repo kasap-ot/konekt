@@ -8,61 +8,38 @@ import Header from 'components/Header';
 import EventListItem from 'components/EventListItem';
 import EmptyState from 'components/EmpyState';
 import EventSearchBar from 'components/EventSearchBar';
-
+import { useFilteredEvents } from 'hooks/useFilteredEvents';
+import { useHeaderText } from 'hooks/useHeaderText';
 
 const ListEventsPage: React.FC = () => {
-  const { events } = useEvents();
   const router = useRouter();
+  const { events } = useEvents();
   const [searchQuery, setSearchQuery] = useState<string>('');
   const { category, userId } = useLocalSearchParams<{
     category?: string;
     userId?: string;
   }>();
 
+  const filteredEvents = useFilteredEvents(events, category, userId, searchQuery);
+  const headerText = useHeaderText(category, userId);
+
   function handleEventPress(eventId: string): void {
     router.push(`/routes/event?id=${eventId}`);
-  };
-
-  const filteredEvents = React.useMemo(() => {
-    let result = [...events];
-    if (category)
-      result = result.filter((event: Event) => event.category === category);
-    
-    if (userId)
-      result = result.filter((event: Event) => event.userId === userId);
-    
-    if (searchQuery.trim())
-      result = result.filter((event: Event) => 
-        event.title.toLowerCase().includes(searchQuery.toLowerCase().trim()));
-    
-    return result;
-  }, [
-    events, category, userId, searchQuery
-  ]);
-
-  
-  const headerText = React.useMemo(() => {
-    if (userId) return 'My Events';
-    if (category) return category;
-    return 'Events';
-  }, [category, userId]);
-
+  }
 
   function renderEventItem({ item }: { item: Event }) {
-    return (<EventListItem event={item} onPress={() => handleEventPress(item.$id)} />);
+    return <EventListItem event={item} onPress={() => handleEventPress(item.$id)} />;
   }
 
   return (
     <View style={styles.container}>
       <Header title={headerText} />
-
-      <EventSearchBar onSearch={setSearchQuery}/>
-
+      <EventSearchBar onSearch={setSearchQuery} />
       <FlatList
         data={filteredEvents}
         keyExtractor={(item: Event) => item.$id}
         renderItem={renderEventItem}
-        ListEmptyComponent={<EmptyState message='No events found' />}
+        ListEmptyComponent={<EmptyState message="No events found" />}
       />
     </View>
   );

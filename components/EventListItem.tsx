@@ -2,7 +2,6 @@ import React from 'react';
 import { View, Text, Image, TouchableOpacity, ImageStyle, TextStyle, ViewStyle, StyleSheet } from 'react-native';
 import { Colors } from 'styles/Colors';
 import { Event } from 'types';
-import EventIcon from 'assets/images/event-icon.png';
 import { EventPhotoService } from 'app/services/EventPhotoService';
 
 
@@ -35,15 +34,7 @@ const EventListItem: React.FC<Props> = ({ event, onPress, imageStyle, textStyle,
     );
 };
 
-interface Styles {
-    eventItem: ViewStyle;
-    eventImage: ImageStyle;
-    eventDetails: ViewStyle;
-    eventTitle: TextStyle;
-    eventText: TextStyle;
-}
-
-const styles = StyleSheet.create<Styles>({
+const styles = StyleSheet.create({
     eventItem: {
         flexDirection: 'row',
         backgroundColor: Colors.background.listItem,

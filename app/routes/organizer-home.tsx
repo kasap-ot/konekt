@@ -25,7 +25,7 @@ const CompanyHomePage: React.FC = () => {
       />
 
       <CompanyHomeButton
-        title="Categories"
+        title="Events"
         onPress={() => router.push('/routes/categories')}
       />
 

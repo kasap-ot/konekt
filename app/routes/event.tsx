@@ -71,7 +71,7 @@ const EventPage = (): React.ReactElement => {
 
       <View style={styles.gridContainer}>
         <LocationPill event={event}/>
-        <Pill text={event.dateTime.split('T')[0]} />
+        <Pill text={event.dateTime.split('T')[0].replace(/-/g, '.')} />
         <Pill text={event.dateTime.split('T')[1].slice(0, 5)} />
         <Pill text={event.organizer} />
       </View>

@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     pillText: {
-        fontSize: 16,
+        fontSize: 20,
         fontWeight: '500',
         color: Colors.background.primary,
         textAlign: 'center',

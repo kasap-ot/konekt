@@ -33,6 +33,7 @@ export const EventService = {
         try {
             const queries = category ? [Query.equal('category', category)] : [];
 
+            console.log('[REQUEST TO BACKEND - READ EVENTS]');
             const response = await databases.listDocuments<EventDocument>(
                 APPWRITE_DATABASE_ID,
                 APPWRITE_EVENTS_COLLECTION_ID,
@@ -58,6 +59,21 @@ export const EventService = {
             throw error;
         }
     },
+    async updateEvent(eventId: string, updatedEvent: Partial<CreateEvent>): Promise<EventDocument> {
+        try {
+            const response = await databases.updateDocument<EventDocument>(
+                APPWRITE_DATABASE_ID,
+                APPWRITE_EVENTS_COLLECTION_ID,
+                eventId,
+                updatedEvent,
+            );
+            return response;
+        } catch (error) {
+            console.error('Error updating event:', error);
+            throw error;
+        }
+    }
+
 };
 
 export default EventService;

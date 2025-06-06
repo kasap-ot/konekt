@@ -3,13 +3,14 @@ import * as ImagePicker from 'expo-image-picker';
 import EventService from '../services/EventService';
 import { ID } from 'react-native-appwrite';
 import { Event, EventCategory, CreateEvent } from '../../types';
-import { extractFileInfo } from 'utils';
+import { extractFileInfo, removeExtraEventKeys } from 'utils';
 import { EventPhotoService } from 'app/services/EventPhotoService';
 
 
 interface EventsContextType {
   events: Event[];
   addEvent: (newEvent: CreateEvent) => Promise<void>;
+  updateEvent: (eventId: string, updatedEvent: CreateEvent) => Promise<void>;
   pickImage: (setEvent: React.Dispatch<React.SetStateAction<CreateEvent>>) => Promise<void>;
   deleteEvent: (eventId: string) => Promise<void>;
   fetchEvents: (category?: EventCategory | null) => Promise<void>;
@@ -19,6 +20,7 @@ interface EventsContextType {
 const EventsContext = createContext<EventsContextType>({
   events: [],
   addEvent: async () => { },
+  updateEvent: async () => { },
   pickImage: async () => { },
   deleteEvent: async () => { },
   fetchEvents: async () => { },
@@ -63,7 +65,7 @@ export const EventsProvider: React.FC<EventsProviderProps> = ({ children }) => {
         imageId: newEvent.imageId,
       });
 
-      const photoResponse = await EventPhotoService.createEventPhoto(newEvent);      
+      const photoResponse = await EventPhotoService.createEventPhoto(newEvent);
 
       setEvents(prevEvents => [...prevEvents, {
         $id: createdEvent.$id,
@@ -81,6 +83,27 @@ export const EventsProvider: React.FC<EventsProviderProps> = ({ children }) => {
     catch (err) { console.error('Failed to add event:', err); }
   };
 
+  async function updateEvent(eventId: string, updatedEvent: CreateEvent): Promise<void> {
+    console.log('updating event - event context:');
+    console.log(eventId);
+    console.log(updatedEvent);
+
+    updatedEvent = removeExtraEventKeys(updatedEvent);
+
+    try {
+      const updated = await EventService.updateEvent(eventId, updatedEvent);
+
+      setEvents(prevEvents =>
+        prevEvents.map(event =>
+          event.$id === eventId
+            ? { ...event, ...updated }
+            : event
+        )
+      );
+    } catch (err) {
+      console.error('Failed to update event:', err);
+    }
+  }
 
   async function pickImage(setEvent: React.Dispatch<React.SetStateAction<CreateEvent>>): Promise<void> {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -102,8 +125,8 @@ export const EventsProvider: React.FC<EventsProviderProps> = ({ children }) => {
     if (fileInfo === null)
       return;
 
-    setEvent(prevEvent => ({ 
-      ...prevEvent, 
+    setEvent(prevEvent => ({
+      ...prevEvent,
       imageId: fileId,
       fileInfo: fileInfo,
     }));
@@ -113,9 +136,10 @@ export const EventsProvider: React.FC<EventsProviderProps> = ({ children }) => {
     <EventsContext.Provider value={{
       events,
       addEvent,
+      updateEvent,
       pickImage,
       deleteEvent,
-      fetchEvents
+      fetchEvents,
     }}>
       {children}
     </EventsContext.Provider>

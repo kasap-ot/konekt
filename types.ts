@@ -16,12 +16,13 @@ export interface Event {
     userId: string;
     dateTime: string;
     imageId: string;
+    fileInfo: FileInfo;
 }
 
 export type EventCategory = 'Party' | 'Sport' | 'Education' | 'Promotion';
 export type UserType = 'guest' | 'organizer';
 
-export type CreateEvent = Omit<Event, '$id'> & {fileInfo: FileInfo | null};
+export type CreateEvent = Omit<Event, '$id'>;
 
 export interface EventDocument extends CreateEvent, Models.Document { }
 

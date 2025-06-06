@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Alert, ViewStyle, TextStyle } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { useRouter, useLocalSearchParams, Redirect } from 'expo-router';
 import { EventPhotoService } from 'app/services/EventPhotoService'
 import { useAuth } from 'app/contexts/AuthContext';
@@ -52,6 +52,10 @@ const EventPage = (): React.ReactElement => {
     );
   };
 
+  function handleEdit(eventId: string) {
+    router.push(`/routes/edit-event?id=${eventId}`)
+  }
+
   if (!user) return <Redirect href="/" />;
 
   if (!event) {
@@ -70,7 +74,7 @@ const EventPage = (): React.ReactElement => {
       <Text style={styles.eventTitle}>{event.title}</Text>
 
       <View style={styles.gridContainer}>
-        <LocationPill event={event}/>
+        <LocationPill event={event} />
         <Pill text={event.dateTime.split('T')[0].replace(/-/g, '.')} />
         <Pill text={event.dateTime.split('T')[1].slice(0, 5)} />
         <Pill text={event.organizer} />
@@ -87,6 +91,14 @@ const EventPage = (): React.ReactElement => {
             >
               <Text style={styles.buttonText}>Delete Event</Text>
             </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[styles.button, styles.editButton]}
+              onPress={() => handleEdit(event.$id)}
+            >
+              <Text style={styles.buttonText}>Edit Event</Text>
+            </TouchableOpacity>
+
           </>
         )}
       </View>
@@ -94,21 +106,7 @@ const EventPage = (): React.ReactElement => {
   );
 };
 
-interface Styles {
-  container: ViewStyle;
-  eventTitle: TextStyle;
-  gridContainer: ViewStyle;
-  description: TextStyle;
-  buttonContainer: ViewStyle;
-  button: ViewStyle;
-  guestsButton: ViewStyle;
-  deleteButton: ViewStyle;
-  buttonText: TextStyle;
-  guestsButtonText: TextStyle;
-  errorText: TextStyle;
-}
-
-const styles = StyleSheet.create<Styles>({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.background.primary,
@@ -155,6 +153,9 @@ const styles = StyleSheet.create<Styles>({
   },
   deleteButton: {
     backgroundColor: Colors.accent.error,
+  },
+  editButton: {
+    backgroundColor: Colors.accent.secondary,
   },
   buttonText: {
     fontSize: 18,

@@ -2,7 +2,7 @@ import { CreateEvent, EventCategory, FileInfo, User } from "types";
 import * as ImagePicker from 'expo-image-picker';
 import { Platform } from "react-native";
 
-export function defaultEvent(user?: User): CreateEvent {
+export function defaultEvent(user: User | null): CreateEvent {
   const category: EventCategory = 'Party';
   const event: CreateEvent = {
     title: '',
@@ -14,7 +14,12 @@ export function defaultEvent(user?: User): CreateEvent {
     imageId: '',
     userId: user?.$id || '',
     dateTime: '',
-    fileInfo: null
+    fileInfo: {
+      name: '',
+      size: 0,
+      type: '',
+      uri: '',
+    }
   }
   return event;
 }
@@ -33,4 +38,26 @@ export function extractFileInfo(pickerResult: ImagePicker.ImagePickerResult): Fi
   };
 
   return fileInfo;
+}
+
+export function removeExtraEventKeys(dirtyEvent: CreateEvent): CreateEvent {
+  const allowedFields: (keyof CreateEvent)[] = [
+    'title',
+    'locationName',
+    'locationUrl',
+    'organizer',
+    'description',
+    'category',
+    'userId',
+    'dateTime',
+    'imageId',
+    'fileInfo'
+  ];
+
+  const cleanEvent = allowedFields.reduce((obj, key) => {
+    obj[key] = dirtyEvent[key];
+    return obj;
+  }, {} as Partial<CreateEvent>);
+
+  return cleanEvent as CreateEvent;
 }

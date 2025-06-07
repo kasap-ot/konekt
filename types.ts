@@ -23,6 +23,7 @@ export type EventCategory = 'Party' | 'Sport' | 'Education' | 'Promotion';
 export type UserType = 'guest' | 'organizer';
 
 export type CreateEvent = Omit<Event, '$id'>;
+export type DirtyCreateEvent = CreateEvent & {[key: string] : any;}
 
 export interface EventDocument extends CreateEvent, Models.Document { }
 

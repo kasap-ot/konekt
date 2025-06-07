@@ -21,7 +21,7 @@ const CreateEventPage = (): React.ReactElement => {
 
   function handleFormSubmit(): void {
     addEvent(event);
-    setEvent(defaultEvent());
+    setEvent(defaultEvent(user));
     router.push('/routes/list-events');
     alert('Event created successfully!');
   };

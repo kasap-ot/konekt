@@ -78,16 +78,13 @@ export const EventsProvider: React.FC<EventsProviderProps> = ({ children }) => {
         imageId: createdEvent.imageId,
         userId: createdEvent.userId,
         dateTime: createdEvent.dateTime,
+        fileInfo: createdEvent.fileInfo,
       }]);
     }
     catch (err) { console.error('Failed to add event:', err); }
   };
 
   async function updateEvent(eventId: string, updatedEvent: CreateEvent): Promise<void> {
-    console.log('updating event - event context:');
-    console.log(eventId);
-    console.log(updatedEvent);
-
     updatedEvent = removeExtraEventKeys(updatedEvent);
 
     try {

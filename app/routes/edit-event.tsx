@@ -1,7 +1,7 @@
 import { useEvents } from 'app/contexts/EventsContext';
 import EventForm from 'components/EventForm';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { CreateEvent, Event } from 'types';
+import { CreateEvent } from 'types';
 import { useState } from 'react';
 import { View, Text } from 'react-native';
 

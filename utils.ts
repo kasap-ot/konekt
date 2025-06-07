@@ -1,4 +1,4 @@
-import { CreateEvent, EventCategory, FileInfo, User } from "types";
+import { CreateEvent, DirtyCreateEvent, EventCategory, FileInfo, User } from "types";
 import * as ImagePicker from 'expo-image-picker';
 import { Platform } from "react-native";
 
@@ -40,7 +40,7 @@ export function extractFileInfo(pickerResult: ImagePicker.ImagePickerResult): Fi
   return fileInfo;
 }
 
-export function removeExtraEventKeys(dirtyEvent: CreateEvent): CreateEvent {
+export function removeExtraEventKeys(dirtyEvent: DirtyCreateEvent): CreateEvent {
   const allowedFields: (keyof CreateEvent)[] = [
     'title',
     'locationName',
@@ -55,6 +55,7 @@ export function removeExtraEventKeys(dirtyEvent: CreateEvent): CreateEvent {
   ];
 
   const cleanEvent = allowedFields.reduce((obj, key) => {
+    // @ts-ignore (the types will always match)
     obj[key] = dirtyEvent[key];
     return obj;
   }, {} as Partial<CreateEvent>);

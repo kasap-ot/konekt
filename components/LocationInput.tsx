@@ -1,7 +1,6 @@
 import { GooglePlacesAutocomplete } from 'node_modules/react-native-google-places-autocomplete/GooglePlacesAutocomplete';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { GOOGLE_CLOUD_API_KEY } from 'config';
 import 'react-native-get-random-values'
 import { Colors } from 'styles/Colors';
 import { Location } from 'types';
@@ -33,7 +32,7 @@ const LocationInput: React.FC<LocationInputProps> = ({ onLocationSelect }) => {
         placeholder="Search places..."
         onPress={handlePlaceSelected}
         query={{
-          key: GOOGLE_CLOUD_API_KEY,
+          key: process.env.EXPO_PUBLIC_GOOGLE_CLOUD_API_KEY || '',
           language: 'en',
         }}
         styles={{

@@ -1,14 +1,13 @@
 import { CreateEvent, EventDocument } from "types";
 import { databases } from 'appwrite';
-import { APPWRITE_DATABASE_ID, APPWRITE_EVENTS_COLLECTION_ID } from 'config';
 import { ID, Query } from 'react-native-appwrite'
 
 export const EventService = {
     async createEvent(newEvent: CreateEvent): Promise<EventDocument> {
         try {
             const response = await databases.createDocument<EventDocument>(
-                APPWRITE_DATABASE_ID,
-                APPWRITE_EVENTS_COLLECTION_ID,
+                process.env.EXPO_PUBLIC_APPWRITE_DATABASE_ID || '',
+                process.env.EXPO_PUBLIC_APPWRITE_EVENTS_COLLECTION_ID || '',
                 ID.unique(),
                 {
                     title: newEvent.title,
@@ -35,8 +34,8 @@ export const EventService = {
 
             console.log('[REQUEST TO BACKEND - READ EVENTS]');
             const response = await databases.listDocuments<EventDocument>(
-                APPWRITE_DATABASE_ID,
-                APPWRITE_EVENTS_COLLECTION_ID,
+                process.env.EXPO_PUBLIC_APPWRITE_DATABASE_ID || '',
+                process.env.EXPO_PUBLIC_APPWRITE_EVENTS_COLLECTION_ID || '',
                 queries
             );
 
@@ -50,8 +49,8 @@ export const EventService = {
     async deleteEvent(eventId: string): Promise<void> {
         try {
             await databases.deleteDocument(
-                APPWRITE_DATABASE_ID,
-                APPWRITE_EVENTS_COLLECTION_ID,
+                process.env.EXPO_PUBLIC_APPWRITE_DATABASE_ID || '',
+                process.env.EXPO_PUBLIC_APPWRITE_EVENTS_COLLECTION_ID || '',
                 eventId
             );
         } catch (error) {
@@ -62,8 +61,8 @@ export const EventService = {
     async updateEvent(eventId: string, updatedEvent: Partial<CreateEvent>): Promise<EventDocument> {
         try {
             const response = await databases.updateDocument<EventDocument>(
-                APPWRITE_DATABASE_ID,
-                APPWRITE_EVENTS_COLLECTION_ID,
+                process.env.EXPO_PUBLIC_APPWRITE_DATABASE_ID || '',
+                process.env.EXPO_PUBLIC_APPWRITE_EVENTS_COLLECTION_ID || '',
                 eventId,
                 updatedEvent,
             );

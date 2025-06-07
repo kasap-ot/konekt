@@ -1,5 +1,4 @@
 import { storage } from "appwrite";
-import { APPWRITE_EVENT_PHOTOS_BUCKED_ID } from "config";
 import { Models } from "node_modules/react-native-appwrite/types";
 import { CreateEvent } from "types";
 
@@ -15,7 +14,7 @@ export const EventPhotoService =
             throw new Error('Event must contain image uri.');
 
         const response = await storage.createFile(
-            APPWRITE_EVENT_PHOTOS_BUCKED_ID,
+            process.env.EXPO_PUBLIC_APPWRITE_EVENT_PHOTOS_BUCKED_ID || '',
             event.imageId,
             event.fileInfo,
         );
@@ -24,7 +23,7 @@ export const EventPhotoService =
     },
 
     fetchEventPhoto(imageId: string): URL {
-        const imageUrl = storage.getFileView(APPWRITE_EVENT_PHOTOS_BUCKED_ID, imageId);
+        const imageUrl = storage.getFileView(process.env.EXPO_PUBLIC_APPWRITE_EVENT_PHOTOS_BUCKED_ID || '', imageId);
         return imageUrl;
     }
 }
